@@ -1,0 +1,333 @@
+/* Reset CSS Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Global Styles */
+  body {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+    background-color: #12171d;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  
+  p {
+    margin-bottom: 1rem;
+  }
+  
+  a {
+    text-decoration: none;
+    color: #fff;
+  }
+  
+
+  
+  button {
+    cursor: pointer;
+    background-color: #333;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  
+  button:hover {
+    background-color: #555;
+  }
+  
+  /* Header Styles */
+  header {
+    margin: auto;
+	  width: 1030px;
+	  height: 155px;
+	  background-color: #454952;
+	  border-radius: 10px;
+	  color: #fff;
+	  padding: 10px;
+	  font-weight: bold;
+  }
+  
+  
+  
+  header .nav-links {
+    display: flex;
+    align-items: center;
+  }
+  
+  header .nav-links li {
+    margin: 20px;
+    margin-right: 1rem;
+    list-style: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    margin-top: 30px;
+  }
+  .logoizle{
+    height: 100px;
+    width: 100px;
+    margin-top: -8px;
+    margin-left: -19px;
+  }
+  .btn-1 {
+    width:95%;
+    height:50px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    background-color: #454952;
+    color: white;
+    padding: 14px;
+    cursor: pointer;
+    border: 2px solid gray;
+  }
+   
+  .btn-1 .fa {
+      margin-left: 5px;
+      margin-bottom: 20px;
+  }
+   
+  .btn-1:hover {
+      background-color: #31363F;
+      color: #fff;
+      border: 1px solid gray;
+  }
+  .giriss
+{
+	float: left;
+	width: 130px;
+	height: 50px;
+}
+.kayitt
+{
+	float: left;
+	margin-left: 10px;
+	width: 130px;
+	height: 50px;
+}
+  .butons{
+    margin-left: 70%;
+    margin-top: -10%;
+  }
+  label {
+    background-color: #31363F;
+    box-shadow: inset 0 0 100px hsla(0,0%,0%,.3);
+    border: 1px;
+    cursor: pointer;
+    display: inline-block;
+    margin-left: -.125em;
+    padding: 11px 20px 11px 20px;
+    transition: .25s;
+    color:#fff;
+    text-shadow:2px 2px 2px #666;
+    border-radius:5px;
+    padding: 14px;
+    }
+input:hover + label {
+
+	background-color: #fff;
+	}
+  .butonhareket input {
+    margin-top: 10px;
+    background-color: #e0e0e0;
+    border: 1px solid #666;
+    color: #222;
+    display: inline-block;
+    margin-right: -.25em;
+    outline: 0;
+    opacity: 0;
+    padding: 13px;
+    transition: .55s;
+    -webkit-transition: .55s;
+    -moz-transition: .55s;
+    -ms-transition: .55s;
+    -o-transition: .55s;
+    width: 0;
+    }
+   .butonhareket input:hover {
+      opacity: 1;
+      padding-left: .75em;
+      padding-right: .75em;
+      width: 11em;
+      border-radius:5px 0 0 5px;
+    }
+  .ust{
+    margin: auto;
+    width: 990px;
+    height: 80px;
+    background-color: #454952;
+    margin-bottom: -10px;
+  }
+  header .search-box {
+    display: flex;
+    align-items: center;
+    background-color: #f2f2f2;
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+  }
+  
+  header .search-box input[type="text"] {
+    border: none;
+    background-color: transparent;
+    padding: 0.25rem;
+    outline: none;
+  }
+  
+  header .user-links {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin-right: 2rem;
+    padding: 1rem;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+  }
+
+  /* Main Styles */
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+  }
+  
+  main .btn {
+    margin-top: 1rem;
+    margin-right: 1rem;
+  }
+  
+  /* Footer Styles */
+  footer {
+    margin: auto;
+	  margin-top: 0px;
+    padding: 5px;
+	  width: 1030px;
+	  height: 130px;
+    text-align: center;
+    background: #31363F;
+    color: white;
+    border-radius: 10px;
+  }
+
+  .new-releases {
+    width: 1030px;
+    margin: 1rem;
+    background-color: #31363F;
+    padding: 8rem;
+    border-radius: 0.70rem;
+  }
+  
+  .new-releases h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: #ffffff;
+  }
+  
+  .new-releases ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -1rem;
+  }
+  
+  .new-releases li {
+    flex-basis: calc(33.333% - 2rem);
+    padding: 0.30rem;
+  }
+  
+  .new-releases li a {
+    display: block;
+    font-size: 1.125rem;
+    color: #fff;
+    text-decoration: none;
+    margin-bottom: 0.5rem;
+  }
+  
+  .new-releases li span {
+    display: block;
+    font-size: 0.875rem;
+    color: #777;
+    margin-bottom: 0.5rem;
+  }
+  
+  .new-releases li:nth-child(3n+1) {
+    margin-left:2rem;
+  }
+  .new-releases .resim:hover{
+    transition: 0.3s ease;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+  }
+  .new-releases2{
+    width:400px;
+    height: 400px;
+    background-color: #454952;
+    border-radius: 10px;
+    float: right;
+    margin-right: 220px;
+    }
+  .image-with-text {
+    position: relative;
+  }
+  .image-with-text img{
+    width: 240px;
+    height: 100%;
+    border: 2px solid rgba(44, 26, 10, 0.582);
+    border-radius: 0.30rem;
+  }
+  
+  .image-with-text .text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    color: #fff;
+    padding: 1rem;
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+  }
+  
+  .image-with-text .text h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+  
+  .navigation{
+    margin-top: 20px;
+    margin-left: 220px;
+  }
+
+  .navigation li{
+    width: 35px;
+    height: 35px;
+    color: white;
+    list-style: none;
+    float: left;
+    border-radius: 15px;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    text-align: center;
+  }
+  .navigation a:active
+  {
+    background-color: red;
+  }
+  .navigation li:hover{
+    background-color: #12171d;
+  }
+  .reklam{
+    padding: 10px;
+    width: 747px;
+    height: 210px;
+    background-color: #31363F;
+    border-radius: 0.20rem;
+    
+  }

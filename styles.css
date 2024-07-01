@@ -1,0 +1,680 @@
+body{
+	margin: 0px;
+	
+	background-color: #31363F;
+	background-repeat:no-repeat;
+    background-size: cover;
+
+}
+
+
+.ust{
+	margin: auto;
+	margin-top: 15px;
+	width: 1024px;
+	height: 70px;
+
+}
+
+.butons{
+	margin-left: 70%;
+	margin-top: -8%;
+}
+.menu{
+	margin: auto;
+	margin-top: 20px;
+	width: 1004px;
+	height: 45px;
+	background-color: #454952;
+	border-radius: 10px;
+	color: #fff;
+	padding: 10px;
+	font-weight: bold;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #454952;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+
+
+.banner_alt{
+	margin: auto;
+	margin-top: 0px;
+	width: 1024px;
+	height: 15px;
+}
+
+.banner_slider{
+	margin: auto;
+	height: 200px;
+	padding: 30px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 5px;
+	width: 996px;
+	background-color: #dcffd4;
+	border-radius: 12px;
+}
+
+.slider1{
+	margin-left: 5px;
+	border: 2px solid grey;
+}
+.slider1:hover{
+	-ms-transform: scale(1.3); 
+  -webkit-transform: scale(1.3);
+  transform: scale(1.3); 
+}
+.bfilm{
+	margin-left: 5px;
+	margin-top: 5px;
+}
+.bfilm:hover{
+	-ms-transform: scale(1.3); 
+  -webkit-transform: scale(1.3);
+  transform: scale(1.3); 
+}
+
+
+.ana_govde{
+	margin: auto;
+	padding: 5px;
+	padding-bottom: 10px;
+	width: 1014px;
+	display:flex;
+	background-color: #454952;
+	border-radius: 10px;
+	margin-bottom: 10px;
+	margin-top: 15px;
+	
+}
+
+
+.sol{
+	margin-top: 5px;
+	margin-left: 5px;
+	width: 68%;
+	background-color: #31363F;
+	float: left;
+	padding: 5px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.sol a{
+	text-decoration: none;
+	color: white;
+}
+
+.menu2 footer {
+    margin: auto;
+	  margin-top: 0px;
+    padding: 5px;
+	  width: 1015px;
+	  height: 130px;
+    text-align: center;
+    background: #454952;
+    color: white;
+    border-radius: 10px;
+  }
+
+  .menu2 a{
+	text-decoration: none;
+	color: white;
+  }
+.sag{
+	margin-top: 5px;
+	margin-left: 10px;
+	width: 28%;
+	background-color: #31363F;
+	float: left;
+	padding: 5px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.paragraf{
+	margin-top: 5%;
+	margin-left: 5%;
+	margin-right: 5%;
+	margin-bottom: 5%;
+
+}
+.mapp{
+	margin-top: 5px;
+	
+	margin-left: 10px;
+	width: 32%;
+	background-color: #454952;
+}
+.maplabel1{
+	font-size: 20px;
+	color: black;
+	margin-top: 50px;
+	margin-left: 50px;
+	margin-right: 50px;
+	margin-bottom: 50px;
+	text-align: center;
+	cursor: pointer;
+}
+.maplabel1:hover
+{
+	color: #31363F;
+	cursor: pointer;
+}
+.maplabel2{
+	color: black;
+	cursor: pointer;
+	margin-left: 10px;
+	margin-bottom: 10px;
+}
+.maplabel2:hover{
+	color: #31363F;
+}
+
+.film{
+	width: 150px;
+	height: 383px;
+	padding: 5px;
+	float: left;
+	margin-left: 10px;
+	border: 1px solid #454952;
+	background-color: #31363F;
+	font-family: Times New Roman;
+	font-size: 13px;
+}
+
+.sosyalmedya{
+	margin-top: 10px;
+	width: 273px;
+	height: 107px;
+	border: 1px solid #454952;
+	background-color: #31363F;
+	color: #fff;
+	padding: 5px;
+	border-radius: 8px;
+
+}
+.tabloluk{
+	margin-top: 10px;
+	width: 273px;
+	height: 440px;
+	background-color: #31363F;
+	padding: 5px;
+	padding-left: 5px;
+	padding-top: 10px;
+	border-radius: 8px;
+}
+.filmturleri{
+	margin-top: 10px;
+	width: 267px;
+	border: 1px solid #454952;
+	background-color: #31363F;
+	padding: 8px;
+	padding-bottom: 10px;
+	overflow: auto;
+	border-radius: 8px;
+
+}
+
+.filmturleri2{
+	width: 100%;
+	height: 20px;
+	float: left;
+	margin-top: 4px;
+	margin-left: 5px;
+	color: #31363F;
+
+}
+
+.filmturleri2 a{
+	text-decoration: none;
+	color: #31363F;
+}
+
+.filmturleri2 a:hover{
+	color: black;
+}
+
+
+.benzerfilmler{
+	color: #fff;
+	margin-top: 10px;
+	width: 273px;
+	height: auto;
+	border: 1px solid #454952;
+	background-color: #31363F;
+	padding: 5px;
+	border-radius: 8px;
+
+}
+
+.filmbegenilen{
+	margin-top: 10px;
+	width: 273px;
+	height: 600px;
+	border: 1px solid #827839;
+	background-color: #31363F;
+	padding: 5px;
+	border-radius: 8px;
+
+}
+.video{
+	margin-right: 5px;
+	margin-left: 5px;
+	
+}
+.giriss
+{
+	float: left;
+	width: 130px;
+	height: 50px;
+   
+   margin-left: 12%;
+
+  
+}
+.kayitt
+{
+	float: left;
+	margin-left: 10px;
+	width: 130px;
+	height: 50px;
+}
+
+.yorum{
+	margin-top: 20px;
+	margin-left: 5px;
+	color: #CC0000;
+}
+
+.butbut{
+	width:145px;
+	height:36px;
+	border-radius: 2px;
+	border: 2px solid black;
+	background-color: #31363F;
+	font-family: Times New Roman;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.butbut:hover{
+	background-color: #dcffd4;
+	cursor: pointer;
+}
+
+.selekct{
+	width: 100%;
+	height:27px;
+	border-radius: 2px;
+	background-color: #C6DEFF;
+	margin-top: 5px;
+	padding: 3px;
+}
+
+.selekct:hover{
+	background-color: yellow;
+}
+
+.butbut2{
+	width:95%;
+	height:30px;
+	margin-top: 5px;
+}
+
+.butbut2:hover{
+	background-color: #31363F;
+	cursor: pointer;
+}
+ 
+.btn-1 {
+	width:95%;
+	height:50px;
+	margin-bottom: 10px;
+	margin-top: 10px;
+    background-color: #454952;
+    color: white;
+    padding: 14px;
+    cursor: pointer;
+    border: 2px solid gray;
+}
+ 
+.btn-1 .fa {
+    margin-left: 5px;
+    margin-bottom: 20px;
+}
+ 
+.btn-1:hover {
+    background-color: #31363F;
+    color: #fff;
+    border: 1px solid gray;
+}
+
+.container {
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
+	position: relative;
+	margin-top: 100px;
+	margin-bottom: 100px;
+	background-color: #454952;
+}
+ 
+#contact input[type="text"],
+#contact input[type="email"],
+#contact textarea,
+#contact button[type="submit"] {
+    font: 500 12px/16px "Roboto", Helvetica, Arial, sans-serif;
+}
+ 
+#contact {
+    background: #454952;
+    padding: 25px;
+    margin: 100px 0;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+#contact h2 {
+    display: block;
+    font-size: 30px;
+    font-weight: 300;
+    margin-bottom: 15px;
+}
+ 
+.form-control{
+    border: none !important;
+    margin: 0 0 10px;
+    min-width: 100%;
+    padding: 0;
+    width: 100%;
+}
+ 
+#contact input[type="text"],
+#contact input[type="email"],
+#contact textarea {
+    width: 100%;
+    border: 1px solid #ccc;
+    background: #FFF;
+    margin: 0 0 5px;
+    padding: 10px;
+
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+
+}
+
+#yorum {
+    
+    padding: 25px;
+    margin: 10px 0;
+	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+#yorum input[type="text"],
+#yorum input[type="email"],
+#yorum input[type="password"],
+#yorum textarea {
+    width: 100%;
+    border: 1px solid #ccc;
+    background: #FFF;
+    margin: 0 0 5px;
+    padding: 10px;
+
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+
+}
+
+.yorum-control{
+    border: none !important;
+    margin: 0 0 10px;
+    min-width: 100%;
+    padding: 0;
+    width: 100%;
+}
+
+#yorum textarea {
+	margin-top: 20px;
+    height: 120px;
+    max-width: 100%;
+    resize: none;
+}
+ 
+#contact input[type="text"]:hover,
+#contact input[type="email"]:hover,
+#contact textarea:hover {
+    -webkit-transition: border-color 0.4s ease-in-out;
+    -moz-transition: border-color 0.4s ease-in-out;
+    transition: border-color 0.4s ease-in-out;
+    border: 1px solid #aaa;
+}
+ 
+#contact textarea {
+    height: 120px;
+    max-width: 100%;
+    resize: none;
+}
+ 
+#contact button[type="submit"] {
+    cursor: pointer;
+    width: 100%;
+    border: none;
+    background: #134F5C;
+    color: #FFF;
+    margin: 0 0 5px;
+    padding: 10px;
+    font-size: 15px;
+}
+ 
+#contact button[type="submit"]:hover {
+    background: #CC0000;
+    -webkit-transition: background 0.4s ease-in-out;
+    -moz-transition: background 0.4s ease-in-out;
+    transition: background-color 0.4s ease-in-out;
+}
+ 
+#contact button[type="submit"]:active {
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+ 
+#contact input:focus,
+#contact textarea:focus {
+    outline: 0;
+    border: 1px solid #aaa;
+}
+
+.legal {
+    max-width: 600px;
+    width: 300%;
+    margin: auto;
+    position: relative;
+}
+
+#legalsayfa {
+    background: #00FFFF;
+    padding: 50px;
+    margin: 100px 0;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+
+.social-icons {
+  text-align: center;
+  }  
+.social-icons li {
+  display:inline-block;
+  list-style-type:none;
+  }
+.social-icons li a {
+  border-bottom: none;
+  }
+.social-icons li img {
+  width:35px;
+  height:35px;
+  margin-right: 0px;
+}
+
+
+label {
+	background-color: #31363F;
+	box-shadow: inset 0 0 100px hsla(0,0%,0%,.3);
+	border: 1px;
+	cursor: pointer;
+	display: inline-block;
+	margin-left: -.125em;
+	padding: 11px 20px 11px 20px;
+	transition: .25s;
+	color:#fff;
+	text-shadow:2px 2px 2px #666;
+	border-radius:5px;
+	padding: 14px;
+	}
+	 
+input:hover +label{border-radius:0 5px 5px 0;}
+	 
+input:hover + label {
+
+	background-color: #fff;
+	}
+ .butonhareket input {
+	background-color: #e0e0e0;
+	border: 1px solid #666;
+	color: #222;
+	display: inline-block;
+	margin-right: -.25em;
+	outline: 0;
+	opacity: 0;
+	padding: 13px;
+	transition: .55s;
+	-webkit-transition: .55s;
+	-moz-transition: .55s;
+	-ms-transition: .55s;
+	-o-transition: .55s;
+	width: 0;
+	}
+ .butonhareket input:hover {
+		opacity: 1;
+		padding-left: .75em;
+		padding-right: .75em;
+		width: 11em;
+		border-radius:5px 0 0 5px;
+	}
+	
+    .logoizle{
+        width: 100px;
+        height: 100px;
+    }
+    .bölüm{
+        color: gray;
+        list-style: none;
+        margin: 6px;
+        font-size: 14px;
+    }
+    .bölüm:hover{
+        color: white;
+    }
+    .bölümbaslik{
+        font-weight: bold;
+        list-style: none;
+        margin: 15px;
+    }
+    .yenibölüm{
+        width: 100px;
+        height: 40px;
+        float: right;
+        margin-top: -50px;
+        border: 1px solid gray;
+        border-radius: 10px;
+    }
+    .yenibölüm li{
+        font-size: 30px;
+        color: gray;
+        list-style: none;
+        margin: 3px;
+        margin-left: 15px;
+    }
+    .yenibölüm li:hover{
+        color: white;
+    }
+	.kapsulid button{
+        height: 30px;
+        border-radius: 15px;
+        cursor: pointer;
+        border: none;
+        font-weight: bold;
+    }
+    .kapsulid button:hover{
+        opacity: 80%;
+    }
+	.comment-section {
+		width: 80%;
+		margin: 40px auto;
+		padding: 20px;
+		background-color: #f9f9f9;
+		border: 1px solid #ccc;
+		border-radius: 10px;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	  }
+	  
+	  #username-input {
+		width: 100%;
+		padding: 10px;
+		font-size: 16px;
+		border: 1px solid #ccc;
+		margin-bottom: 10px;
+	  }
+	  
+	  #comment-input {
+		width: 100%;
+		padding: 10px;
+		font-size: 16px;
+		border: 1px solid #ccc;
+	  }
+	  
+	  #comment-btn {
+		background-color: #4CAF50;
+		color: #fff;
+		padding: 10px 20px;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+	  }
+	  
+	  #comment-btn:hover {
+		background-color: #3e8e41;
+	  }
+	  
+	  #comment-list {
+		margin-top: 20px;
+	  }
+	  
+	  .comment {
+		margin-bottom: 20px;
+		padding: 10px;
+		border-bottom: 1px solid #ccc;
+	  }
+	  
+	  .comment:last-child {
+		border-bottom: none;
+	  }
