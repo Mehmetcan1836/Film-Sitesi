@@ -115,7 +115,7 @@ prevBtn.addEventListener('click', () => {
 
 nextBtn.addEventListener('click', () => {
   console.log('Next button clicked');
-  moveToSlide((currentSlide + 1) % slides.length);
+  moveToSlide((currentSlide - 1) % slides.length);
 });
 
 // Update slider on window resize
