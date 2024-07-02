@@ -93,3 +93,33 @@ function displayComments() {
 
 // Initial call to displayComments to display any existing comments
 displayComments();
+const sliderTrack = document.querySelector('.slider-track');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    const slides = document.querySelectorAll('.slide');
+
+    let currentSlide = 0;
+    let slideWidth = slides[0].offsetWidth;
+
+    const updateSlider = () => {
+      sliderTrack.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+    };
+
+    const moveToSlide = (index) => {
+      currentSlide = index;
+      updateSlider();
+    };
+
+    prevBtn.addEventListener('click', () => {
+      moveToSlide((currentSlide - 1 + slides.length) % slides.length);
+    });
+
+    nextBtn.addEventListener('click', () => {
+      moveToSlide((currentSlide + 1) % slides.length);
+    });
+
+    // Update slider on window resize
+    window.addEventListener('resize', () => {
+      slideWidth = slides[0].offsetWidth;
+      updateSlider();
+    });

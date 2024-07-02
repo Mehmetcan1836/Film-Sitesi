@@ -291,3 +291,43 @@ body {
 .filmhakkında{
   font-size: 20px;
 }
+.slider-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.slider-track {
+  display: flex;
+  transition: transform 0.3s ease-in-out;
+}
+
+.slide {
+  width: 100%;
+  height: auto;
+  position: relative;
+}
+
+.slide img {
+  width: 100%;
+  height: auto;
+}
+
+.prev-btn, .next-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.prev-btn {
+  left: 10px;
+}
+
+.next-btn {
+  right: 10px;
+}
