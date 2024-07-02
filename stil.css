@@ -291,3 +291,95 @@ body {
 .filmhakkında{
   font-size: 20px;
 }
+.movie-list-container{
+  margin-left: 70px;
+}
+
+.movie-list{
+  list-style: none;
+  padding: 0;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  column-gap: 30px;
+  transform: translateX(0);
+  transition: 1s all ease-in-out;
+}
+
+.movie-list-wrapper{
+  overflow: hidden;
+  position: relative;
+}
+.movie-item{
+  position: relative;
+}
+
+.movie-item:hover .movie-item-title,
+.movie-item:hover .movie-item-buttons{
+ opacity: 1;
+}
+
+.movie-item:hover .movie-item-img{
+  transform: scale(1.2);
+  margin: 0 30px;
+  opacity: .5;
+  
+}
+.movie-item-img{
+  width: 250px; 
+  height: 400px;
+  transition: 1s all ease-in-out;
+  /*object-fit: cover;*/
+}
+
+.movie-item-title{
+  background-color: rgba(40, 40, 40, 0.4);
+  padding: 0 10px;
+  font-size: 28px;
+  font-weight: bold;
+  position: absolute;
+  top: 10%;
+  left: 50px;
+  opacity: 0;
+  transition: 1s all ease-in-out;
+}
+
+.movie-item-buttons{
+  background-color: rgba(40, 40, 40, 0.4);
+  padding: 10px;
+  font-weight: bold;
+  position: absolute;
+  bottom: 10%;
+  left: 50px;
+  display: flex;
+  column-gap: 20px;
+ opacity: 0;
+ transition: 1s all ease-in-out;
+}
+
+.movie-item-buttons i{
+  cursor: pointer;
+  opacity: .5;
+  font-size: 20px;
+   transition: 0.5s all ease;
+}
+
+.movie-item-buttons i:hover{
+  opacity: 1; 
+}
+
+.arrow{
+  width: 100px;
+  display: flex;
+  font-size: 120px;
+  position: absolute;
+  right: 0;
+  top: 100px;
+  opacity: .5;
+  transition: .5s ease all;
+  cursor: pointer;
+}
+
+.arrow{
+  opacity: 1;
+}
