@@ -150,7 +150,7 @@ body {
   .container2 {
     display: flex;
     flex-wrap: wrap;
-    max-width: 1600px; /* Sayfa genişliğini kontrol altına almak için maksimum genişlik belirleyelim */
+    max-width: 1700px; /* Sayfa genişliğini kontrol altına almak için maksimum genişlik belirleyelim */
     border: 1px solid gray;
     border-radius: 10px;
     margin-bottom: 10px;
@@ -290,45 +290,4 @@ body {
 }
 .filmhakkında{
   font-size: 20px;
-}
-.slider-container {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-}
-
-.slider-track {
-  display: flex;
-  transition: transform 0.3s ease-in-out;
-}
-
-.slide {
-  width: 100%;
-  height: auto;
-  position: relative;
-  margin: 5px;
-}
-
-.slide img {
-  width: 200px;
-  height: 250px;
-}
-
-.prev-btn, .next-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-}
-
-.prev-btn {
-  left: 10px;
-}
-
-.next-btn {
-  right: 10px;
 }
