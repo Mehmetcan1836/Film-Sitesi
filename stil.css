@@ -291,16 +291,51 @@ body {
 .filmhakkında{
   font-size: 20px;
 }
+/* Style the slider container */
 .slider-container {
-  width: 1000px;
-  height: 500px;
+  position: relative;
+  width: 800px; /* adjust the width to your needs */
+  height: 600px; /* adjust the height to your needs */
+  margin: 40px auto;
+  overflow: hidden;
 }
 
-.slider-container img {
-  width: 300px;
-  height: 200px;
+/* Style the slider images */
+.slider-images {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
-.prev,.next {
-  /* Add styles to make the buttons look like previous and next buttons */
+.slider-images img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.5s;
+}
+
+/* Style the slider navigation */
+.slider-nav {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: space-between;
+  width: 100px;
+}
+
+.slider-nav button {
+  background-color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.slider-nav button:hover {
+  background-color: #ddd;
 }

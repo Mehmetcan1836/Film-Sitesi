@@ -94,10 +94,50 @@ function displayComments() {
 // Initial call to displayComments to display any existing comments
 displayComments();
 
-$('.prev').on('click', function() {
-  // Move the slider to the previous image
+// Get the slider elements
+const sliderContainer = document.querySelector('.slider-container');
+const sliderImages = document.querySelectorAll('.slider-images img');
+const prevButton = document.querySelector('.prev');
+const nextButton = document.querySelector('.next');
+
+// Set the current slide index
+let currentSlide = 0;
+
+// Add event listeners to the navigation buttons
+prevButton.addEventListener('click', () => {
+  currentSlide--;
+  updateSlider();
 });
 
-$('.next').on('click', function() {
-  // Move the slider to the next image
+nextButton.addEventListener('click', () => {
+  currentSlide++;
+  updateSlider();
 });
+
+// Update the slider
+function updateSlider() {
+  // Hide all images
+  sliderImages.forEach((img) => {
+    img.style.opacity = 0;
+  });
+
+  // Show the current image
+  sliderImages[currentSlide].style.opacity = 1;
+
+  // Check if we've reached the end of the slider
+  if (currentSlide === sliderImages.length - 1) {
+    nextButton.disabled = true;
+  } else {
+    nextButton.disabled = false;
+  }
+
+  // Check if we've reached the beginning of the slider
+  if (currentSlide === 0) {
+    prevButton.disabled = true;
+  } else {
+    prevButton.disabled = false;
+  }
+}
+
+// Initialize the slider
+updateSlider();
