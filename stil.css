@@ -150,7 +150,7 @@ body {
   .container2 {
     display: flex;
     flex-wrap: wrap;
-    max-width: 1700px; /* Sayfa genişliğini kontrol altına almak için maksimum genişlik belirleyelim */
+    max-width: 1600px; /* Sayfa genişliğini kontrol altına almak için maksimum genişlik belirleyelim */
     border: 1px solid gray;
     border-radius: 10px;
     margin-bottom: 10px;
