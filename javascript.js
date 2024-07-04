@@ -94,27 +94,6 @@ function displayComments() {
 // Initial call to displayComments to display any existing comments
 displayComments();
 
-const carousel = document.querySelector('.carousel');
-  const posters = document.querySelectorAll('.poster');
-  const leftButton = document.querySelector('.carousel-button.left');
-  const rightButton = document.querySelector('.carousel-button.right');
 
-  let currentPosterIndex = 0;
-
-  leftButton.addEventListener('click', () => {
-    currentPosterIndex--;
-    if (currentPosterIndex < 0) {
-      currentPosterIndex = posters.length - 1;
-    }
-    carousel.scrollLeft = posters[currentPosterIndex].offsetLeft;
-  });
-
-  rightButton.addEventListener('click', () => {
-    currentPosterIndex++;
-    if (currentPosterIndex >= posters.length) {
-      currentPosterIndex = 0;
-    }
-    carousel.scrollLeft = posters[currentPosterIndex].offsetLeft;
-  });
 
 
