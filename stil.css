@@ -293,3 +293,6 @@ body {
 .filmhakkında{
   font-size: 20px;
 }
+.filmkutu{
+  border: 1px solid black;
+}
