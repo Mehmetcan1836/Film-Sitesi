@@ -293,3 +293,6 @@ body {
 .filmhakkında{
   font-size: 20px;
 }
+@media only screend and (max-width:959px) {
+
+  }
