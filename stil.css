@@ -5,7 +5,7 @@ body {
     background-color: #222;
     color: #fff;
     font-family: sans-serif;
-    margin-left: 100px;
+    margin-left: 10px;
   }
   .container {
     flex-wrap: wrap;
@@ -15,7 +15,6 @@ body {
     align-items: center;
     padding: 20px;
     width: 1200px;
-    align-items: center;
   }
   .logo a {
     font-size: 40px;
@@ -24,7 +23,7 @@ body {
     text-decoration: none;
   }
   .nav {
-
+    flex-wrap: wrap;
     display: flex;
     justify-content: center; /* center the boxes horizontally */
     margin: 0 auto;
