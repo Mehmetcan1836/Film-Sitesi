@@ -180,7 +180,7 @@ body {
   width: 200px;
   height: 300px;
   object-fit: cover;
-  
+  border-radius: 3px;
 }
 .box:hover{
   border: 1px solid orange;
