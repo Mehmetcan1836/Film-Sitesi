@@ -238,11 +238,10 @@ body {
 .iletişim-container{
   background-color: #111;
   height: 200px;
-  width: 60%;
 }
 .iletişim-main{
   margin: 40px;
-  width: 1164px;
+  width: 70%;
   height: 170px;
 }
 .iletişim-text{
