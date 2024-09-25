@@ -234,10 +234,7 @@ body {
   border-radius: 15px;
   border: 2px solid rgba(0, 0, 0, 0.2);
 }
-.navigation a:active
-{
-  background-color: red;
-}
+
 .navigation li:hover{
   background-color: #12171d;
 }
