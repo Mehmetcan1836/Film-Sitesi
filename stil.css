@@ -173,7 +173,6 @@ body {
   height: 300px;
   margin: 15px;
   overflow: hidden;
-  border: 1px solid #ccc;
   border-radius: 3px;
 }
 
@@ -183,9 +182,8 @@ body {
   object-fit: cover;
   
 }
-.box img:hover{
-  filter: blur(4px);
-  transition: 4s ease;
+.box:hover{
+  border: 1px solid orange;
 }
 
 .overlay {
