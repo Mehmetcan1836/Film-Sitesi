@@ -5,7 +5,6 @@ body {
     background-color: #222;
     color: #fff;
     font-family: sans-serif;
-    margin-left: 10px;
   }
   .container {
     flex-wrap: wrap;
@@ -13,7 +12,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding: 10px;
     width: 100%;
   }
   .logo a {
@@ -35,7 +34,6 @@ body {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight:500;
     font-size: 19px;
-    
     width:90px;
     height: 40px;
     text-align: center;
@@ -134,6 +132,9 @@ body {
   .main table {
     width: 100%;
     border-collapse: collapse;
+    overflow: scroll;
+    scrollbar-color: red orange;
+    scrollbar-width: thin;
   }
   .main th, .main td {
     padding: 10px;
@@ -142,6 +143,7 @@ body {
   }
   .main th {
     background-color: #333;
+    
   }
   .footer {
     display: flex;
@@ -274,7 +276,6 @@ body {
   list-style: none;
   float: left;
   border-radius: 15px;
-  text-align: center
 }
 .baslık{
   display: flex;
