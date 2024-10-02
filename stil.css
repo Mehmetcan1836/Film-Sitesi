@@ -40,7 +40,7 @@ body {
     border-radius: 10px;
   }
   .nav a:hover {
-    background-color: rgba(255, 0, 0, 0.603);
+    text-decoration: underline;
     
   }
   .search {
