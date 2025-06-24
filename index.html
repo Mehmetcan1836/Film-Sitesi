@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Film Sitesi - En Yeni Filmler ve Diziler</title>
     <link rel="stylesheet" href="css/movie-grid.css">
+    <link rel="stylesheet" href="css/story-slider.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -253,8 +254,6 @@
                     <li><a href="filmler.html"><i class="fas fa-film"></i> Filmler</a></li>
                     <li><a href="#"><i class="fas fa-fire"></i> Trend</a></li>
                     <li><a href="#"><i class="fas fa-comments"></i> Forum</a></li>
-                    
-                    
                 </ul>
             </nav>
             <div class="search-box">
@@ -266,10 +265,9 @@
             <div class="user-actions">
                 <a href="#" class="btn btn-secondary"><i class="fas fa-users"></i> Oyuncular</a>
                 <a href="#" class="btn btn-secondary"><i class="fas fa-random"></i> Rastgele</a>
-                <a href="#" class="btn btn-primary"><i class="fas fa-play"></i> Üye Ol</a>
                 <a href="https://mehmetcan1836.github.io/dizicomdownloader/" target="_blank" class="btn btn-primary">
                     <i class="fas fa-mobile-alt"></i> Uygulama
-                  </a>
+                </a>
             </div>
         </div>
     </header>
@@ -278,8 +276,22 @@
         <section class="featured-section">
             <div class="section-header">
                 <h2><i class="fas fa-newspaper"></i> Yeni Dizi&Filmler</h2>
-                <a href="filmler.html" class="view-all"></i></a>
+                <a href="filmler.html" class="view-all">Tümünü Gör <i class="fas fa-arrow-right"></i></a>
             </div>
+            
+            <div class="story-slider">
+                <div class="story-container">
+                    <!-- Stories will be dynamically loaded here -->
+                </div>
+            </div>
+
+            <div class="story-modal">
+                <div class="story-content">
+                    <video class="story-video" controls autoplay></video>
+                    <button class="close-story">×</button>
+                </div>
+            </div>
+
             <div class="section-header">
                 <h2><i class="fas fa-fire"></i> Popüler Filmler</h2>
                 <a href="filmler.html" class="view-all">Tümünü Gör <i class="fas fa-arrow-right"></i></a>
@@ -290,8 +302,6 @@
             </div>
         </section>
     </main>
-
-    </header>
 
     <!-- Popular Movies & Series Section -->
     
@@ -479,5 +489,6 @@
         });
         
     </script>
+    <script src="js/story-slider.js"></script>
 </body>
 </html>

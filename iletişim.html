@@ -1,12 +1,106 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Dizicom - Dizi izle - HD Dizi izle</title>
-  <link rel="stylesheet" href="stil.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-      /* Global Styles */
+    <meta charset="UTF-8">
+    <title>Dizicom - İletişim</title>
+    <link rel="stylesheet" href="stil.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Contact Page Styles */
+        .contact-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .contact-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .contact-title {
+            color: #e50914;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .contact-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 20px;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .contact-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .contact-item i {
+            font-size: 2rem;
+            color: #e50914;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .contact-form {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 30px;
+            border-radius: 8px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #e5e5e5;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            background: #1a1a1a;
+            color: #fff;
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: #e50914;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            background: #f40612;
+        }
+        /* Global Styles */
       * {
           margin: 0;
           padding: 0;
@@ -177,61 +271,113 @@
           background: rgba(255, 255, 255, 0.1);
           transform: translateY(-2px);
       }
-  </style>
+    </style>
 </head>
 <body>
-  <header class="main-header">
-      <div class="container">
-          <div class="logo">
-              <a href="index.html">DİZİ<span>COM</span></a>
-          </div>
-          <nav class="main-nav">
-              <ul>
-                  <li><a href="index.html" class="active"><i class="fas fa-home"></i> Anasayfa</a></li>
-                  <li><a href="diziler.html"><i class="fas fa-tv"></i> Diziler</a></li>
-                  <li><a href="filmler.html"><i class="fas fa-film"></i> Filmler</a></li>
-                  <li><a href="#"><i class="fas fa-fire"></i> Trend</a></li>
-                  <li><a href="#"><i class="fas fa-comments"></i> Forum</a></li>
-                  
-                  
-              </ul>
-          </nav>
-          <div class="search-box">
-              <form action="#" method="GET">
-                  <input type="text" placeholder="Dizi, film, oyuncu ara..." class="search-input">
-                  <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
-              </form>
-          </div>
-          <div class="user-actions">
-              <a href="#" class="btn btn-secondary"><i class="fas fa-users"></i> Oyuncular</a>
-              <a href="#" class="btn btn-secondary"><i class="fas fa-random"></i> Rastgele</a>
-              <a href="#" class="btn btn-primary"><i class="fas fa-play"></i> Üye Ol</a>
-              <a href="https://mehmetcan1836.github.io/dizicomdownloader/" target="_blank" class="btn btn-primary">
-                  <i class="fas fa-mobile-alt"></i> Uygulama
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">DİZİ<span>COM</span></a>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html" class="active"><i class="fas fa-home"></i> Anasayfa</a></li>
+                    <li><a href="diziler.html"><i class="fas fa-tv"></i> Diziler</a></li>
+                    <li><a href="filmler.html"><i class="fas fa-film"></i> Filmler</a></li>
+                    <li><a href="#"><i class="fas fa-fire"></i> Trend</a></li>
+                    <li><a href="#"><i class="fas fa-comments"></i> Forum</a></li>
+                </ul>
+            </nav>
+            <div class="search-box">
+                <form action="#" method="GET">
+                    <input type="text" placeholder="Dizi, film, oyuncu ara..." class="search-input">
+                    <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+            <div class="user-actions">
+                <a href="#" class="btn btn-secondary"><i class="fas fa-users"></i> Oyuncular</a>
+                <a href="#" class="btn btn-secondary"><i class="fas fa-random"></i> Rastgele</a>
+                <a href="#" class="btn btn-primary"><i class="fas fa-play"></i> Üye Ol</a>
+                <a href="https://mehmetcan1836.github.io/dizicomdownloader/" target="_blank" class="btn btn-primary">
+                    <i class="fas fa-mobile-alt"></i> Uygulama
                 </a>
-          </div>
-      </div>
-  </header>
+            </div>
+        </div>
+    </header>
 
-    <div class="footer">
-      <p>Sitemize eklenen tüm dizi bölümlerinin videoları video barındırma sitelerinden alınarak eklenmektedir. Telif hakkı size ait olan eserlerin linkleri ile beraber matypower18000@gmail.com e-posta adresinden bizimle irtibat kurduğunuz takdirde ilgili eser 3 iş günü içerisinde sitemizden kaldırılacaktır.</p>
-      <p>
-        <a href="#">Yabancı Diziler</a>
-        <a href="#">Yerli Diziler</a>
-        <a href="#">Asya Dizileri</a>
-        <a href="#">Animasyonlar</a>
-        <a href="#">Animeler</a>
-        <a href="#">Belgeseller</a>
-        <a href="#">Gizlilik Politikası</a>
-      </p>
-      <p>Copyright 2014-2024</p>
-      <div>
-        <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook-f"></i></a>
-        <a href="https://www.twitter.com/" target="_blank"><i class="fab fa-twitter"></i></a>
-        <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
-        <a href="matypower18000@gmail.com" target="_blank"><i class="fas fa-envelope"></i></a>
-      </div>
-    </div>
+    <main>
+        <div class="contact-container">
+            <h1 class="contact-title">İletişim</h1>
 
+            <div class="contact-section">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <h3>E-posta</h3>
+                        <p>matypower18000@gmail.com</p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <h3>Telefon</h3>
+                        <p>0545 832 36 21</p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <h3>Adres</h3>
+                        <p>İstanbul, Türkiye</p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <h3>Çalışma Saatleri</h3>
+                        <p>24/7</p>
+                    </div>
+                </div>
+
+                <div class="contact-form">
+                    <form action="#" method="POST">
+                        <div class="form-group">
+                            <label for="name">Adınız</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">E-posta</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Konu</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Mesajınız</label>
+                            <textarea id="message" name="message" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Mesaj Gönder</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Sitemize eklenen tüm dizi bölümlerinin videoları video barındırma sitelerinden alınarak eklenmektedir. Telif hakkı size ait olan eserlerin linkleri ile beraber matypower18000@gmail.com e-posta adresinden bizimle irtibat kurduğunuz takdirde ilgili eser 3 iş günü içerisinde sitemizden kaldırılacaktır.</p>
+            <div class="footer-links">
+                <a href="#">Yabancı Diziler</a>
+                <a href="#">Yerli Diziler</a>
+                <a href="#">Asya Dizileri</a>
+                <a href="#">Animasyonlar</a>
+                <a href="#">Animeler</a>
+                <a href="#">Belgeseller</a>
+                <a href="#">Gizlilik Politikası</a>
+            </div>
+            <p>Copyright 2014-2024</p>
+            <div class="social-links">
+                <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.twitter.com/" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="mailto:matypower18000@gmail.com" target="_blank"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
