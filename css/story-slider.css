@@ -2,13 +2,14 @@
 .story-slider {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center; /* Ortalamak için değiştirildi */
     margin: 20px 0;
     padding: 0 15px;
     overflow-x: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
+
 
 .story-slider::-webkit-scrollbar {
     display: none;

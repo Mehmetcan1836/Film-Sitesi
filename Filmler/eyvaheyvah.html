@@ -3,29 +3,216 @@
 <head>
   <title>Eyvah Eyvah - Dizicom</title>
   <link rel="stylesheet" href="../stil.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+      /* Global Styles */
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+      }
+      
+      body {
+          font-family: 'Poppins', sans-serif;
+          background: #141414;
+          color: #fff;
+          line-height: 1.6;
+      }
+      
+      /* Header Styles */
+      .main-header {
+          background: #0f0f0f;
+          padding: 15px 0;
+          position: sticky;
+          top: 0;
+          z-index: 100;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      }
+      
+      .container {
+          max-width: 1400px;
+          margin: 0 auto;
+          padding: 0 15px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 15px;
+      }
+      
+      .logo a {
+          color: #e50914;
+          font-size: 1.8rem;
+          font-weight: 700;
+          text-decoration: none;
+          letter-spacing: -0.5px;
+      }
+      
+      .logo a span {
+          color: #fff;
+      }
+      
+      /* Navigation */
+      .main-nav ul {
+          display: flex;
+          list-style: none;
+          gap: 20px;
+      }
+      
+      .main-nav a {
+          color: #e5e5e5;
+          text-decoration: none;
+          font-size: 0.95rem;
+          font-weight: 500;
+          transition: color 0.2s ease;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+      }
+      
+      .main-nav a:hover,
+      .main-nav a.active {
+          color: #e50914;
+      }
+      
+      .main-nav i {
+          font-size: 1.1rem;
+      }
+      
+      /* Search Box */
+      .search-box {
+          flex: 1;
+          max-width: 400px;
+          position: relative;
+      }
+      
+      .search-box form {
+          display: flex;
+          width: 100%;
+      }
+      
+      .search-input {
+          width: 100%;
+          padding: 10px 15px;
+          border: 1px solid #333;
+          border-radius: 4px;
+          background: #1a1a1a;
+          color: #fff;
+          font-size: 0.9rem;
+          outline: none;
+          transition: all 0.2s ease;
+      }
+      
+      .search-input:focus {
+          border-color: #e50914;
+          box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.2);
+      }
+      
+      .search-btn {
+          background: #e50914;
+          border: none;
+          color: white;
+          padding: 0 15px;
+          border-radius: 0 4px 4px 0;
+          cursor: pointer;
+          transition: background 0.2s ease;
+      }
+      
+      .search-btn:hover {
+          background: #f40612;
+      }
+      
+      /* User Actions */
+      .user-actions {
+          display: flex;
+          gap: 10px;
+      }
+      
+      .btn {
+          padding: 8px 15px;
+          border-radius: 4px;
+          font-size: 0.85rem;
+          font-weight: 500;
+          text-decoration: none;
+          transition: all 0.2s ease;
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+      }
+      
+      .btn i {
+          font-size: 0.95em;
+      }
+      
+      .btn-primary {
+          background: #e50914;
+          color: white;
+          border: none;
+      }
+      
+      .btn-primary:hover {
+          background: #f40612;
+          transform: translateY(-2px);
+      }
+      
+      .btn-secondary {
+          background: #2a2a2a;
+          color: #fff;
+          border: 1px solid #444;
+      }
+      
+      .btn-secondary:hover {
+          background: #333;
+          transform: translateY(-2px);
+      }
+      
+      .btn-outline {
+          background: transparent;
+          color: #fff;
+          border: 1px solid #444;
+      }
+      
+      .btn-outline:hover {
+          background: rgba(255, 255, 255, 0.1);
+          transform: translateY(-2px);
+      }
+  </style>
 </head>
 <body>
-  <div class="container">
-    
-    <div class="logo"><a href="../index.html">DİZİCOM</a></div>
-    <div class="nav">
-      <a href="../index.html">Anasayfa</a>
-      <a href="../diziler.html">Diziler</a>
-      <a href="#">Trend</a>
-      <a href="#">Forum</a>
+  <header class="main-header">
+    <div class="container">
+        <div class="logo">
+            <a href="../index.html">DİZİ<span>COM</span></a>
+        </div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="../index.html" class="active"><i class="fas fa-home"></i> Anasayfa</a></li>
+                <li><a href="../diziler.html"><i class="fas fa-tv"></i> Diziler</a></li>
+                <li><a href="../filmler.html"><i class="fas fa-film"></i> Filmler</a></li>
+                <li><a href="#"><i class="fas fa-fire"></i> Trend</a></li>
+                <li><a href="#"><i class="fas fa-comments"></i> Forum</a></li>
+                
+                
+            </ul>
+        </nav>
+        <div class="search-box">
+            <form action="#" method="GET">
+                <input type="text" placeholder="Dizi, film, oyuncu ara..." class="search-input">
+                <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+        <div class="user-actions">
+            <a href="#" class="btn btn-secondary"><i class="fas fa-users"></i> Oyuncular</a>
+            <a href="#" class="btn btn-secondary"><i class="fas fa-random"></i> Rastgele</a>
+            <a href="#" class="btn btn-primary"><i class="fas fa-play"></i> Üye Ol</a>
+            <a href="https://mehmetcan1836.github.io/dizicomdownloader/" target="_blank" class="btn btn-primary">
+                <i class="fas fa-mobile-alt"></i> Uygulama
+              </a>
+              <a href="../iletişim.html" class="btn btn-outline"><i class="fas fa-envelope"></i> İletişim</a>
+        </div>
     </div>
-    <div class="search">
-      <input type="text" placeholder="Dizi, Oyuncu, Imdb id, @üye">
-      <button>Ara</button>
-    </div>
-    <div class="nav">
-      <a href="#">Oyuncular</a>
-      <a href="#">Rastgele</a>
-      <a href="#">Türler</a>
-      <a href="#">Rehber</a>
-      <a href="../iletişim.html">İletişim</a>
-    </div> 
-  </div>
+</header>
 
   <div class="header">
     <div class="container">
