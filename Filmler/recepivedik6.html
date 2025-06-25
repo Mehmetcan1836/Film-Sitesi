@@ -1,185 +1,559 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
-  <title>Recep İvedik 6 İzle - Dizicom</title>
-  <link rel="stylesheet" href="../stil.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dune Part: Two İzle - Dizicom</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-      /* Global Styles */
-      * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
+    /* Global Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: #141414;
+        color: #fff;
+        line-height: 1.6;
+    }
+    
+    /* Header Styles */
+    .main-header {
+        background: #0f0f0f;
+        padding: 15px 0;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    
+    .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    
+    .logo a {
+        color: #e50914;
+        font-size: 1.8rem;
+        font-weight: 700;
+        text-decoration: none;
+        letter-spacing: -0.5px;
+    }
+    
+    .logo a span {
+        color: #fff;
+    }
+    
+    /* Navigation */
+    .main-nav ul {
+        display: flex;
+        list-style: none;
+        gap: 20px;
+    }
+    
+    .main-nav a {
+        color: #e5e5e5;
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-weight: 500;
+        transition: color 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    
+    .main-nav a:hover,
+    .main-nav a.active {
+        color: #e50914;
+    }
+    
+    .main-nav i {
+        font-size: 1.1rem;
+    }
+    
+    /* Search Box */
+    .search-box {
+        flex: 1;
+        max-width: 400px;
+        position: relative;
+    }
+    
+    .search-box form {
+        display: flex;
+        width: 100%;
+    }
+    
+    .search-input {
+        width: 100%;
+        padding: 10px 15px;
+        border: 1px solid #333;
+        border-radius: 4px;
+        background: #1a1a1a;
+        color: #fff;
+        font-size: 0.9rem;
+        outline: none;
+        transition: all 0.2s ease;
+    }
+    
+    .search-input:focus {
+        border-color: #e50914;
+        box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.2);
+    }
+    
+    .search-btn {
+        background: #e50914;
+        border: none;
+        color: white;
+        padding: 0 15px;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+        transition: background 0.2s ease;
+    }
+    
+    .search-btn:hover {
+        background: #f40612;
+    }
+    
+    /* User Actions */
+    .user-actions {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .btn {
+        padding: 8px 15px;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .btn i {
+        font-size: 0.95em;
+    }
+    
+    .btn-primary {
+        background: #e50914;
+        color: white;
+        border: none;
+    }
+    
+    .btn-primary:hover {
+        background: #f40612;
+        transform: translateY(-2px);
+    }
+    
+    .btn-secondary {
+        background: #2a2a2a;
+        color: #fff;
+        border: 1px solid #444;
+    }
+    
+    .btn-secondary:hover {
+        background: #333;
+        transform: translateY(-2px);
+    }
+    
+    .btn-outline {
+        background: transparent;
+        color: #fff;
+        border: 1px solid #444;
+    }
+    
+    .btn-outline:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+    }
+    
+    /* Header Styles */
+    .main-header {
+      background: #0f0f0f;
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+    
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    
+    .logo a {
+      color: #e50914;
+      font-size: 1.8rem;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+    
+    .logo a span {
+      color: #fff;
+    }
+    
+    /* Navigation */
+    .main-nav ul {
+      display: flex;
+      list-style: none;
+      gap: 20px;
+    }
+    
+    .main-nav a {
+      color: #e5e5e5;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .main-nav a:hover,
+    .main-nav a.active {
+      color: #e50914;
+    }
+    
+    /* Movie Hero Section */
+    .movie-hero {
+      padding: 40px 0;
+      background: linear-gradient(to bottom, #141414 0%, #0a0a0a 100%);
+    }
+    
+    .movie-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+    
+    .movie-backdrop {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+    
+    .movie-poster {
+      flex: 0 0 300px;
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    
+    .movie-poster img {
+      width: 100%;
+      display: block;
+    }
+    
+    .movie-rating {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(0,0,0,0.8);
+      color: #ffd700;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .movie-info {
+      flex: 1;
+      min-width: 300px;
+    }
+    
+    .movie-info h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+    
+    .movie-meta {
+      display: flex;
+      gap: 15px;
+      margin: 15px 0;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    
+    .age-limit, .duration, .quality {
+      background: rgba(255,255,255,0.1);
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      color: #fff;
+    }
+    
+    .movie-actions {
+      display: flex;
+      gap: 10px;
+      margin: 25px 0;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    
+    .btn i {
+      font-size: 1.1em;
+    }
+    
+    .btn-primary {
+      background: #e50914;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: #f40612;
+      transform: translateY(-2px);
+    }
+    
+    .btn-outline {
+      background: transparent;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-2px);
+    }
+    
+    .movie-description {
+      max-width: 800px;
+      margin: 20px 0;
+      line-height: 1.7;
+      color: #ddd;
+    }
+    
+    .movie-details {
+      margin: 30px 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 15px;
+    }
+    
+    .detail {
+      margin-bottom: 10px;
+    }
+    
+    .detail .label {
+      color: #999;
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+    }
+    
+    .detail .value {
+      color: #fff;
+      font-weight: 500;
+    }
+    
+    /* Video Player */
+    .video-player {
+      max-width: 1000px;
+      margin: 0 auto 40px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+    
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+      background: #000;
+    }
+    
+    .video-iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    
+    .video-options {
+      background: #141414;
+      padding: 15px 20px;
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    
+    .quality-btn {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      padding: 5px 12px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .quality-btn.active {
+      background: #e50914;
+      border-color: #e50914;
+    }
+    
+    .report-btn {
+      margin-left: auto;
+      background: none;
+      border: none;
+      color: #999;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+    
+    .report-btn:hover {
+      color: #e50914;
+    }
+    
+    /* Footer */
+    .footer {
+      background: #0f0f0f;
+      padding: 40px 0;
+      text-align: center;
+      margin-top: 60px;
+    }
+    
+    .footer p {
+      color: #999;
+      margin-bottom: 20px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+    
+    .footer a {
+      color: #e5e5e5;
+      text-decoration: none;
+      margin: 0 10px;
+      transition: color 0.2s ease;
+    }
+    
+    .footer a:hover {
+      color: #e50914;
+    }
+    
+    .social-links {
+      margin-top: 20px;
+    }
+    
+    .social-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      margin: 0 5px;
+      transition: all 0.2s ease;
+    }
+    
+    .social-links a:hover {
+      background: #e50914;
+      transform: translateY(-3px);
+    }
+    
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .movie-backdrop {
+        flex-direction: column;
       }
       
-      body {
-          font-family: 'Poppins', sans-serif;
-          background: #141414;
-          color: #fff;
-          line-height: 1.6;
+      .movie-poster {
+        margin: 0 auto;
       }
       
-      /* Header Styles */
-      .main-header {
-          background: #0f0f0f;
-          padding: 15px 0;
-          position: sticky;
-          top: 0;
-          z-index: 100;
-          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      .movie-info {
+        text-align: center;
       }
       
-      .container {
-          max-width: 1400px;
-          margin: 0 auto;
-          padding: 0 15px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          flex-wrap: wrap;
-          gap: 15px;
+      .movie-actions {
+        justify-content: center;
       }
       
-      .logo a {
-          color: #e50914;
-          font-size: 1.8rem;
-          font-weight: 700;
-          text-decoration: none;
-          letter-spacing: -0.5px;
+      .movie-details {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        text-align: center;
       }
       
-      .logo a span {
-          color: #fff;
-      }
-      
-      /* Navigation */
       .main-nav ul {
-          display: flex;
-          list-style: none;
-          gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
       }
       
-      .main-nav a {
-          color: #e5e5e5;
-          text-decoration: none;
-          font-size: 0.95rem;
-          font-weight: 500;
-          transition: color 0.2s ease;
-          display: flex;
-          align-items: center;
-          gap: 6px;
+      .movie-info h1 {
+        font-size: 2rem;
       }
-      
-      .main-nav a:hover,
-      .main-nav a.active {
-          color: #e50914;
-      }
-      
-      .main-nav i {
-          font-size: 1.1rem;
-      }
-      
-      /* Search Box */
-      .search-box {
-          flex: 1;
-          max-width: 400px;
-          position: relative;
-      }
-      
-      .search-box form {
-          display: flex;
-          width: 100%;
-      }
-      
-      .search-input {
-          width: 100%;
-          padding: 10px 15px;
-          border: 1px solid #333;
-          border-radius: 4px;
-          background: #1a1a1a;
-          color: #fff;
-          font-size: 0.9rem;
-          outline: none;
-          transition: all 0.2s ease;
-      }
-      
-      .search-input:focus {
-          border-color: #e50914;
-          box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.2);
-      }
-      
-      .search-btn {
-          background: #e50914;
-          border: none;
-          color: white;
-          padding: 0 15px;
-          border-radius: 0 4px 4px 0;
-          cursor: pointer;
-          transition: background 0.2s ease;
-      }
-      
-      .search-btn:hover {
-          background: #f40612;
-      }
-      
-      /* User Actions */
-      .user-actions {
-          display: flex;
-          gap: 10px;
-      }
-      
+    }
+    
+    @media (max-width: 480px) {
       .btn {
-          padding: 8px 15px;
-          border-radius: 4px;
-          font-size: 0.85rem;
-          font-weight: 500;
-          text-decoration: none;
-          transition: all 0.2s ease;
-          display: inline-flex;
-          align-items: center;
-          gap: 5px;
+        width: 100%;
+        justify-content: center;
       }
       
-      .btn i {
-          font-size: 0.95em;
+      .movie-meta {
+        justify-content: center;
       }
-      
-      .btn-primary {
-          background: #e50914;
-          color: white;
-          border: none;
-      }
-      
-      .btn-primary:hover {
-          background: #f40612;
-          transform: translateY(-2px);
-      }
-      
-      .btn-secondary {
-          background: #2a2a2a;
-          color: #fff;
-          border: 1px solid #444;
-      }
-      
-      .btn-secondary:hover {
-          background: #333;
-          transform: translateY(-2px);
-      }
-      
-      .btn-outline {
-          background: transparent;
-          color: #fff;
-          border: 1px solid #444;
-      }
-      
-      .btn-outline:hover {
-          background: rgba(255, 255, 255, 0.1);
-          transform: translateY(-2px);
-      }
+    }
   </style>
 </head>
 <body>
+  <!-- Header -->
   <header class="main-header">
     <div class="container">
         <div class="logo">
@@ -214,112 +588,172 @@
     </div>
 </header>
 
-  <div class="header">
-    <div class="container">
-      <div class="title">En iyi ve Güvenilir Site</div>
-    </div>
-  </div>
-
-  <div class="content">
-    <div class="sidebar">
-      <div class="title">Recep İvedik 6</div>
-      <img src="../img/recepivedik6.jpg" alt="Regular Show Logo" height="300">
-      <ul>
-        <li style="font-size: 28px;">Recep İvedik 6</li>
-        <div class="bilgilendirme">
-        <li>Komedi</li>
-        <li>1 saat 50 dakika</li>
-        <li>IMDb 3.0</li>
-        <li>2019</li>
-        <li>Türkiye</li>
-    </div>
-      </ul>
-    </div>
-    <div class="main">
-    
-      <table>
-        <thead>
-          <tr>
-            
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <div class="video">
-                <h3 style="font-size: 25px; margin-left: 10px; color: white;">
-                    Recep İvedik 6</h3>
-                    <div class="kapsulid">
-                        <!--<button onclick="gizleGoster('secimYap');">VK</button><br><br>-->
-                        <!--<div id="secimYap" style="display: none;">-->
-                                <div style="position:relative;  padding-bottom:56.250%"><iframe allow="fullscreen" allowfullscreen height="100%" src="https://vk.com/video_ext.php?oid=238667219&id=456239430&hash=39895ac981d72787" width="100%" style="border:none; width:100%; height:100%; position:absolute; left:0px; top:0px; overflow:hidden;"></iframe></div>            
+  <!-- Movie Hero Section -->
+  <section class="movie-hero">
+    <div class="movie-container">
+      <div class="movie-backdrop">
+        <div class="movie-poster">
+          <img src="../img/dune-part-two.webp" alt="Dune Part: Two">
+          <div class="movie-rating">
+            <i class="fas fa-star"></i> 8.5
+          </div>
+        </div>
         
-                        </div></div>
-          </tr>
-          <h2 class="filmhakkında">Film Hakkında</h2>
-          <hr>
-          <p>Recep İvedik’in hayatı kendisine gelen bir davet ile bambaşka bir hal alır. Davet ile Recep İvedik, kuru fasulye festivaline çağırılmaktadır. Daveti memnuniyetle karşılayan Recep, arkadaşı Nurullah’ı da yanına alarak Konya’ya doğru yola koyulur. Daha yolculuğa başlar başlamaz türlü talihsizlikler yaşayan ikili, yolculuğun sonunda kendilerini Konya yerine Kenya’da bulur. Seyahat acentesinin hatası sonucu Kenya’ya gelen Recep ve Nurullah, Türkiye’ye geri dönmenin yolunu arar. Bilmedikleri bir coğrafyada bulunan Recep ile Nurullah, kendilerini birden iki düşman yerli kabilenin arasında bulur. Kendisine has yöntemlerle içinde bulunduğu vahşi dünyada ayakta kalmaya çalışan Recep’in başına bu süreçte birbirinden ilginç olaylar gelir.</p>
-          <tr>
-            <td></td>
-            <td>Orjinal Adı</td>
-            <td>:</td>
-            <td class="bolum">Recep İvedik 6</td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Film Türü</td>
-            <td>:</td>
-            <td class="bolum">Komedi</td>
-
-          </tr>
-          <tr>
-            <td></td>
-            <td>Film Dili</td>
-            <td>:</td>
-            <td class="bolum">Türkçe Altyazı, Türkçe Dublaj</td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Film Kalite</td>
-            <td>:</td>
-            <td class="bolum">1080p</td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Yönetmen</td>
-            <td>:</td>
-            <td class="bolum">Togan Gökbakar</td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Oyuncular</td>
-            <td>:</td>
-            <td class="bolum">Nurullah Celebi, Sahan Gökbakar, Somer Karvan</td>
-          </tr>
+        <div class="movie-info">
+          <h1>Dune Part: Two</h1>
           
-
-        </tbody>
-      </table>
+          <div class="movie-meta">
+            <span class="age-limit">+18</span>
+            <span class="duration">2s 24dk</span>
+            <span class="quality">4K</span>
+          </div>
+          
+          <div class="movie-actions">
+            <a href="#video-player" class="btn btn-primary">
+              <i class="fas fa-play"></i> Hemen İzle
+            </a>
+            <a href="#" class="btn btn-outline">
+              <i class="fas fa-plus"></i> Listeme Ekle
+            </a>
+            <a href="#" class="btn btn-outline">
+              <i class="far fa-thumbs-up"></i> Beğen
+            </a>
+          </div>
+          
+          <div class="movie-description">
+            <p>Dune Part: Two, 2024 yılında yayınlanan bir bilim kurgu filmidir.</p>
+          </div>
+          
+          <div class="movie-details">
+            <div class="detail">
+              <div class="label">Tür</div>
+              <div class="value">Aksiyon, Macera, Bilim Kurgu</div>
+            </div>
+            <div class="detail">
+              <div class="label">Yönetmen</div>
+              <div class="value">Andy Muschietti</div>
+            </div>
+            <div class="detail">
+              <div class="label">Oyuncular</div>
+              <div class="value">Ezra Miller, Sasha Calle, Michael Keaton, Ben Affleck</div>
+            </div>
+            <div class="detail">
+              <div class="label">Ülke</div>
+              <div class="value">ABD</div>
+            </div>
+            <div class="detail">
+              <div class="label">Dil</div>
+              <div class="value">Türkçe Dublaj, Türkçe Altyazı</div>
+            </div>
+            <div class="detail">
+              <div class="label">IMDb</div>
+              <div class="value">6.7/10</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Video Player -->
+      <div id="video-player" class="video-player">
+        <div class="video-container">
+          <div class="video-iframe">
+            <iframe 
+              width="100%" 
+              height="100%" 
+              src="https://streamable.com/e/2yc6tu?" 
+              frameborder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+              allowfullscreen>
+            </iframe>
+          </div>
+        </div>
+        
+        <div class="video-options">
+          <button class="quality-btn active">HD</button>
+          <button class="quality-btn">Full HD</button>
+          <button class="quality-btn">4K</button>
+          <button class="report-btn"><i class="fas fa-flag"></i> Hata Bildir</button>
+        </div>
+      </div>
+      
+      <!-- Movie Info Tabs -->
+      <div class="movie-tabs">
+        <div class="tab-content">
+          <h3>Film Hakkında</h3>
+          <p>Dune Part: Two, 2024 yılında yayınlanan bir bilim kurgu filmidir.</p>
+          
+          <h3>Benzer Filmler</h3>
+          <div class="similar-movies">
+            <p>Buraya benzer filmler eklenecek</p>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-  
-  <div class="footer">
-    <p>Sitemize eklenen tüm dizi bölümlerinin videoları video barındırma sitelerinden alınarak eklenmektedir. Telif hakkı size ait olan eserlerin linkleri ile beraber <strong>matypower18000@gmail.com</strong> e-posta adresinden bizimle irtibat kurduğunuz takdirde ilgili eser 3 iş günü içerisinde sitemizden kaldırılacaktır.</p>    <p>
-      <a href="#">Yabancı Diziler</a>
-      <a href="#">Yerli Diziler</a>
-      <a href="#">Asya Dizileri</a>
-      <a href="#">Animasyonlar</a>
-      <a href="#">Animeler</a>
-      <a href="#">Belgeseller</a>
-      <a href="#">Gizlilik Politikası</a>
-    </p>
-    <p>Copyright 2014-2024</p>
-    <div>
-      <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook-f"></i></a>
-      <a href="https://www.twitter.com/" target="_blank"><i class="fab fa-twitter"></i></a>
-      <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="mailto:sezonlukdizi@gmail.com" target="_blank"><i class="fas fa-envelope"></i></a>
-    </div>
-  </div>
+  </section>
 
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>Sitemize eklenen tüm dizi bölümlerinin videoları video barındırma sitelerinden alınarak eklenmektedir. Telif hakkı size ait olan eserlerin linkleri ile beraber <strong>matypower18000@gmail.com</strong> e-posta adresinden bizimle irtibat kurduğunuz takdirde ilgili eser 3 iş günü içerisinde sitemizden kaldırılacaktır.</p>
+      
+      <p>
+        <a href="#">Yabancı Diziler</a>
+        <a href="#">Yerli Diziler</a>
+        <a href="#">Asya Dizileri</a>
+        <a href="#">Animasyonlar</a>
+        <a href="#">Animeler</a>
+        <a href="#">Belgeseller</a>
+        <a href="#">Gizlilik Politikası</a>
+      </p>
+      
+      <p>Copyright 2014-2024</p>
+      
+      <div class="social-links">
+        <a href="#" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="mailto:matypower18000@gmail.com" title="E-posta"><i class="fas fa-envelope"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Quality selector functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const qualityButtons = document.querySelectorAll('.quality-btn');
+      
+      qualityButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          // Remove active class from all buttons
+          qualityButtons.forEach(btn => btn.classList.remove('active'));
+          // Add active class to clicked button
+          this.classList.add('active');
+          
+          // Here you would change the video quality
+          const quality = this.textContent.trim();
+          console.log(`Changing to ${quality} quality`);
+          // Add your quality change logic here
+        });
+      });
+      
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          const targetId = this.getAttribute('href');
+          if (targetId === '#') return;
+          
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 80, // Adjust for header height
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>
