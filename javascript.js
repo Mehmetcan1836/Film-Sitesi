@@ -1,10 +1,36 @@
-// Sayfa yüklendiğinde çalışacak fonksiyonlar
-document.addEventListener('DOMContentLoaded', function() {
-    // Header scroll efekti
-    const header = document.querySelector('.main-header');
-    let lastScroll = 0;
+/**
+ * Sayfa yüklendiğinde çalışacak ana fonksiyon
+ */
+const init = () => {
+    // Pencere boyutu değiştiğinde çalışacak fonksiyon
+    const handleResize = () => {
+        // Gerekirse yeniden düzenleme işlemleri
+    };
     
-    window.addEventListener('scroll', () => {
+    // Hata yönetimi
+    const handleError = (e) => {
+        console.error('Hata oluştu:', e.error || e.message || e);
+    };
+    
+    // Promise hatalarını yakala
+    const handleUnhandledRejection = (e) => {
+        console.error('İşlenmemiş Promise hatası:', e.reason || e);
+    };
+    
+    // Olay dinleyicilerini ekle
+    window.addEventListener('resize', handleResize, { passive: true });
+    window.addEventListener('orientationchange', handleResize, { passive: true });
+    window.addEventListener('error', handleError, true);
+    window.addEventListener('unhandledrejection', handleUnhandledRejection);
+    
+    // Header scroll efekti için değişkenler
+    const header = document.querySelector('.main-header');
+    if (!header) return;
+    
+    let lastScroll = 0;
+    let ticking = false;
+    
+    const updateHeader = () => {
         const currentScroll = window.pageYOffset;
         
         if (currentScroll <= 0) {
@@ -13,132 +39,271 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         if (currentScroll > lastScroll && !header.classList.contains('scroll-down')) {
-            // Aşağı kaydırma
             header.classList.add('scroll-down');
             header.classList.remove('scrolled');
         } else if (currentScroll < lastScroll && header.classList.contains('scroll-down')) {
-            // Yukarı kaydırma
             header.classList.remove('scroll-down');
             header.classList.add('scrolled');
         }
         
         lastScroll = currentScroll;
-    });
+        ticking = false;
+    };
+    
+    // Scroll olayını dinle
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(updateHeader);
+            ticking = true;
+        }
+    }, { passive: true });
     
     // Arama formu işleme
     const searchForm = document.querySelector('.search-box form');
-    if (searchForm) {
-        searchForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const searchInput = this.querySelector('input[type="text"]');
-            const searchTerm = searchInput.value.trim();
+    let searchTimeout;
+    
+    const handleSearch = (e) => {
+        e.preventDefault();
+        const searchInput = e.target.querySelector('input[type="text"]');
+        if (!searchInput) return;
+        
+        const searchTerm = searchInput.value.trim();
+        if (!searchTerm) return;
+        
+        // Debounce ile arama işlemi
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            // Arama işlemi burada yapılacak
+            console.log('Aranan terim:', searchTerm);
+            // Örnek: window.location.href = `arama.html?q=${encodeURIComponent(searchTerm)}`;
             
-            if (searchTerm) {
-                // Arama işlemi burada yapılacak
-                console.log('Aranan terim:', searchTerm);
-                // Örnek: window.location.href = `arama.html?q=${encodeURIComponent(searchTerm)}`;
-                
-                // Arama sonuçlarını göster (geçici)
-                showNotification(`"${searchTerm}" için arama yapılıyor...`);
-            }
-        });
+            // Arama sonuçlarını göster (geçici)
+            showNotification(`"${searchTerm}" için arama yapılıyor...`);
+        }, 300);
+    };
+    
+    if (searchForm) {
+        searchForm.addEventListener('submit', handleSearch);
     }
     
-    // Film kartlarına hover efekti
-    const movieBoxes = document.querySelectorAll('.box');
-    movieBoxes.forEach(box => {
-        // Hover efektleri CSS'de tanımlı, burada ekstra JS efektleri eklenebilir
+    // Film kartlarına olay dinleyicilerini ekle
+    const handleBoxClick = (e) => {
+        // Eğer favori butonuna tıklanmışsa işlemi durdur
+        if (e.target.closest('.favorite-btn')) return;
         
-        // Tıklama olayı
-        box.addEventListener('click', function(e) {
-            // Eğer favori butonuna tıklanmışsa işlemi durdur
-            if (e.target.closest('.favorite-btn')) return;
+        // Film detay sayfasına yönlendir
+        const link = e.currentTarget.querySelector('a');
+        if (link) {
+            window.location.href = link.href;
+        }
+    };
+    
+    const handleFavoriteClick = function(e) {
+        e.stopPropagation();
+        this.classList.toggle('active');
+        this.innerHTML = this.classList.contains('active') ? 
+            '<i class="fas fa-heart"></i>' : 
+            '<i class="far fa-heart"></i>';
             
-            // Film detay sayfasına yönlendir
-            const link = this.querySelector('a');
-            if (link) {
-                window.location.href = link.href;
-            }
-        });
+        const movieTitle = this.closest('.box').querySelector('h3')?.textContent || 'Film';
+        const action = this.classList.contains('active') ? 'eklendi' : 'kaldırıldı';
+        showNotification(`"${movieTitle}" favorilerinize ${action}!`);
+    };
+    
+    // Delegasyon kullanarak tek bir olay dinleyicisi ekle
+    document.addEventListener('click', (e) => {
+        // Film kutusuna tıklama
+        const box = e.target.closest('.box');
+        if (box) {
+            handleBoxClick(e);
+            return;
+        }
         
-        // Favori butonu ekle
-        const favoriteBtn = document.createElement('button');
-        favoriteBtn.className = 'favorite-btn';
-        favoriteBtn.innerHTML = '<i class="far fa-heart"></i>';
-        favoriteBtn.title = 'Favorilere Ekle';
-        
-        favoriteBtn.addEventListener('click', function(e) {
-            e.stopPropagation(); // Tıklamanın üst öğelere iletilmesini engeller
-            this.classList.toggle('active');
-            this.innerHTML = this.classList.contains('active') ? 
-                '<i class="fas fa-heart"></i>' : 
-                '<i class="far fa-heart"></i>';
-                
-            const movieTitle = this.closest('.box').querySelector('h3').textContent;
-            const action = this.classList.contains('active') ? 'eklendi' : 'kaldırıldı';
-            showNotification(`"${movieTitle}" favorilerinize ${action}!`);
-        });
-        
-        const infoPanel = box.querySelector('.info-panel');
-        if (infoPanel) {
-            infoPanel.appendChild(favoriteBtn);
+        // Favori butonuna tıklama
+        const favBtn = e.target.closest('.favorite-btn');
+        if (favBtn) {
+            handleFavoriteClick.call(favBtn, e);
         }
     });
+    
+    // Sayfa yüklendikten sonra favori butonlarını ekle
+    const addFavoriteButtons = () => {
+        const boxes = document.querySelectorAll('.box');
+        boxes.forEach(box => {
+            const infoPanel = box.querySelector('.info-panel');
+            if (infoPanel && !infoPanel.querySelector('.favorite-btn')) {
+                const favoriteBtn = document.createElement('button');
+                favoriteBtn.className = 'favorite-btn';
+                favoriteBtn.innerHTML = '<i class="far fa-heart"></i>';
+                favoriteBtn.title = 'Favorilere Ekle';
+                infoPanel.appendChild(favoriteBtn);
+            }
+        });
+    };
+    
+    // Sayfa yüklendikten sonra ve dinamik içerik yüklendikten sonra çalıştır
+    const favoriteButtonsObserver = new MutationObserver(addFavoriteButtons);
+    favoriteButtonsObserver.observe(document.body, { childList: true, subtree: true });
+    addFavoriteButtons();
     
     // Karanlık mod kontrolü
-    const darkModeToggle = document.createElement('button');
-    darkModeToggle.className = 'btn btn-secondary dark-mode-toggle';
-    darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-    darkModeToggle.title = 'Karanlık Mod';
-    
-    const userActions = document.querySelector('.user-actions');
-    if (userActions) {
+    const initDarkMode = () => {
+        const darkModeToggle = document.createElement('button');
+        darkModeToggle.className = 'btn btn-secondary dark-mode-toggle';
+        darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        darkModeToggle.title = 'Karanlık Mod';
+        darkModeToggle.setAttribute('aria-label', 'Karanlık modu değiştir');
+        
+        const userActions = document.querySelector('.user-actions');
+        if (!userActions) return;
+        
         userActions.insertBefore(darkModeToggle, userActions.firstChild);
         
-        // Karanlık mod kontrolü
+        // Sistem temasını kontrol et
         const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
         const currentTheme = localStorage.getItem('theme');
+        let isDark = currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches);
         
-        if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
-            document.body.classList.add('dark-mode');
-            darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-        }
+        const setTheme = (dark) => {
+            document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+            darkModeToggle.innerHTML = dark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+            darkModeToggle.title = dark ? 'Aydınlık Mod' : 'Karanlık Mod';
+            localStorage.setItem('theme', dark ? 'dark' : 'light');
+            isDark = dark;
+        };
         
-        darkModeToggle.addEventListener('click', function() {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            darkModeToggle.innerHTML = isDark ? 
-                '<i class="fas fa-sun"></i>' : 
-                '<i class="fas fa-moon"></i>';
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            
-            showNotification(`Karanlık mod ${isDark ? 'açıldı' : 'kapatıldı'}`);
-        });
-    }
+        // İlk yüklemede temayı ayarla
+        setTheme(isDark);
+        
+        // Tıklama ile tema değiştirme
+        darkModeToggle.addEventListener('click', () => setTheme(!isDark));
+        
+        // Sistem teması değiştiğinde güncelle (isteğe bağlı)
+        const handleThemeChange = (e) => {
+            if (!localStorage.getItem('theme')) {
+                setTheme(e.matches);
+            }
+        };
+        
+        prefersDarkScheme.addEventListener('change', handleThemeChange);
+        
+        // Temizlik için event listener'ları kaldır
+        return () => {
+            darkModeToggle.removeEventListener('click', () => setTheme(!isDark));
+            prefersDarkScheme.removeEventListener('change', handleThemeChange);
+        };
+    };
+    
+    // Karanlık modu başlat
+    const cleanupDarkMode = initDarkMode();
     
     // Yükleme animasyonu
-    const fadeElements = document.querySelectorAll('.box, .section-header');
-    fadeElements.forEach((el, index) => {
-        setTimeout(() => {
-            el.classList.add('fade-in');
-        }, 100 * index);
-    });
+    const initAnimations = () => {
+        const fadeElements = document.querySelectorAll('.box, .section-header');
+        
+        // Intersection Observer ile görünür olduğunda animasyonu tetikle
+        const animateOnScroll = (elements) => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+            
+            elements.forEach(el => {
+                observer.observe(el);
+            });
+            
+            return observer;
+        };
+        
+        // Sayfa yüklendikten sonra animasyonları başlat
+        if ('IntersectionObserver' in window) {
+            const animationObserver = animateOnScroll(fadeElements);
+            
+            // Temizlik için observer'ı kaldır
+            return () => {
+                animationObserver.disconnect();
+            };
+        } else {
+            // Fallback for older browsers
+            const timeouts = [];
+            fadeElements.forEach((el, index) => {
+                timeouts.push(
+                    setTimeout(() => {
+                        el.classList.add('fade-in');
+                    }, 100 * index)
+                );
+            });
+            
+            // Temizlik için timeout'ları temizle
+            return () => {
+                timeouts.forEach(clearTimeout);
+            };
+        }
+    };
+    
+    const cleanupAnimations = initAnimations();
     
     // Dinamik yükleme için Intersection Observer
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('fade-in');
-                observer.unobserve(entry.target);
-            }
+    const initLazyLoading = () => {
+        const lazyImages = document.querySelectorAll('img.lazy');
+        if (!lazyImages.length) return null;
+        
+        const lazyLoadObserver = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const lazyImage = entry.target;
+                    lazyImage.src = lazyImage.dataset.src;
+                    lazyImage.classList.remove('lazy');
+                    obs.unobserve(lazyImage);
+                }
+            });
+        }, {
+            rootMargin: '200px 0px',
+            threshold: 0.01
         });
-    }, { threshold: 0.1 });
-
-    // Sayfadaki tüm .box elementlerini izle
-    document.querySelectorAll('.box:not(.fade-in)').forEach(box => {
-        observer.observe(box);
-    });
-});
+        
+        lazyImages.forEach(img => {
+            lazyLoadObserver.observe(img);
+        });
+        
+        return lazyLoadObserver;
+    };
+    
+    const lazyLoadObserver = initLazyLoading();
+    
+    // Temizlik fonksiyonu
+    const cleanup = () => {
+        // Observer'ları temizle
+        if (lazyLoadObserver) {
+            lazyLoadObserver.disconnect();
+        }
+        
+        // Diğer temizlik işlemleri
+        if (cleanupDarkMode) cleanupDarkMode();
+        if (cleanupAnimations) cleanupAnimations();
+        
+        // Event listener'ları kaldır
+        window.removeEventListener('resize', handleResize);
+        window.removeEventListener('orientationchange', handleResize);
+    };
+    
+    // Temizlik fonksiyonunu döndür
+    return () => {
+        cleanup();
+        window.removeEventListener('resize', handleResize);
+        window.removeEventListener('orientationchange', handleResize);
+        window.removeEventListener('beforeunload', cleanup);
+        window.removeEventListener('error', handleError, true);
+        window.removeEventListener('unhandledrejection', handleUnhandledRejection);
+    };
+};
 
 // Bildirim gösterme fonksiyonu
 function showNotification(message, duration = 3000) {
@@ -183,17 +348,35 @@ function showNotification(message, duration = 3000) {
     }, duration);
 }
 
-// Sayfa dışına tıklandığında açık menüleri kapat
-window.addEventListener('click', function(e) {
+/**
+ * Sayfa dışına tıklandığında açık menüleri kapatır
+ * @param {Event} e - Tıklama olayı
+ */
+const handleDocumentClick = (e) => {
     // Açılır menü örnekleri için
     const dropdowns = document.querySelectorAll('.dropdown');
+    const isClickInsideDropdown = Array.from(dropdowns).some(dropdown => 
+        dropdown.contains(e.target) || dropdown === e.target
+    );
+    
+    if (!isClickInsideDropdown) {
+        // Açık dropdown'ları kapat
+        dropdowns.forEach(dropdown => {
+            if (dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show');
+            }
+        });
+    }
     dropdowns.forEach(dropdown => {
         if (!dropdown.contains(e.target)) {
             const menu = dropdown.querySelector('.dropdown-menu');
             if (menu) menu.style.display = 'none';
         }
     });
-});
+};
+
+// Doküman tıklama olayını dinle
+document.addEventListener('click', handleDocumentClick);
 
 // Klavye kısayolları
 document.addEventListener('keydown', function(e) {

@@ -8,6 +8,7 @@
     overflow-x: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    height: 120px;
 }
 
 
