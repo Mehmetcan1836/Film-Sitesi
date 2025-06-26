@@ -287,6 +287,12 @@ ul {
     display: block;
     margin-bottom: 10px;
 }
+.benzerfilmler li {
+    list-style: none;
+    color: #fff;
+    font-size: 1.2rem;
+    
+}
 
 /* Social Icons */
 .social-icons {
