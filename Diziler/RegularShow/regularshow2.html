@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Regular Show İzle - Dizicom</title>
+  <link rel="stylesheet" href="../../css/detay.css">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preload" as="style" href="css/movie-grid.css" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" as="style" href="css/story-slider.css" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" media="print" onload="this.media='all'">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript>
+  <link rel="stylesheet" href="css/movie-grid.css">
+  <link rel="stylesheet" href="css/story-slider.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</noscript>
+<style>
+  /* Global Styles */
+  * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+  }
+  
+  body {
+      font-family: 'Poppins', sans-serif;
+      background: #141414;
+      color: #fff;
+      line-height: 1.6;
+  }
+  
+  /* Header Styles */
+  .main-header {
+      background: #0f0f0f;
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 15px;
+  }
+  
+  .logo a {
+      color: #e50914;
+      font-size: 1.8rem;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: -0.5px;
+  }
+  
+  .logo a span {
+      color: #fff;
+  }
+  
+  /* Navigation */
+  .main-nav ul {
+      display: flex;
+      list-style: none;
+      gap: 20px;
+  }
+  
+  .main-nav a {
+      color: #e5e5e5;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+  }
+  
+  .main-nav a:hover,
+  .main-nav a.active {
+      color: #e50914;
+  }
+  
+  .main-nav i {
+      font-size: 1.1rem;
+  }
+  
+  /* Search Box */
+  .search-box {
+      flex: 1;
+      max-width: 400px;
+      position: relative;
+  }
+  
+  .search-box form {
+      display: flex;
+      width: 100%;
+  }
+  
+  .search-input {
+      width: 100%;
+      padding: 10px 15px;
+      border: 1px solid #333;
+      border-radius: 4px;
+      background: #1a1a1a;
+      color: #fff;
+      font-size: 0.9rem;
+      outline: none;
+      transition: all 0.2s ease;
+  }
+  
+  .search-input:focus {
+      border-color: #e50914;
+      box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.2);
+  }
+  
+  .search-btn {
+      background: #e50914;
+      border: none;
+      color: white;
+      padding: 0 15px;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+      transition: background 0.2s ease;
+  }
+  
+  .search-btn:hover {
+      background: #f40612;
+  }
+  
+  /* User Actions */
+  .user-actions {
+      display: flex;
+      gap: 10px;
+  }
+  
+  .btn {
+      padding: 8px 15px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+  }
+  
+  .btn i {
+      font-size: 0.95em;
+  }
+  
+  .btn-primary {
+      background: #e50914;
+      color: white;
+      border: none;
+  }
+  
+  .btn-primary:hover {
+      background: #f40612;
+      transform: translateY(-2px);
+  }
+  
+  .btn-secondary {
+      background: #2a2a2a;
+      color: #fff;
+      border: 1px solid #444;
+  }
+  
+  .btn-secondary:hover {
+      background: #333;
+      transform: translateY(-2px);
+  }
+  
+  .btn-outline {
+      background: transparent;
+      color: #fff;
+      border: 1px solid #444;
+  }
+  
+  .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+  }
+
+  /* Popular Movies & Series Section */
+  .popular-section {
+      padding: 40px 0;
+      background: linear-gradient(135deg, #ffd700 0%, #ffed4a 100%);
+      margin: 20px 0;
+      border-radius: 10px;
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.3);
+  }
+
+  .popular-section h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #141414;
+      font-size: 2rem;
+      font-weight: 700;
+  }
+
+  .popular-section .movie-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      padding: 0 15px;
+  }
+
+  .popular-section .movie-card {
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      border: 2px solid #ffd700;
+      padding: 20px;
+  }
+
+  .popular-section .movie-card:hover {
+      transform: translateY(-5px);
+  }
+
+  .popular-section .movie-card img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 4px;
+  }
+
+  .popular-section .movie-info {
+      margin-top: 15px;
+  }
+
+  .popular-section .movie-info h3 {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+      color: #ffd700;
+  }
+
+  .popular-section .movie-info p {
+      color: #fff;
+      opacity: 0.9;
+  }
+</style>
+</head>
+<body>
+
+
+  <div class="header">
+    <div class="container">
+      <div class="title">En iyi ve Güvenilir Site</div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="sidebar">
+      <div class="title">REGULAR SHOW</div>
+      <img src="../../img/regularshows1.jpg" alt="Regular Show Logo" height="300">
+      <ul>
+        <li style="font-size: 28px;">Sürekli Dizi</li>
+        <div class="bilgilendirme">
+        <li>Animasyon</li>
+        <li>Komedi</li>
+        <li>Macera</li>
+        <li>Cartoon Network</li>
+        <li>11 Dk.</li>
+        <li>246 Bl.</li>
+        <li>2009-2017 • Final Yaptı</li>
+    </div>
+      </ul>
+    </div>
+    <div class="main">
+      <div class="title">Bölümler</div>
+      <div class="hakkındas">
+        <h3>Hakkında</h3>
+        <p>Saha görevlisi olan Mordecai (mavi bir alakarga) ile Rigby (hiperaktif bir rakun) günlerini kendilerini eğlendirmeye çalışarak geçiren iki dosttur. Eğlenmek için yaptıkları patronları Benson’ın ne kadar hoşuna gitmiyorsa, Pops da onlarla bir o kadar mutlu oluyordur. Günlük uğraşları bazen kontrolden çıkmakta ve gerçek üstü bir hal almaktadır. Örneğin, diğer boyutlara portallar açmakta, 80’lerin Atari oyunlarıyla şeytanları toplamakta ve iş arkadaşlarını aya göndermek için koreografik danslar yapmaktadırlar. Tüm bunlar “Regular Show”da normaldir.</p>
+      </div>
+      <div class="navigation2">
+        <a href="regularshow.html"><li><</li></a>
+        <a href=""><li>></li></a>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Sezon</th>
+            <th>Bölüm</th>
+            <th>Bölüm Adı</th>
+            <th>Yayınlanma Tarihi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td>2.Sezon</td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 1.bölüm Regular Show.html">1.Bölüm</a></td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 1.bölüm Regular Show.html">Ello Gov'nor</a></td>
+            <td>06.09.2010</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td>2.Sezon</td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 2.bölüm Regular Show.html">2.Bölüm</a></td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 2.bölüm Regular Show.html">It's Time</a></td>
+            <td>13.09.2010</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td>2.Sezon</td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 3.bölüm Regular Show.html">3.Bölüm</a></td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 3.bölüm Regular Show.html">Appreciation Day</a></td>
+            <td>20.09.2010</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td>2.Sezon</td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 4.bölüm Regular Show.html">4.Bölüm</a></td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 4.bölüm Regular Show.html">Peeps</a></td>
+            <td>27.09.2010</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td>2.Sezon</td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 5.bölüm Regular Show.html">5.Bölüm</a></td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 5.bölüm Regular Show.html">Dizzy</a></td>
+            <td>04.10.2010</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td>2.Sezon</td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 6.bölüm Regular Show.html">6.Bölüm</a></td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 6.bölüm Regular Show.html">My Mom</a></td>
+            <td>11.10.2010</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td>2.Sezon</td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 7.bölüm Regular Show.html">7.Bölüm</a></td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 7.bölüm Regular Show.html">High Score</a></td>
+            <td>18.10.2010</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td>2.Sezon</td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 8.bölüm Regular Show.html">8.Bölüm</a></td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 8.bölüm Regular Show.html">Rage Against the TV</a></td>
+            <td>25.10.2010</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td>2.Sezon</td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 9.bölüm Regular Show.html">9.Bölüm</a></td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 9.bölüm Regular Show.html">Party Pete</a></td>
+            <td>01.11.2010</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td>2.Sezon</td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 10.bölüm Regular Show.html">10.Bölüm</a></td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 10.bölüm Regular Show.html">Brain Eraser</a></td>
+            <td>08.11.2010</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td>2.Sezon</td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 11.bölüm Regular Show.html">11.Bölüm</a></td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 11.bölüm Regular Show.html">Benson Be Gone</a></td>
+            <td>15.11.2010</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td>2.Sezon</td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 12.bölüm Regular Show.html">12.Bölüm</a></td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 12.bölüm Regular Show.html">But I Have a Receipt</a></td>
+            <td>22.11.2010</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td>2.Sezon</td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 13.bölüm Regular Show.html">13.Bölüm</a></td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 13.bölüm Regular Show.html">This Is My Jam</a></td>
+            <td>22.11.2010</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td>2.Sezon</td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 14.bölüm Regular Show.html">14.Bölüm</a></td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 14.bölüm Regular Show.html">Muscle Woman</a></td>
+            <td>22.11.2010</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td>2.Sezon</td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 15.bölüm Regular Show.html">15.Bölüm</a></td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 15.bölüm Regular Show.html">Temp Check</a></td>
+            <td>22.11.2010</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td>2.Sezon</td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 16.bölüm Regular Show.html">16.Bölüm</a></td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 16.bölüm Regular Show.html">Jinx</a></td>
+            <td>22.11.2010</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td>2.Sezon</td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 17.bölüm Regular Show.html">17.Bölüm</a></td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 17.bölüm Regular Show.html">See You There</a></td>
+            <td>22.11.2010</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td>2.Sezon</td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 18.bölüm Regular Show.html">18.Bölüm</a></td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 18.bölüm Regular Show.html">Do Me a Solid</a></td>
+            <td>22.11.2010</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td>2.Sezon</td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 19.bölüm Regular Show.html">19.Bölüm</a></td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 19.bölüm Regular Show.html">Grave Sight</a></td>
+            <td>22.11.2010</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td>2.Sezon</td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 20.bölüm Regular Show.html">20.Bölüm</a></td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 20.bölüm Regular Show.html">Really Real Wrestling</a></td>
+            <td>22.11.2010</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td>2.Sezon</td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 21.bölüm Regular Show.html">21.Bölüm</a></td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 21.bölüm Regular Show.html">Over the Top</a></td>
+            <td>22.11.2010</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td>2.Sezon</td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 22.bölüm Regular Show.html">22.Bölüm</a></td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 22.bölüm Regular Show.html">The Night Owl</a></td>
+            <td>22.11.2010</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td>2.Sezon</td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 23.bölüm Regular Show.html">23.Bölüm</a></td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 23.bölüm Regular Show.html">A Bunch of Baby Ducks</a></td>
+            <td>22.11.2010</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td>2.Sezon</td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 24.bölüm Regular Show.html">24.Bölüm</a></td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 24.bölüm Regular Show.html">More Smarter</a></td>
+            <td>22.11.2010</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td>2.Sezon</td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 25.bölüm Regular Show.html">25.Bölüm</a></td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 25.bölüm Regular Show.html">First Day</a></td>
+            <td>22.11.2010</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td>2.Sezon</td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 26.bölüm Regular Show.html">26.Bölüm</a></td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 26.bölüm Regular Show.html">Go Viral</a></td>
+            <td>22.11.2010</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td>2.Sezon</td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 27.bölüm Regular Show.html">27.Bölüm</a></td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 27.bölüm Regular Show.html">Skunked</a></td>
+            <td>22.11.2010</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox"></td>
+            <td>2.Sezon</td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 28.bölüm Regular Show.html">28.Bölüm</a></td>
+            <td class="bolum"><a href="../RegularShow/Sezon2/2.sezon 28.bölüm Regular Show.html">Karaoke Video</a></td>
+            <td>22.11.2010</td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <div class="footer">
+    <p>Sitemize eklenen tüm dizi bölümlerinin videoları video barındırma sitelerinden alınarak eklenmektedir. Telif hakkı size ait olan eserlerin linkleri ile beraber matypower18000@gmail.com e-posta adresinden bizimle irtibat kurduğunuz takdirde ilgili eser 3 iş günü içerisinde sitemizden kaldırılacaktır.</p>
+    <p>
+      <a href="#">Yabancı Diziler</a>
+      <a href="#">Yerli Diziler</a>
+      <a href="#">Asya Dizileri</a>
+      <a href="#">Animasyonlar</a>
+      <a href="#">Animeler</a>
+      <a href="#">Belgeseller</a>
+      <a href="#">Gizlilik Politikası</a>
+    </p>
+    <p>Copyright 2014-2024</p>
+    <div>
+      <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://www.twitter.com/" target="_blank"><i class="fab fa-twitter"></i></a>
+      <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="matypower18000@gmail.com" target="_blank"><i class="fas fa-envelope"></i></a>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../js/header.js"></script>
+</body>
+</html>
