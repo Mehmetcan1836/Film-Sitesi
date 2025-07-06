@@ -5,7 +5,11 @@ document.addEventListener("DOMContentLoaded", function () {
           <div class="container">
             <!-- Logo -->
             <div class="logo">
+<<<<<<< HEAD
               <a href="index.html">DİZİ<span>COM</span></a>
+=======
+              <a href="../../index.html">DİZİ<span>COM</span></a>
+>>>>>>> 4865f201573f8f7242e2a35068e6615338586949
             </div>
   
             <!-- Mobile Toggle Button -->
@@ -19,6 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
               <!-- Navigation Links -->
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
+<<<<<<< HEAD
                   <a class="nav-link active" href="index.html"><i class="fas fa-home me-1"></i> Anasayfa</a>
                 </li>
                 <li class="nav-item">
@@ -26,6 +31,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="filmler.html"><i class="fas fa-film me-1"></i> Filmler</a>
+=======
+                  <a class="nav-link" href="../../index.html"><i class="fas fa-home me-1"></i> Anasayfa</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../diziler.html"><i class="fas fa-tv me-1"></i> Diziler</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../filmler.html"><i class="fas fa-film me-1"></i> Filmler</a>
+>>>>>>> 4865f201573f8f7242e2a35068e6615338586949
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="#"><i class="fas fa-fire me-1"></i> Trend</a>
