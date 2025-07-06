@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <div class="container">
             <!-- Logo -->
             <div class="logo">
-              <a href="/index.html">DİZİ<span>COM</span></a>
+              <a href="index.html">DİZİ<span>COM</span></a>
             </div>
   
             <!-- Mobile Toggle Button -->
@@ -20,13 +20,13 @@ document.addEventListener("DOMContentLoaded", function () {
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
 
-                  <a class="nav-link" href="/index.html"><i class="fas fa-home me-1"></i> Anasayfa</a>
+                  <a class="nav-link" href="index.html"><i class="fas fa-home me-1"></i> Anasayfa</a>
                 </li> 
                 <li class="nav-item">
-                  <a class="nav-link" href="/diziler.html"><i class="fas fa-tv me-1"></i> Diziler</a>
+                  <a class="nav-link" href="diziler.html"><i class="fas fa-tv me-1"></i> Diziler</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/filmler.html"><i class="fas fa-film me-1"></i> Filmler</a>
+                  <a class="nav-link" href="filmler.html"><i class="fas fa-film me-1"></i> Filmler</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="#"><i class="fas fa-fire me-1"></i> Trend</a>
