@@ -251,6 +251,167 @@
             color: #fff;
             opacity: 0.9;
         }
+
+        /* Filter Sidebar Styles */
+        .filter-sidebar {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            background: #0f0f0f;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-y: auto;
+            padding: 20px;
+            height: 100%;
+        }
+
+        .filter-sidebar h3 {
+            color: #fff;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e50914;
+            padding-bottom: 10px;
+        }
+
+        .filter-group {
+            margin-bottom: 25px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .filter-group h4 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+
+        .form-check {
+            margin-bottom: 10px;
+        }
+
+        .form-check-label {
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        .form-check-input {
+            accent-color: #e50914;
+        }
+
+        .form-range {
+            margin: 10px 0;
+            -webkit-appearance: none;
+            background: rgba(255, 255, 255, 0.1);
+            height: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #e50914;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-range::-webkit-slider-thumb:hover {
+            background: #ff0000;
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 8px 12px;
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #e50914;
+            box-shadow: 0 0 0 0.2rem rgba(229, 9, 20, 0.25);
+            color: #fff;
+        }
+
+        .input-group-text {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .btn {
+            width: 100%;
+            margin: 10px 0;
+            padding: 12px;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: #e50914;
+            border-color: #e50914;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #ff0000;
+            border-color: #ff0000;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline-primary {
+            background-color: transparent;
+            border-color: #e50914;
+            color: #e50914;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: rgba(229, 9, 20, 0.1);
+            color: #fff;
+        }
+
+        .filter-sidebar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .filter-sidebar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
+        .filter-sidebar::-webkit-scrollbar-thumb {
+            background: #e50914;
+            border-radius: 4px;
+        }
+
+        .filter-sidebar::-webkit-scrollbar-thumb:hover {
+            background: #ff0000;
+        }
+
+        /* Adjust main content for filter sidebar */
+        .main-content {
+            position: relative;
+            padding-right: 320px; /* Filter width + padding */
+            min-height: 100vh;
+        }
+
+        /* Mobile styles */
+        @media (max-width: 768px) {
+            .filter-sidebar {
+                display: none;
+            }
+
+            .main-content {
+                padding-right: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -258,7 +419,7 @@
         <section class="featured-section">
             <div class="section-header">
                 <h2><i class="fas fa-newspaper"></i> Yeni Dizi&Filmler</h2>
-                <a href="filmler.html" class="view-all">Tümünü Gör <i class="fas fa-arrow-right"></i></a>
+                
             </div>
             
             <div class="story-slider">
@@ -282,115 +443,69 @@
             <div class="movie-grid">
                 <!-- Movie items will be dynamically loaded here -->
             </div>
+
+            <!-- Filter Sidebar -->
+            <aside class="filter-sidebar">
+                <h3>Filtreleme</h3>
+                
+                <div class="filter-group">
+                    <h4>Kategori</h4>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="action" value="Aksiyon">
+                        <label class="form-check-label" for="action">Aksiyon</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="comedy" value="Komedi">
+                        <label class="form-check-label" for="comedy">Komedi</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="animation" value="Animasyon">
+                        <label class="form-check-label" for="animation">Animasyon</label>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h4>Yıl Aralığı</h4>
+                    <div class="input-group mb-3">
+                        <input type="number" class="form-control" id="yearFrom" placeholder="Başlangıç Yılı">
+                        <span class="input-group-text">-</span>
+                        <input type="number" class="form-control" id="yearTo" placeholder="Bitiş Yılı">
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h4>IMDb Puanı</h4>
+                    <input type="range" class="form-range" min="0" max="10" step="0.1" id="ratingRange">
+                    <div class="rating-display">
+                        <i class="fas fa-star"></i>
+                        <span class="rating-value" id="ratingValue">7.0</span>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary">Filtrele</button>
+                <button class="btn btn-outline-primary">Temizle</button>
+            </aside>
+        </section>
+            
+
+            <div class="story-modal">
+                <div class="story-content">
+                    <video class="story-video" controls autoplay></video>
+                    <button class="close-story">×</button>
+                </div>
+            </div>
+            <div class="movie-grid">
+                <!-- Movie items will be dynamically loaded here -->
+            </div>
         </section>
     </main>
 
     <!-- Popular Movies & Series Section -->
 
 
-    <script defer>
-        // Sample movie data - In a real app, this would come from an API
-        const movies = [
-            {
-                title: "The Flash",
-                year: 2023,
-                genre: "Aksiyon",
-                rating: 8.2,
-                image: "img/theflash2023.jpg",
-                link: "Filmler/theflash.html"
-            },
-            {
-                title: "Recep İvedik 6",
-                year: 2023,
-                genre: "Komedi",
-                rating: 8.2,
-                image: "img/recepivedik6.jpg",
-                link: "Filmler/recepivedik6.html"
-            },
-            {
-                title: "Batman Draculaya Karsi",
-                year: 2023,
-                genre: "Aksiyon",
-                rating: 8.2,
-                image: "img/batmandraculayakarsi.jpg",
-                link: "Filmler/BatmanDrakulayaKarsi.html"
-            },
-            {
-                title: "Eyvah Eyvah 2",
-                year: 2011,
-                genre: "Komedi",
-                rating: 7.5,
-                image: "img/Eyyvah_Eyvah_2_film_afişi.jpg",
-                link: "Filmler/eyvaheyvah2.html"
-            },
-            {
-                title: "Kolpaçino 4 4'lük",
-                year: 2023,
-                genre: "Aksiyon",
-                rating: 8.2,
-                image: "img/kolpacino.jpg",
-                link: "Filmler/kolpaçino.html"
-            },
-            {
-                title: "Parallel",
-                year: 2023,
-                genre: "Aksiyon",
-                rating: 8.2,
-                image: "img/parallel.webp",
-                link: "Filmler/parallel.html"
-            },
-            {
-                title: "out of darkness",
-                year: 2023,
-                genre: "Aksiyon",
-                rating: 8.2,
-                image: "img/out-of-darkness.webp",
-                link: "Filmler/outofdarkness.html"
-            }
-        ];
-
-        const diziler = [
-            {
-                title: "Regular Show",
-                year: 2007,
-                genre: "Animasyon",
-                rating: 8.5,
-                image: "img/regularshows1.jpg",
-                link: "regularshow.html"
-            },
-            {
-                title: "Ben 10 Classic",
-                year: 2007,
-                genre: "Animasyon",
-                rating: 8.5,
-                image: "img/869.jpg",
-                link: "ben10.html"
-            },
-            {
-                title: "Spiderman The Animated Series",
-                year: 2007,
-                genre: "Animasyon",
-                rating: 8.5,
-                image: "img/Spiderman The Animated Series.jpg",
-                link: "soidermananimated.html"
-            },
-            {
-                title: "Esrarengiz Kasaba",
-                year: 2007,
-                genre: "Animasyon",
-                rating: 8.5,
-                image: "img/esrarengizkasaba.jpg",
-                link: "esrarengizkasaba.html"
-            },
-            {
-                title: "Bahçe Duvarının Ötesinde",
-                year: 2007,
-                genre: "Animasyon",
-                rating: 8.5,
-                image: "img/Bahçe Duvarının Ötesinde.jpg",
-                link: "Bahçe Duvarının Ötesinde.html"
-            }
-        ]
+    <script>
+        // Content data will be loaded from JSON
+        let contentData = [];
 
         // Function to generate movie HTML
         function createMovieElement(movie) {
@@ -407,7 +522,6 @@
                                     <i class="fas fa-star"></i> ${movie.rating}
                                 </span>
                             </div>
-                            
                         </div>
                     </a>
                     <button class="favorite-btn" aria-label="Favorilere Ekle">
@@ -417,15 +531,20 @@
             `;
         }
 
-        // Populate movies when the page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            // Get the movie grid
-            const movieGrid = document.querySelector('.movie-grid');
-            if (movieGrid) {
-                movieGrid.innerHTML = movies.map(movie => createMovieElement(movie)).join('');
+        // Function to load content data
+        async function loadContentData() {
+            try {
+                const response = await fetch('data/movies.json');
+                const data = await response.json();
+                contentData = data.content;
+                createSeriesSection();
+            } catch (error) {
+                console.error('Error loading content data:', error);
             }
+        }
 
-            // Create and populate series section
+        // Function to create series section
+        function createSeriesSection() {
             const seriesSection = `
                 <section class="featured-section">
                     <div class="section-header">
@@ -433,7 +552,7 @@
                         <a href="diziler.html" class="view-all">Tümünü Gör <i class="fas fa-arrow-right"></i></a>
                     </div>
                     <div class="movie-grid">
-                        ${diziler.map(serie => createMovieElement(serie)).join('')}
+                        ${contentData.filter(content => content.type === 'dizi').map(content => createMovieElement(content)).join('')}
                     </div>
                     <div class="navigation">
                         <a href="#"><i class="fas fa-chevron-left"></i> Önceki</a>
@@ -445,10 +564,63 @@
                 </section>
             `;
 
-            // Add the series section after the movies section
             const mainContent = document.querySelector('.main-content');
             if (mainContent) {
                 mainContent.insertAdjacentHTML('beforeend', seriesSection);
+            }
+        }
+
+        // Function to filter content
+        function filterMovies() {
+            const genreFilters = Array.from(document.querySelectorAll('.filter-sidebar input[type="checkbox"]:checked'))
+                .map(checkbox => checkbox.value);
+            
+            const yearFrom = document.getElementById('yearFrom').value || 0;
+            const yearTo = document.getElementById('yearTo').value || 9999;
+            
+            const rating = document.getElementById('ratingRange').value;
+
+            // Filter content
+            const filteredContent = contentData.filter(content => {
+                const matchesGenre = genreFilters.length === 0 || genreFilters.includes(content.genre);
+                const matchesYear = content.year >= parseInt(yearFrom) && content.year <= parseInt(yearTo);
+                const matchesRating = content.rating >= parseFloat(rating);
+                
+                return matchesGenre && matchesYear && matchesRating;
+            });
+
+            // Update movie grid
+            const movieGrid = document.querySelector('.movie-grid');
+            movieGrid.innerHTML = filteredContent
+                .filter(content => content.type === 'film')
+                .map(content => createMovieElement(content))
+                .join('');
+
+            // Update series section
+            const seriesSection = document.querySelector('.featured-section:last-child');
+            if (seriesSection) {
+                const seriesGrid = seriesSection.querySelector('.movie-grid');
+                if (seriesGrid) {
+                    seriesGrid.innerHTML = filteredContent
+                        .filter(content => content.type === 'dizi')
+                        .map(content => createMovieElement(content))
+                        .join('');
+                }
+            }
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load series data
+            loadSeriesData();
+
+            // Populate initial movies
+            const movieGrid = document.querySelector('.movie-grid');
+            if (movieGrid) {
+                movieGrid.innerHTML = contentData
+                    .filter(content => content.type === 'film')
+                    .map(content => createMovieElement(content))
+                    .join('');
             }
 
             // Add click event for favorite buttons
@@ -461,15 +633,38 @@
                     btn.querySelector('i').classList.toggle('fas');
                 });
             });
+
+            // Add filter event listeners
+            document.querySelector('.filter-sidebar .btn-primary').addEventListener('click', filterMovies);
+
+            // Reset filters
+            document.querySelector('.filter-sidebar .btn-outline-primary').addEventListener('click', () => {
+                document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+                document.getElementById('yearFrom').value = '';
+                document.getElementById('yearTo').value = '';
+                document.getElementById('ratingRange').value = '7.0';
+                filterMovies();
+            });
+
+            // Update rating display when slider changes
+            const ratingRange = document.getElementById('ratingRange');
+            const ratingValue = document.getElementById('ratingValue');
+            
+            ratingRange.addEventListener('input', function() {
+                ratingValue.textContent = this.value;
+            });
         });
-        
     </script>
-    
+
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <!-- Diğer JS dosyaları -->
     <script src="js/story-slider.js"></script>
     <script src="js/header.js"></script>
+    <script src="js/movie-filter.js"></script>
+
 </body>
 </html>

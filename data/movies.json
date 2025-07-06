@@ -1,0 +1,196 @@
+{
+    "content": [
+        {
+            "title": "The Flash",
+            "year": 2023,
+            "genre": "Aksiyon",
+            "rating": 8.2,
+            "image": "img/theflash2023.jpg",
+            "link": "Filmler/theflash.html"
+        },
+        {
+            "title": "Recep İvedik 6",
+            "year": 2023,
+            "genre": "Komedi",
+            "rating": 8.2,
+            "image": "img/recepivedik6.jpg",
+            "link": "Filmler/recepivedik6.html"
+        },
+        {
+            "title": "Batman Draculaya Karsi",
+            "year": 2023,
+            "genre": "Aksiyon",
+            "rating": 8.2,
+            "image": "img/batmandraculayakarsi.jpg",
+            "link": "Filmler/BatmanDrakulayaKarsi.html"
+        },
+        {
+            "title": "Eyvah Eyvah 2",
+            "year": 2011,
+            "genre": "Komedi",
+            "rating": 7.5,
+            "image": "img/Eyyvah_Eyvah_2_film_afişi.jpg",
+            "link": "Filmler/EyvahEyvah2.html"
+        },
+        {
+            "title": "Kolpaçino 4 4'lük",
+            "year": 2023,
+            "genre": "Aksiyon",
+            "rating": 8.2,
+            "image": "img/kolpacino.jpg",
+            "link": "Filmler/kolpacino.html"
+        },
+        {
+            "title": "Parallel",
+            "year": 2023,
+            "genre": "Aksiyon",
+            "rating": 8.2,
+            "image": "img/parallel.webp",
+            "link": "Filmler/parallel.html"
+        },
+        {
+            "title": "out of darkness",
+            "year": 2023,
+            "genre": "Aksiyon",
+            "rating": 8.2,
+            "image": "img/out-of-darkness.webp",
+            "link": "Filmler/outofdarkness.html"
+        },
+        {
+            "title": "Damsel",
+            "year": 2023,
+            "genre": "Aksiyon",
+            "rating": 8.2,
+            "image": "img/damsel.webp",
+            "link": "Filmler/damsel.html"
+        },
+        {
+            "title": "İnterstellar",
+            "year": 2014,
+            "genre": "Bilim Kurgu",
+            "rating": 8.2,
+            "image": "img/yildizlararasi-180x270.jpg",
+            "link": "Filmler/İnterstellar.html"
+        },
+        {
+            "title": "Thanksgiving",
+            "year": 2023,
+            "genre": "Aksiyon",
+            "rating": 8.2,
+            "image": "img/thanksgiving.webp",
+            "link": "Filmler/thanksgiving.html"
+        },
+        {
+            "title": "The Boys İn The Boat",
+            "year": 2023,
+            "genre": "Aksiyon",
+            "rating": 8.2,
+            "image": "img/the-boys-in-the-boat.webp",
+            "link": "Filmler/theboysintheboat.html"
+        },
+        {
+            "title": "They Want Me Gone",
+            "year": 2023,
+            "genre": "Aksiyon",
+            "rating": 8.2,
+            "image": "img/they-want-me-gone.webp",
+            "link": "Filmler/theywantmegone.html"
+        },
+        {
+            "title": "Kuralsız",
+            "year": 2023,
+            "genre": "Aksiyon",
+            "rating": 8.2,
+            "image": "img/kuralsiz-izle-hd.webp",
+            "link": "Filmler/kuralsiz.html"
+        },
+        {
+            "title": "Acid",
+            "year": 2024,
+            "genre": "Aksiyon",
+            "rating": 8.2,
+            "image": "img/acid.webp",
+            "link": "Filmler/acid.html"
+        },
+        {
+            "title": "Godzilla x Kong: The New Empire",
+            "year": 2024,
+            "genre": "Aksiyon",
+            "rating": 8.2,
+            "image": "img/godzilla-x-kong-the-new-empire-2024.jpg",
+            "link": "Filmler/GodzillaxKongTheNewEmpire.html"
+        },
+        {
+            "title": "Ters Yüz 2",
+            "year": 2024,
+            "genre": "Animasyon",
+            "rating": 8.5,
+            "image": "img/tersyüz.jpg",
+            "link": "Filmler/tersyüz2.html"
+        },
+        {
+            "title": "Harry Potter ve Felsefe Taşı",
+            "year": 2024,
+            "genre": "Animasyon",
+            "rating": 8.5,
+            "image": "img/HarryPoter.webp",
+            "link": "Filmler/HarryPotter1.html"
+        },
+        {
+            "title": "Harry Potter ve Sırlar Odası",
+            "year": 2024,
+            "genre": "Animasyon",
+            "rating": 8.5,
+            "image": "img/HarryPotter2.jpg",
+            "link": "Filmler/HarryPotter2.html"
+        },
+        {
+            "title": "Harry Potter ve Azkaban Tutsağı",
+            "year": 2004,
+            "genre": "Animasyon",
+            "rating": 7.9,
+            "image": "img/HarryPotter3.jpg",
+            "link": "Filmler/HarryPotter3.html"
+        },
+        {
+            "title": "Harry Potter ve Ateş Kadehi",
+            "year": 2005,
+            "genre": "Animasyon",
+            "rating": 7.7,
+            "image": "img/HarryPotter4.jpg",
+            "link": "Filmler/HarryPotter4.html"
+        },
+        {
+            "title": "Harry Potter ve Zümrüdüanka Yoldaşlığı",
+            "year": 2007,
+            "genre": "Animasyon",
+            "rating": 7.7,
+            "image": "img/HarryPotter5.jpg",
+            "link": "Filmler/HarryPotter5.html"
+        },
+        {
+            "title": "Harry Potter ve Melez Prens",
+            "year": 2009,
+            "genre": "Animasyon",
+            "rating": 7.6,
+            "image": "img/HarryPotter6.jpg",
+            "link": "Filmler/HarryPotter6.html"
+        },
+        {
+            "title": "Harry Potter ve Ölüm Yadigarları: Bölüm 1",
+            "year": 2010,
+            "genre": "Animasyon",
+            "rating": 7.7,
+            "image": "img/HarryPotter7.jpg",
+            "link": "Filmler/HarryPotter7.html"
+        },
+        {
+            "title": "Harry Potter ve Ölüm Yadigarları: Bölüm 2",
+            "year": 2011,
+            "genre": "Animasyon",
+            "rating": 8.1,
+            "image": "img/HarryPotter8.jpg",
+            "link": "Filmler/HarryPotter8.html"
+        }
+    ]
+}

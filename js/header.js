@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
 
-                  <a class="nav-link active" href="/index.html"><i class="fas fa-home me-1"></i> Anasayfa</a>
+                  <a class="nav-link" href="/index.html"><i class="fas fa-home me-1"></i> Anasayfa</a>
                 </li> 
                 <li class="nav-item">
                   <a class="nav-link" href="/diziler.html"><i class="fas fa-tv me-1"></i> Diziler</a>

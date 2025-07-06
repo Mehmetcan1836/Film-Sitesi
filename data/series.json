@@ -1,0 +1,44 @@
+{
+    "series": [
+        {
+            "title": "Regular Show",
+            "year": 2010,
+            "genre": "Animasyon",
+            "rating": 8.5,
+            "image": "img/regularshows1.jpg",
+            "link": "Diziler/RegularShow/regularshow.html"
+        },
+        {
+            "title": "Ben 10 Classic",
+            "year": 2005,
+            "genre": "Animasyon",
+            "rating": 8.5,
+            "image": "img/869.jpg",
+            "link": "Diziler/Ben10 Classic/ben10.html"
+        },
+        {
+            "title": "Esrarengiz Kasaba",
+            "year": 2012,
+            "genre": "Animasyon",
+            "rating": 8.5,
+            "image": "img/esrarengizkasaba.jpg",
+            "link": "Diziler/Esrarengiz Kasaba/esrarengizkasaba.html"
+        },
+        {
+            "title": "Çarpışma",
+            "year": 2018,
+            "genre": "Aksiyon",
+            "rating": 8.5,
+            "image": "img/Çarpışma.jpg",
+            "link": "Diziler/Çarpışma/Çarpışma.html"
+        },
+        {
+            "title": "Kuzey Güney",
+            "year": 2011,
+            "genre": "Aksiyon",
+            "rating": 8.5,
+            "image": "img/Kuzey Güney.jpg",
+            "link": "Diziler/Kuzey Güney/Kuzey Güney.html"
+        }
+    ]
+}

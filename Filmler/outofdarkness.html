@@ -680,14 +680,132 @@
       <div class="movie-tabs">
         <div class="tab-content">
           <h3>Film Hakkında</h3>
-          <p>Dune Part: Two, 2024 yılında yayınlanan bir bilim kurgu filmidir.</p>
+          <div id="movie-details"></div>
           
           <h3>Benzer Filmler</h3>
-          <div class="similar-movies">
-            <p>Buraya benzer filmler eklenecek</p>
-          </div>
+          <div class="similar-movies" id="similar-movies"></div>
         </div>
       </div>
+
+      <style>
+        .similar-movies {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .similar-movie {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .similar-movie:hover {
+            transform: translateY(-5px);
+        }
+        
+        .similar-movie img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .movie-info {
+            padding: 10px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+        }
+        
+        .movie-info h4 {
+            margin: 0;
+            font-size: 14px;
+        }
+        
+        .movie-meta {
+            display: flex;
+            gap: 10px;
+            font-size: 12px;
+        }
+        
+        .year {
+            background: #ff0000;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        .rating {
+            color: #ffd700;
+        }
+      </style>
+
+      <script>
+        async function loadMovieDetails() {
+            try {
+                const response = await fetch('../data/movies.json');
+                const data = await response.json();
+                const currentMovie = data.content.find(movie => movie.link === 'Filmler/outofdarkness.html');
+
+                if (currentMovie) {
+                    // Display movie details
+                    document.getElementById('movie-details').innerHTML = `
+                        <p>${currentMovie.title}, ${currentMovie.year} yılında yayınlanan bir ${currentMovie.genre.toLowerCase()} filmidir. IMDb puanı: ${currentMovie.rating}</p>
+                    `;
+
+                    // Find similar movies (same genre)
+                    const similarMovies = data.content
+                        .filter(movie => 
+                            movie.genre === currentMovie.genre && 
+                            movie.link !== currentMovie.link
+                        )
+                        .sort((a, b) => b.rating - a.rating)
+                        .slice(0, 6);
+
+                    // If not enough movies found, add movies from other genres
+                    if (similarMovies.length < 6) {
+                        const additionalMovies = data.content
+                            .filter(movie => 
+                                movie.link !== currentMovie.link &&
+                                movie.genre !== currentMovie.genre &&
+                                !similarMovies.some(sm => sm.link === movie.link)
+                            )
+                            .sort((a, b) => b.rating - a.rating)
+                            .slice(0, 6 - similarMovies.length);
+                        
+                        similarMovies.push(...additionalMovies);
+                    }
+
+                    // Display similar movies
+                    const similarMoviesHtml = similarMovies.map(movie => `
+                        <div class="similar-movie">
+                            <a href="../${movie.link}" class="movie-link">
+                                <img src="../${movie.image}" alt="${movie.title}">
+                                <div class="movie-info">
+                                    <h4>${movie.title}</h4>
+                                    <div class="movie-meta">
+                                        <span class="year">${movie.year}</span>
+                                        <span class="genre">${movie.genre}</span>
+                                        <span class="rating">
+                                            <i class="fas fa-star"></i> ${movie.rating}
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    `).join('');
+
+                    document.getElementById('similar-movies').innerHTML = similarMoviesHtml;
+                }
+            } catch (error) {
+                console.error('Error loading movie details:', error);
+            }
+        }
+
+        // Load movie details when the page loads
+        document.addEventListener('DOMContentLoaded', loadMovieDetails);
+      </script>
     </div>
   </section>
 

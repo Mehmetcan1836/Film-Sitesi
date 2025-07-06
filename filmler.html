@@ -23,175 +23,395 @@
 <style>
     /* Global Styles */
     * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-    
-    body {
-        font-family: 'Poppins', sans-serif;
-        background: #141414;
-        color: #fff;
-        line-height: 1.6;
-    }
-    
-    /* Header Styles */
-    .main-header {
-        background: #0f0f0f;
-        padding: 15px 0;
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    }
-    
-    .container {
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 0 15px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 15px;
-    }
-    
-    .logo a {
-        color: #e50914;
-        font-size: 1.8rem;
-        font-weight: 700;
-        text-decoration: none;
-        letter-spacing: -0.5px;
-    }
-    
-    .logo a span {
-        color: #fff;
-    }
-    
-    /* Navigation */
-    .main-nav ul {
-        display: flex;
-        list-style: none;
-        gap: 20px;
-    }
-    
-    .main-nav a {
-        color: #e5e5e5;
-        text-decoration: none;
-        font-size: 0.95rem;
-        font-weight: 500;
-        transition: color 0.2s ease;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
-    
-    .main-nav a:hover,
-    .main-nav a.active {
-        color: #e50914;
-    }
-    
-    .main-nav i {
-        font-size: 1.1rem;
-    }
-    
-    /* Search Box */
-    .search-box {
-        flex: 1;
-        max-width: 400px;
-        position: relative;
-    }
-    
-    .search-box form {
-        display: flex;
-        width: 100%;
-    }
-    
-    .search-input {
-        width: 100%;
-        padding: 10px 15px;
-        border: 1px solid #333;
-        border-radius: 4px;
-        background: #1a1a1a;
-        color: #fff;
-        font-size: 0.9rem;
-        outline: none;
-        transition: all 0.2s ease;
-    }
-    
-    .search-input:focus {
-        border-color: #e50914;
-        box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.2);
-    }
-    
-    .search-btn {
-        background: #e50914;
-        border: none;
-        color: white;
-        padding: 0 15px;
-        border-radius: 0 4px 4px 0;
-        cursor: pointer;
-        transition: background 0.2s ease;
-    }
-    
-    .search-btn:hover {
-        background: #f40612;
-    }
-    
-    /* User Actions */
-    .user-actions {
-        display: flex;
-        gap: 10px;
-    }
-    
-    .btn {
-        padding: 8px 15px;
-        border-radius: 4px;
-        font-size: 0.85rem;
-        font-weight: 500;
-        text-decoration: none;
-        transition: all 0.2s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-    }
-    
-    .btn i {
-        font-size: 0.95em;
-    }
-    
-    .btn-primary {
-        background: #e50914;
-        color: white;
-        border: none;
-    }
-    
-    .btn-primary:hover {
-        background: #f40612;
-        transform: translateY(-2px);
-    }
-    
-    .btn-secondary {
-        background: #2a2a2a;
-        color: #fff;
-        border: 1px solid #444;
-    }
-    
-    .btn-secondary:hover {
-        background: #333;
-        transform: translateY(-2px);
-    }
-    
-    .btn-outline {
-        background: transparent;
-        color: #fff;
-        border: 1px solid #444;
-    }
-    
-    .btn-outline:hover {
-        background: rgba(255, 255, 255, 0.1);
-        transform: translateY(-2px);
-    }
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #141414;
+            color: #fff;
+            line-height: 1.6;
+        }
+        
+        /* Header Styles */
+        .main-header {
+            background: #0f0f0f;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .logo a {
+            color: #e50914;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+        
+        .logo a span {
+            color: #fff;
+        }
+        
+        /* Navigation */
+        .main-nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+        
+        .main-nav a {
+            color: #e5e5e5;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .main-nav a:hover,
+        .main-nav a.active {
+            color: #e50914;
+        }
+        
+        .main-nav i {
+            font-size: 1.1rem;
+        }
+        
+        /* Search Box */
+        .search-box {
+            flex: 1;
+            max-width: 400px;
+            position: relative;
+        }
+        
+        .search-box form {
+            display: flex;
+            width: 100%;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            background: #1a1a1a;
+            color: #fff;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+        
+        .search-input:focus {
+            border-color: #e50914;
+            box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.2);
+        }
+        
+        .search-btn {
+            background: #e50914;
+            border: none;
+            color: white;
+            padding: 0 15px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        
+        .search-btn:hover {
+            background: #f40612;
+        }
+        
+        /* User Actions */
+        .user-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .btn i {
+            font-size: 0.95em;
+        }
+        
+        .btn-primary {
+            background: #e50914;
+            color: white;
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background: #f40612;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #2a2a2a;
+            color: #fff;
+            border: 1px solid #444;
+        }
+        
+        .btn-secondary:hover {
+            background: #333;
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: #fff;
+            border: 1px solid #444;
+        }
+        
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Popular Movies & Series Section */
+        .popular-section {
+            padding: 40px 0;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4a 100%);
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(255, 215, 0, 0.3);
+        }
+
+        .popular-section h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #141414;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .popular-section .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            padding: 0 15px;
+        }
+
+        .popular-section .movie-card {
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            border: 2px solid #ffd700;
+            padding: 20px;
+        }
+
+        .popular-section .movie-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .popular-section .movie-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .popular-section .movie-info {
+            margin-top: 15px;
+        }
+
+        .popular-section .movie-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: #ffd700;
+        }
+
+        .popular-section .movie-info p {
+            color: #fff;
+            opacity: 0.9;
+        }
+
+        /* Filter Sidebar Styles */
+        .filter-sidebar {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            background: #0f0f0f;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-y: auto;
+            padding: 20px;
+            height: 100%;
+        }
+
+        .filter-sidebar h3 {
+            color: #fff;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e50914;
+            padding-bottom: 10px;
+        }
+
+        .filter-group {
+            margin-bottom: 25px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .filter-group h4 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+
+        .form-check {
+            margin-bottom: 10px;
+        }
+
+        .form-check-label {
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        .form-check-input {
+            accent-color: #e50914;
+        }
+
+        .form-range {
+            margin: 10px 0;
+            -webkit-appearance: none;
+            background: rgba(255, 255, 255, 0.1);
+            height: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #e50914;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-range::-webkit-slider-thumb:hover {
+            background: #ff0000;
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 8px 12px;
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #e50914;
+            box-shadow: 0 0 0 0.2rem rgba(229, 9, 20, 0.25);
+            color: #fff;
+        }
+
+        .input-group-text {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .btn {
+            width: 100%;
+            margin: 10px 0;
+            padding: 12px;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: #e50914;
+            border-color: #e50914;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #ff0000;
+            border-color: #ff0000;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline-primary {
+            background-color: transparent;
+            border-color: #e50914;
+            color: #e50914;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: rgba(229, 9, 20, 0.1);
+            color: #fff;
+        }
+
+        .filter-sidebar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .filter-sidebar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
+        .filter-sidebar::-webkit-scrollbar-thumb {
+            background: #e50914;
+            border-radius: 4px;
+        }
+
+        .filter-sidebar::-webkit-scrollbar-thumb:hover {
+            background: #ff0000;
+        }
+
+        /* Adjust main content for filter sidebar */
+        .main-content {
+            position: relative;
+            padding-right: 320px; /* Filter width + padding */
+            min-height: 100vh;
+        }
+
+        /* Mobile styles */
+        @media (max-width: 768px) {
+            .filter-sidebar {
+                display: none;
+            }
+
+            .main-content {
+                padding-right: 0;
+            }
+        }
 </style>
 </head>
 <body>
@@ -199,224 +419,90 @@
 
     <main class="main-content">
         <section class="featured-section">
+            
+
+            <div class="story-modal">
+                <div class="story-content">
+                    <video class="story-video" controls autoplay></video>
+                    <button class="close-story">×</button>
+                </div>
+            </div>
+
             <div class="section-header">
                 <h2><i class="fas fa-fire"></i> Popüler Filmler</h2>
-                <a href="#" class="view-all">Tümünü Gör <i class="fas fa-arrow-right"></i></a>
+                <a href="filmler.html" class="view-all">Tümünü Gör <i class="fas fa-arrow-right"></i></a>
             </div>
             
             <div class="movie-grid">
                 <!-- Movie items will be dynamically loaded here -->
             </div>
+
+            <!-- Filter Sidebar -->
+            <aside class="filter-sidebar">
+                <h3>Filtreleme</h3>
+                
+                <div class="filter-group">
+                    <h4>Kategori</h4>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="action" value="Aksiyon">
+                        <label class="form-check-label" for="action">Aksiyon</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="comedy" value="Komedi">
+                        <label class="form-check-label" for="comedy">Komedi</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="animation" value="Animasyon">
+                        <label class="form-check-label" for="animation">Animasyon</label>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h4>Yıl Aralığı</h4>
+                    <div class="input-group mb-3">
+                        <input type="number" class="form-control" id="yearFrom" placeholder="Başlangıç Yılı">
+                        <span class="input-group-text">-</span>
+                        <input type="number" class="form-control" id="yearTo" placeholder="Bitiş Yılı">
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h4>IMDb Puanı</h4>
+                    <input type="range" class="form-range" min="0" max="10" step="0.1" id="ratingRange">
+                    <div class="rating-display">
+                        <i class="fas fa-star"></i>
+                        <span class="rating-value" id="ratingValue">7.0</span>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary">Filtrele</button>
+                <button class="btn btn-outline-primary">Temizle</button>
+            </aside>
+        </section>
             
-            <div class="navigation">
-                <a href="#"><i class="fas fa-chevron-left"></i> Önceki</a>
-                <a href="#" class="active">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#">Sonraki <i class="fas fa-chevron-right"></i></a>
+
+            <div class="story-modal">
+                <div class="story-content">
+                    <video class="story-video" controls autoplay></video>
+                    <button class="close-story">×</button>
+                </div>
+            </div>
+            <div class="movie-grid">
+                <!-- Movie items will be dynamically loaded here -->
             </div>
         </section>
     </main>
 
     <script>
-        // Sample movie data - In a real app, this would come from an API
-        const movies = [
-            {
-                title: "The Flash",
-                year: 2023,
-                genre: "Aksiyon",
-                rating: 8.2,
-                image: "img/theflash2023.jpg",
-                link: "Filmler/theflash.html"
-            },
-            {
-                title: "Recep İvedik 6",
-                year: 2023,
-                genre: "Komedi",
-                rating: 8.2,
-                image: "img/recepivedik6.jpg",
-                link: "Filmler/recepivedik6.html"
-            },
-            {
-                title: "Batman Draculaya Karsi",
-                year: 2023,
-                genre: "Aksiyon",
-                rating: 8.2,
-                image: "img/batmandraculayakarsi.jpg",
-                link: "Filmler/BatmanDrakulayaKarsi.html"
-            },
-            {
-                title: "Eyvah Eyvah 2",
-                year: 2011,
-                genre: "Komedi",
-                rating: 7.5,
-                image: "img/Eyyvah_Eyvah_2_film_afişi.jpg",
-                link: "Filmler/EyvahEyvah2.html"
-            },
-            {
-                title: "Kolpaçino 4 4'lük",
-                year: 2023,
-                genre: "Aksiyon",
-                rating: 8.2,
-                image: "img/kolpacino.jpg",
-                link: "Filmler/kolpacino.html"
-            },
-            {
-                title: "Parallel",
-                year: 2023,
-                genre: "Aksiyon",
-                rating: 8.2,
-                image: "img/parallel.webp",
-                link: "Filmler/parallel.html"
-            },
-            {
-                title: "out of darkness",
-                year: 2023,
-                genre: "Aksiyon",
-                rating: 8.2,
-                image: "img/out-of-darkness.webp",
-                link: "Filmler/outofdarkness.html"
-            },
-            {
-                title: "Damsel",
-                year: 2023,
-                genre: "Aksiyon",
-                rating: 8.2,
-                image: "img/damsel.webp",
-                link: "Filmler/damsel.html"
-            },
-            {
-                title: "Thanksgiving",
-                year: 2023,
-                genre: "Aksiyon",
-                rating: 8.2,
-                image: "img/thanksgiving.webp",
-                link: "Filmler/thanksgiving.html"
-            },
-            {
-                title: "The Boys İn The Boat",
-                year: 2023,
-                genre: "Aksiyon",
-                rating: 8.2,
-                image: "img/the-boys-in-the-boat.webp",
-                link: "Filmler/theboysintheboat.html"
-            },
-            {
-                title: "They Want Me Gone",
-                year: 2023,
-                genre: "Aksiyon",
-                rating: 8.2,
-                image: "img/they-want-me-gone.webp",
-                link: "Filmler/theywantmegone.html"
-            },
-            {
-                title: "Kuralsız",
-                year: 2023,
-                genre: "Aksiyon",
-                rating: 8.2,
-                image: "img/kuralsiz-izle-hd.webp",
-                link: "Filmler/kuralsiz.html"
-            },
-            {
-                title: "Acid",
-                year: 2024,
-                genre: "Aksiyon",
-                rating: 8.2,
-                image: "img/acid.webp",
-                link: "Filmler/acid.html"
-            },
-            {
-                title: "Godzilla x Kong: The New Empire",
-                year: 2024,
-                genre: "Aksiyon",
-                rating: 8.2,
-                image: "img/godzilla-x-kong-the-new-empire-2024.jpg",
-                link: "Filmler/GodzillaxKongTheNewEmpire.html"
-            },
-            {
-                title: "Ters Yüz 2",
-                year: 2024,
-                genre: "Animasyon",
-                rating: 8.5,
-                image: "img/tersyüz.jpg",
-                link: "Filmler/tersyüz2.html"
-            },
-            {
-                title: "Harry Potter ve Felsefe Taşı",
-                year: 2024,
-                genre: "Animasyon",
-                rating: 8.5,
-                image: "img/HarryPoter.webp",
-                link: "Filmler/HarryPotter1.html"
-            },
-            {
-                title: "Harry Potter ve Sırlar Odası",
-                year: 2024,
-                genre: "Animasyon",
-                rating: 8.5,
-                image: "img/HarryPotter2.jpg",
-                link: "Filmler/HarryPotter2.html"
-            },
-            {
-                title: "Harry Potter ve Azkaban Tutsağı",
-                year: 2004,
-                genre: "Animasyon",
-                rating: 7.9,
-                image: "img/HarryPotter3.jpg",
-                link: "Filmler/HarryPotter3.html"
-            },
-            {
-                title: "Harry Potter ve Ateş Kadehi",
-                year: 2005,
-                genre: "Animasyon",
-                rating: 7.7,
-                image: "img/HarryPotter4.jpg",
-                link: "Filmler/HarryPotter4.html"
-            },
-            {
-                title: "Harry Potter ve Zümrüdüanka Yoldaşlığı",
-                year: 2007,
-                genre: "Animasyon",
-                rating: 7.7,
-                image: "img/HarryPotter5.jpg",
-                link: "Filmler/HarryPotter5.html"
-            },
-            {
-                title: "Harry Potter ve Melez Prens",
-                year: 2009,
-                genre: "Animasyon",
-                rating: 7.6,
-                image: "img/HarryPotter6.jpg",
-                link: "Filmler/HarryPotter6.html"
-            },
-            {
-                title: "Harry Potter ve Ölüm Yadigarları: Bölüm 1",
-                year: 2010,
-                genre: "Animasyon",
-                rating: 7.7,
-                image: "img/HarryPotter7.jpg",
-                link: "Filmler/HarryPotter7.html"
-            },
-            {
-                title: "Harry Potter ve Ölüm Yadigarları: Bölüm 2",
-                year: 2011,
-                genre: "Animasyon",
-                rating: 8.1,
-                image: "img/HarryPotter8.jpg",
-                link: "Filmler/HarryPotter8.html"
-            },
-
-
-            
-            // Add more movies as needed
-        ];
+        // Content data will be loaded from JSON
+        let contentData = [];
 
         // Function to generate movie HTML
         function createMovieElement(movie) {
             return `
                 <div class="box">
                     <a href="${movie.link}">
-                        <img src="${movie.image}" alt="${movie.title}">
+                        <img loading="lazy" src="${movie.image}" alt="${movie.title}">
                         <div class="info-panel">
                             <h3>${movie.title}</h3>
                             <div class="movie-meta">
@@ -435,12 +521,54 @@
             `;
         }
 
-        // Populate movies when the page loads
-        document.addEventListener('DOMContentLoaded', () => {
+        // Function to load content data
+        async function loadContentData() {
+            try {
+                const response = await fetch('data/movies.json');
+                const data = await response.json();
+                contentData = data.content;
+                populateMovies();
+            } catch (error) {
+                console.error('Error loading content data:', error);
+            }
+        }
+
+        // Function to populate the movies grid
+        function populateMovies() {
             const movieGrid = document.querySelector('.movie-grid');
             if (movieGrid) {
-                movieGrid.innerHTML = movies.map(movie => createMovieElement(movie)).join('');
+                movieGrid.innerHTML = contentData.map(movie => createMovieElement(movie)).join('');
             }
+        }
+
+        // Function to filter movies
+        function filterMovies() {
+            const genreFilters = Array.from(document.querySelectorAll('.filter-sidebar input[type="checkbox"]:checked'))
+                .map(checkbox => checkbox.value);
+            
+            const yearFrom = document.getElementById('yearFrom').value || 0;
+            const yearTo = document.getElementById('yearTo').value || 9999;
+            
+            const rating = document.getElementById('ratingRange').value;
+
+            const filteredMovies = contentData.filter(movie => {
+                    const matchesGenre = genreFilters.length === 0 || genreFilters.includes(movie.genre);
+                    const matchesYear = movie.year >= parseInt(yearFrom) && movie.year <= parseInt(yearTo);
+                    const matchesRating = movie.rating >= parseFloat(rating);
+                    
+                    return matchesGenre && matchesYear && matchesRating;
+                });
+
+            const movieGrid = document.querySelector('.movie-grid');
+            if (movieGrid) {
+                movieGrid.innerHTML = filteredMovies.map(movie => createMovieElement(movie)).join('');
+            }
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load content data
+            loadContentData();
 
             // Add click event for favorite buttons
             document.querySelectorAll('.favorite-btn').forEach(btn => {
@@ -451,6 +579,14 @@
                     btn.querySelector('i').classList.toggle('far');
                     btn.querySelector('i').classList.toggle('fas');
                 });
+            });
+
+            // Add filter event listeners
+            document.getElementById('yearFrom').addEventListener('input', filterMovies);
+            document.getElementById('yearTo').addEventListener('input', filterMovies);
+            document.getElementById('ratingRange').addEventListener('input', filterMovies);
+            document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', filterMovies);
             });
         });
     </script>
