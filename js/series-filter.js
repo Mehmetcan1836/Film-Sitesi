@@ -1,47 +1,3 @@
-// Sample series data - In a real app, this would come from an API
-const diziler = [
-    {
-        title: "Regular Show",
-        year: 2010,
-        genre: "Animasyon",
-        rating: 8.5,
-        image: "img/regularshows1.jpg",
-        link: "Diziler/RegularShow/regularshow.html"
-    },
-    {
-        title: "Ben 10 Classic",
-        year: 2005,
-        genre: "Animasyon",
-        rating: 8.5,
-        image: "img/869.jpg",
-        link: "Diziler/Ben10 Classic/ben10.html"
-    },
-    {
-        title: "Esrarengiz Kasaba",
-        year: 2012,
-        genre: "Animasyon",
-        rating: 8.5,
-        image: "img/esrarengizkasaba.jpg",
-        link: "Diziler/Esrarengiz Kasaba/esrarengizkasaba.html"
-    },
-    {
-        title: "Çarpışma",
-        year: 2018,
-        genre: "Aksiyon",
-        rating: 8.5,
-        image: "img/Çarpışma.jpg",
-        link: "Diziler/Çarpışma/Çarpışma.html"
-    },
-    {
-        title: "Kuzey Güney",
-        year: 2011,
-        genre: "Aksiyon",
-        rating: 8.5,
-        image: "img/Kuzey Güney.jpg",
-        link: "Diziler/Kuzey Güney/Kuzey Güney.html"
-    }
-];
-
 // Function to generate series HTML
 function createSeriesElement(serie) {
     return `
@@ -68,66 +24,121 @@ function createSeriesElement(serie) {
 
 // Function to filter series
 function filterSeries() {
-    const genreFilters = Array.from(document.querySelectorAll('.filter-sidebar input[type="checkbox"]:checked'))
-        .map(checkbox => checkbox.value);
-    
-    const yearFrom = document.getElementById('yearFrom').value || 0;
-    const yearTo = document.getElementById('yearTo').value || 9999;
-    
-    const rating = document.getElementById('ratingRange').value;
-
-    // Filter series
-    const filteredSeries = diziler.filter(serie => {
-        const matchesGenre = genreFilters.length === 0 || genreFilters.includes(serie.genre);
-        const matchesYear = serie.year >= parseInt(yearFrom) && serie.year <= parseInt(yearTo);
-        const matchesRating = serie.rating >= parseFloat(rating);
+    try {
+        const genreFilters = Array.from(document.querySelectorAll('.filter-sidebar input[type="checkbox"]:checked'))
+            .map(checkbox => checkbox.value);
         
-        return matchesGenre && matchesYear && matchesRating;
-    });
+        const yearFrom = document.getElementById('yearFrom').value || 0;
+        const yearTo = document.getElementById('yearTo').value || 9999;
+        
+        const rating = document.getElementById('ratingRange').value || 0;
 
-    // Update series grid
-    const seriesGrid = document.querySelector('.movie-grid');
-    seriesGrid.innerHTML = filteredSeries.map(serie => createSeriesElement(serie)).join('');
+        console.log('Filtering with:', { genreFilters, yearFrom, yearTo, rating });
+
+        // Make sure window.seriesData is available
+        const seriesData = window.seriesData || [];
+        console.log('Total series:', seriesData.length);
+
+        // Filter series
+        const filteredSeries = seriesData.filter(serie => {
+            if (!serie) return false;
+            
+            const matchesGenre = genreFilters.length === 0 || genreFilters.includes(serie.genre);
+            const matchesYear = parseInt(serie.year) >= parseInt(yearFrom) && 
+                              parseInt(serie.year) <= parseInt(yearTo);
+            const matchesRating = parseFloat(serie.rating) >= parseFloat(rating);
+            
+            return matchesGenre && matchesYear && matchesRating;
+        });
+
+        console.log('Filtered series count:', filteredSeries.length);
+
+        // Update series grid
+        const seriesGrid = document.querySelector('.movie-grid');
+        if (seriesGrid) {
+            if (filteredSeries.length === 0) {
+                seriesGrid.innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                        <h4>Filtrelere uygun dizi bulunamadı</h4>
+                        <p>Farklı filtreler deneyebilirsiniz.</p>
+                    </div>
+                `;
+            } else {
+                seriesGrid.innerHTML = filteredSeries.map(serie => createSeriesElement(serie)).join('');
+            }
+        }
+    } catch (error) {
+        console.error('Filtreleme sırasında hata oluştu:', error);
+    }
 }
 
 // Initialize filters
 document.addEventListener('DOMContentLoaded', () => {
-    // Populate initial content
-    const seriesGrid = document.querySelector('.movie-grid');
-    if (seriesGrid) {
-        seriesGrid.innerHTML = diziler.map(serie => createSeriesElement(serie)).join('');
-    }
+    // Function to initialize filter events
+    function initializeFilters() {
+        // Update rating display when slider changes
+        const ratingRange = document.getElementById('ratingRange');
+        const ratingValue = document.getElementById('ratingValue');
+        
+        if (ratingRange && ratingValue) {
+            ratingRange.addEventListener('input', function() {
+                ratingValue.textContent = parseFloat(this.value).toFixed(1);
+            });
+        }
 
-    // Add click event for favorite buttons
-    document.querySelectorAll('.favorite-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            btn.classList.toggle('active');
-            btn.querySelector('i').classList.toggle('far');
-            btn.querySelector('i').classList.toggle('fas');
+        // Add filter event listeners to all filter inputs
+        const filterInputs = [
+            document.getElementById('yearFrom'),
+            document.getElementById('yearTo'),
+            document.getElementById('ratingRange'),
+            ...document.querySelectorAll('.filter-sidebar input[type="checkbox"]')
+        ];
+        
+        filterInputs.forEach(input => {
+            if (input) {
+                input.addEventListener('change', filterSeries);
+                input.addEventListener('input', filterSeries);
+            }
         });
-    });
-
-    // Add filter event listeners
-    document.querySelector('.filter-sidebar .btn-primary').addEventListener('click', filterSeries);
-
-    // Reset filters
-    document.querySelector('.filter-sidebar .btn-outline-primary').addEventListener('click', () => {
-        document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(checkbox => {
-            checkbox.checked = false;
-        });
-        document.getElementById('yearFrom').value = '';
-        document.getElementById('yearTo').value = '';
-        document.getElementById('ratingRange').value = '7.0';
+        
+        // Apply filter button
+        const applyBtn = document.querySelector('.filter-sidebar .btn-primary');
+        if (applyBtn) {
+            applyBtn.addEventListener('click', filterSeries);
+        }
+        
+        // Reset filters button
+        const resetBtn = document.querySelector('.filter-sidebar .btn-outline-primary');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                // Reset checkboxes
+                document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+                
+                // Reset year inputs
+                document.getElementById('yearFrom').value = '';
+                document.getElementById('yearTo').value = '';
+                
+                // Reset rating
+                if (ratingRange) {
+                    ratingRange.value = 0;
+                    if (ratingValue) ratingValue.textContent = '0.0';
+                }
+                
+                // Reapply filter
+                filterSeries();
+            });
+        }
+        
+        // Initial filter
         filterSeries();
-    });
-
-    // Update rating display when slider changes
-    const ratingRange = document.getElementById('ratingRange');
-    const ratingValue = document.getElementById('ratingValue');
+    }
     
-    ratingRange.addEventListener('input', function() {
-        ratingValue.textContent = this.value;
-    });
+    // Initialize filters after a short delay to ensure DOM is ready
+    setTimeout(initializeFilters, 100);
+    
+    // Also initialize when the page is fully loaded
+    window.addEventListener('load', initializeFilters);
 });

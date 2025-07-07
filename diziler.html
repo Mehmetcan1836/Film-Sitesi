@@ -14,12 +14,14 @@
     <link rel="preload" as="style" href="css/story-slider.css" onload="this.onload=null;this.rel='stylesheet'">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" media="print" onload="this.media='all'">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+
     <noscript>
         <link rel="stylesheet" href="css/movie-grid.css">
         <link rel="stylesheet" href="css/story-slider.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     </noscript>
+    
     <style>
         /* Global Styles */
         * {
@@ -305,6 +307,7 @@
         .form-range {
             margin: 10px 0;
             -webkit-appearance: none;
+            appearance: none;
             background: rgba(255, 255, 255, 0.1);
             height: 8px;
             border-radius: 4px;
@@ -417,6 +420,23 @@
 <body>
     <main class="main-content">
         <section class="featured-section">
+            
+
+            <div class="story-modal">
+                <div class="story-content">
+                    <video class="story-video" controls autoplay></video>
+                    <button class="close-story">×</button>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2><i class="fas fa-fire"></i> Popüler Filmler</h2>
+                <a href="filmler.html" class="view-all">Tümünü Gör <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            <div class="movie-grid">
+                <!-- Movie items will be dynamically loaded here -->
+            </div>
 
             <!-- Filter Sidebar -->
             <aside class="filter-sidebar">
@@ -427,6 +447,10 @@
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="action" value="Aksiyon">
                         <label class="form-check-label" for="action">Aksiyon</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="comedy" value="Komedi">
+                        <label class="form-check-label" for="comedy">Komedi</label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="animation" value="Animasyon">
@@ -452,124 +476,246 @@
                     </div>
                 </div>
 
-                <button class="btn btn-primary">Filtrele</button>
-                <button class="btn btn-outline-primary">Temizle</button>
+                <button id="applyFilter" class="btn btn-primary">Filtrele</button>
+                <button id="resetFilter" class="btn btn-outline-primary">Temizle</button>
             </aside>
+        </section>
+            
+
+            <div class="story-modal">
+                <div class="story-content">
+                    <video class="story-video" controls autoplay></video>
+                    <button class="close-story">×</button>
+                </div>
+            </div>
+            <div class="movie-grid">
+                <!-- Movie items will be dynamically loaded here -->
+            </div>
         </section>
     </main>
     <script>
-        // Fetch content from JSON
-        let contentData = [];
+        // Content data will be loaded from JSON
+        let seriesData = [];
         
+        // Function to initialize filters
+        function initializeFilters() {
+            // Add filter event listeners
+            const filterInputs = [
+                document.getElementById('yearFrom'),
+                document.getElementById('yearTo'),
+                document.getElementById('ratingRange'),
+                ...document.querySelectorAll('.filter-sidebar input[type="checkbox"]')
+            ];
+            
+            filterInputs.forEach(input => {
+                if (input) {
+                    input.addEventListener('change', filterSeries);
+                    input.addEventListener('input', filterSeries);
+                }
+            });
+            
+            // Apply filter button
+            const applyFilterBtn = document.getElementById('applyFilter');
+            if (applyFilterBtn) {
+                applyFilterBtn.addEventListener('click', filterSeries);
+            }
+            
+            // Reset filter button
+            const resetFilterBtn = document.getElementById('resetFilter');
+            if (resetFilterBtn) {
+                resetFilterBtn.addEventListener('click', () => {
+                    // Reset all filter inputs
+                    document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(checkbox => {
+                        checkbox.checked = false;
+                    });
+                    
+                    document.getElementById('yearFrom').value = '';
+                    document.getElementById('yearTo').value = '';
+                    document.getElementById('ratingRange').value = 0;
+                    document.getElementById('ratingValue').textContent = '0';
+                    
+                    // Reapply filter
+                    filterSeries();
+                });
+            }
+        }
+
+        // Function to generate movie HTML
+        function createMovieElement(series) {
+            return `
+                <div class="box">
+                    <a href="${series.link}">
+                        <img loading="lazy" src="${series.image}" alt="${series.title}">
+                        <div class="info-panel">
+                            <h3>${series.title}</h3>
+                            <div class="movie-meta">
+                                <span class="year">${series.year}</span>
+                                <span class="genre">${series.genre}</span>
+                                <span class="rating">
+                                    <i class="fas fa-star"></i> ${series.rating}
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                    <button class="favorite-btn" aria-label="Favorilere Ekle">
+                        <i class="far fa-heart"></i>
+                    </button>
+                </div>
+            `;
+        }
+
+        // Function to load content data
         async function loadContentData() {
             try {
-                const response = await fetch('data/movies.json');
+                const response = await fetch('data/series.json');
                 const data = await response.json();
-                contentData = data.content;
+                seriesData = data.series || [];
+                console.log('Loaded series data:', seriesData);
                 populateSeries();
+                filterSeries(); // Apply initial filter after loading data
             } catch (error) {
-                console.error('Error loading content data:', error);
+                console.error('Dizi verileri yüklenirken hata oluştu:', error);
+                const movieGrid = document.querySelector('.movie-grid');
+                if (movieGrid) {
+                    movieGrid.innerHTML = `
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <p>Diziler yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.</p>
+                        </div>
+                    `;
+                }
             }
         }
 
-        // Populate series when the page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            loadSeriesData();
-
-            // Add click event for favorite buttons
-            document.querySelectorAll('.favorite-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    btn.classList.toggle('active');
-                    btn.querySelector('i').classList.toggle('far');
-                    btn.querySelector('i').classList.toggle('fas');
-                });
-            });
-        });
-
-        // Function to filter series
-        function filterMovies() {
-            const genreFilters = Array.from(document.querySelectorAll('.filter-sidebar input[type="checkbox"]:checked'))
-                .map(checkbox => checkbox.value);
-            
-            const yearFrom = document.getElementById('yearFrom').value || 0;
-            const yearTo = document.getElementById('yearTo').value || 9999;
-            
-            const rating = document.getElementById('ratingRange').value;
-
-            // Filter series
-            const filteredSeries = contentData
-                .filter(content => content.type === 'dizi')
-                .filter(serie => {
-                const matchesGenre = genreFilters.length === 0 || genreFilters.includes(serie.genre);
-                const matchesYear = serie.year >= parseInt(yearFrom) && serie.year <= parseInt(yearTo);
-                const matchesRating = serie.rating >= parseFloat(rating);
-                
-                return matchesGenre && matchesYear && matchesRating;
-            });
-
-            // Update movie grid
-            const movieGrid = document.querySelector('.movie-grid');
-            if (movieGrid) {
-                movieGrid.innerHTML = filteredSeries.map(serie => createMovieElement(serie)).join('');
-            }
-        }
-
-        // Function to populate series
+        // Function to populate the series grid
         function populateSeries() {
             const movieGrid = document.querySelector('.movie-grid');
             if (movieGrid) {
-                movieGrid.innerHTML = seriesData.map(serie => createMovieElement(serie)).join('');
-            }
-
-            const mainContent = document.querySelector('.main-content');
-            if (mainContent) {
-                mainContent.insertAdjacentHTML('beforeend', seriesSection);
-            }
-
-            // Add click event for favorite buttons
-            document.querySelectorAll('.favorite-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    btn.classList.toggle('active');
-                    btn.querySelector('i').classList.toggle('far');
-                    btn.querySelector('i').classList.toggle('fas');
+                movieGrid.innerHTML = seriesData.map(series => createMovieElement(series)).join('');
+                
+                // Re-attach event listeners to favorite buttons
+                document.querySelectorAll('.favorite-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        btn.classList.toggle('active');
+                        const icon = btn.querySelector('i');
+                        if (icon) {
+                            icon.classList.toggle('far');
+                            icon.classList.toggle('fas');
+                        }
+                    });
                 });
-            });
+            }
+        }
 
-            // Add filter event listeners
-            document.querySelector('.filter-sidebar .btn-primary').addEventListener('click', filterMovies);
-
-            // Reset filters
-            document.querySelector('.filter-sidebar .btn-outline-primary').addEventListener('click', () => {
-                document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(checkbox => {
-                    checkbox.checked = false;
-                });
-                document.getElementById('yearFrom').value = '';
-                document.getElementById('yearTo').value = '';
-                document.getElementById('ratingRange').value = '7.0';
-                filterMovies();
-            });
-
-            // Update rating display when slider changes
-            const ratingRange = document.getElementById('ratingRange');
-            const ratingValue = document.getElementById('ratingValue');
+        // Function to filter series
+        function filterSeries() {
+            if (!seriesData || !Array.isArray(seriesData)) return;
             
-            ratingRange.addEventListener('input', function() {
-                ratingValue.textContent = this.value;
-            });
-        };
+            try {
+                // Get all selected genre filters
+                const genreCheckboxes = document.querySelectorAll('.filter-sidebar input[type="checkbox"]:checked');
+                const genreFilters = Array.from(genreCheckboxes).map(cb => cb.value);
+                
+                // Get year range values
+                const yearFrom = parseInt(document.getElementById('yearFrom').value) || 0;
+                const yearTo = parseInt(document.getElementById('yearTo').value) || 9999;
+                
+                // Get minimum rating
+                const rating = parseFloat(document.getElementById('ratingRange').value) || 0;
+                
+                console.log('Filtering with:', { genreFilters, yearFrom, yearTo, rating });
+                
+                // Filter series based on criteria
+                const filteredSeries = seriesData.filter(series => {
+                    if (!series) return false;
+                    
+                    // Check genre (if any genre filters are selected)
+                    const matchesGenre = genreFilters.length === 0 || genreFilters.includes(series.genre);
+                    
+                    // Check year range
+                    const seriesYear = parseInt(series.year) || 0;
+                    const matchesYear = seriesYear >= yearFrom && seriesYear <= yearTo;
+                    
+                    // Check rating
+                    const seriesRating = parseFloat(series.rating) || 0;
+                    const matchesRating = seriesRating >= rating;
+                    
+                    return matchesGenre && matchesYear && matchesRating;
+                });
+
+                console.log('Filtered series:', filteredSeries);
+                
+                // Update the grid with filtered series
+                const movieGrid = document.querySelector('.movie-grid');
+                if (!movieGrid) return;
+                
+                if (filteredSeries.length === 0) {
+                    movieGrid.innerHTML = `
+                        <div class="col-12 text-center py-5">
+                            <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                            <h4>Filtrelere uygun dizi bulunamadı</h4>
+                            <p>Farklı filtreler deneyebilirsiniz.</p>
+                        </div>
+                    `;
+                } else {
+                    movieGrid.innerHTML = filteredSeries.map(series => createMovieElement(series)).join('');
+                    
+                    // Re-attach event listeners to favorite buttons
+                    document.querySelectorAll('.favorite-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            btn.classList.toggle('active');
+                            const icon = btn.querySelector('i');
+                            if (icon) {
+                                icon.classList.toggle('far');
+                                icon.classList.toggle('fas');
+                            }
+                        });
+                    });
+                }
+            } catch (error) {
+                console.error('Filtreleme sırasında hata oluştu:', error);
+            }
+        }
+        
+        // Handle favorite button click
+        function handleFavoriteClick(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const btn = e.currentTarget;
+            btn.classList.toggle('active');
+            const icon = btn.querySelector('i');
+            if (icon) {
+                icon.classList.toggle('far');
+                icon.classList.toggle('fas');
+            }
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize rating display
+            const ratingRange = document.getElementById('ratingRange');
+            if (ratingRange) {
+                ratingRange.addEventListener('input', function() {
+                    document.getElementById('ratingValue').textContent = this.value;
+                });
+            }
+            
+            // Initialize filters
+            initializeFilters();
+            
+            // Load data
+            loadContentData();
+        });
     </script>
 
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <!-- Diğer JS dosyaları -->
-    <script src="js/story-slider.js"></script>
     <script src="js/header.js"></script>
-    <script src="js/movie-filter.js"></script>
-
 </body>
 </html>
