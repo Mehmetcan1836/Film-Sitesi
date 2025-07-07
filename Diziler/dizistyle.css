@@ -1,0 +1,177 @@
+:root {
+    --primary: #e50914;
+    --dark: #141414;
+    --dark-secondary: #1f1f1f;
+    --light: #ffffff;
+    --gray: #8c8c8c;
+    --card-bg: #181818;
+    --text-primary: #e5e5e5;
+    --text-secondary: #b3b3b3;
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--dark);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+/* Video Player */
+.video-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    margin-bottom: 2rem;
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Episode Info */
+.episode-info {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+.episode-title {
+    color: var(--light);
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.episode-meta {
+    color: var(--gray);
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.episode-description {
+    color: var(--text-primary);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+}
+
+/* Navigation */
+.episode-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.episode-nav a {
+    color: var(--light);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--gray);
+    border-radius: 4px;
+    transition: var(--transition);
+}
+
+.episode-nav a:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+/* Episode List */
+.episode-list {
+    background: var(--card-bg);
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.episode-list h3 {
+    color: var(--light);
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #333;
+}
+
+.episode-item {
+    padding: 1rem;
+    border-bottom: 1px solid #333;
+    transition: var(--transition);
+}
+
+.episode-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.episode-item a {
+    color: var(--text-primary);
+    text-decoration: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.episode-item.active {
+    background: rgba(229, 9, 20, 0.1);
+    border-left: 3px solid var(--primary);
+}
+
+/* Comments */
+.comments {
+    margin-top: 2rem;
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 8px;
+}
+
+.comment-form {
+    margin-bottom: 2rem;
+}
+
+.comment-form input,
+.comment-form textarea {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    background: #2f2f2f;
+    border: 1px solid #444;
+    border-radius: 4px;
+    color: var(--text-primary);
+}
+
+.comment-form button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.5rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.comment-form button:hover {
+    background: #f40612;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    .episode-nav {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}

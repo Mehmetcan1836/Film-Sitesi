@@ -252,189 +252,21 @@
             opacity: 0.9;
         }
 
-        /* Filter Sidebar Styles */
-        .filter-sidebar {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 300px;
-            background: #0f0f0f;
-            border-left: 1px solid rgba(255, 255, 255, 0.1);
-            overflow-y: auto;
-            padding: 20px;
-            height: 100%;
-        }
-
-        .filter-sidebar h3 {
-            color: #fff;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #e50914;
-            padding-bottom: 10px;
-        }
-
-        .filter-group {
-            margin-bottom: 25px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .filter-group h4 {
-            color: #fff;
-            margin-bottom: 15px;
-            font-size: 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 10px;
-        }
-
-        .form-check {
-            margin-bottom: 10px;
-        }
-
-        .form-check-label {
-            color: #fff;
-            font-size: 0.9rem;
-        }
-
-        .form-check-input {
-            accent-color: #e50914;
-        }
-
-        .form-range {
-            margin: 10px 0;
-            -webkit-appearance: none;
-            background: rgba(255, 255, 255, 0.1);
-            height: 8px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .form-range::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            background: #e50914;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .form-range::-webkit-slider-thumb:hover {
-            background: #ff0000;
-        }
-
-        .form-control {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff;
-            padding: 8px 12px;
-        }
-
-        .form-control:focus {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: #e50914;
-            box-shadow: 0 0 0 0.2rem rgba(229, 9, 20, 0.25);
-            color: #fff;
-        }
-
-        .input-group-text {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff;
-        }
-
-        .btn {
-            width: 100%;
-            margin: 10px 0;
-            padding: 12px;
-            border-radius: 4px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary {
-            background-color: #e50914;
-            border-color: #e50914;
-            color: #fff;
-        }
-
-        .btn-primary:hover {
-            background-color: #ff0000;
-            border-color: #ff0000;
-            transform: translateY(-1px);
-        }
-
-        .btn-outline-primary {
-            background-color: transparent;
-            border-color: #e50914;
-            color: #e50914;
-        }
-
-        .btn-outline-primary:hover {
-            background-color: rgba(229, 9, 20, 0.1);
-            color: #fff;
-        }
-
-        .filter-sidebar::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .filter-sidebar::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 4px;
-        }
-
-        .filter-sidebar::-webkit-scrollbar-thumb {
-            background: #e50914;
-            border-radius: 4px;
-        }
-
-        .filter-sidebar::-webkit-scrollbar-thumb:hover {
-            background: #ff0000;
-        }
-
-        /* Adjust main content for filter sidebar */
-        .main-content {
-            position: relative;
-            padding-right: 320px; /* Filter width + padding */
-            min-height: 100vh;
-        }
-
-        /* Mobile styles */
-        @media (max-width: 768px) {
-            .filter-sidebar {
-                display: none;
-            }
-
-            .main-content {
-                padding-right: 0;
-            }
-        }
+        
     </style>
 </head>
 <body>
     <main class="main-content">
+        
         <section class="featured-section">
             <div class="section-header">
                 <h2><i class="fas fa-newspaper"></i> Yeni Dizi&Filmler</h2>
                 
             </div>
-            
-            <div class="story-slider">
-                <div class="story-container">
-                    <!-- Stories will be dynamically loaded here -->
-                </div>
-            </div>
-
-            <div class="story-modal">
-                <div class="story-content">
-                    <video class="story-video" controls autoplay></video>
-                    <button class="close-story">×</button>
-                </div>
-            </div>
-
+            <!-- Story Slider -->
+        <div class="story-container">
+            <!-- Story items will be dynamically added here by JavaScript -->
+        </div>
             <div class="section-header">
                 <h2><i class="fas fa-fire"></i> Popüler Filmler</h2>
                 <a href="filmler.html" class="view-all">Tümünü Gör <i class="fas fa-arrow-right"></i></a>
@@ -445,46 +277,7 @@
             </div>
 
             <!-- Filter Sidebar -->
-            <aside class="filter-sidebar">
-                <h3>Filtreleme</h3>
-                
-                <div class="filter-group">
-                    <h4>Kategori</h4>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="action" value="Aksiyon">
-                        <label class="form-check-label" for="action">Aksiyon</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="comedy" value="Komedi">
-                        <label class="form-check-label" for="comedy">Komedi</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="animation" value="Animasyon">
-                        <label class="form-check-label" for="animation">Animasyon</label>
-                    </div>
-                </div>
-
-                <div class="filter-group">
-                    <h4>Yıl Aralığı</h4>
-                    <div class="input-group mb-3">
-                        <input type="number" class="form-control" id="yearFrom" placeholder="Başlangıç Yılı">
-                        <span class="input-group-text">-</span>
-                        <input type="number" class="form-control" id="yearTo" placeholder="Bitiş Yılı">
-                    </div>
-                </div>
-
-                <div class="filter-group">
-                    <h4>IMDb Puanı</h4>
-                    <input type="range" class="form-range" min="0" max="10" step="0.1" id="ratingRange">
-                    <div class="rating-display">
-                        <i class="fas fa-star"></i>
-                        <span class="rating-value" id="ratingValue">7.0</span>
-                    </div>
-                </div>
-
-                <button class="btn btn-primary">Filtrele</button>
-                <button class="btn btn-outline-primary">Temizle</button>
-            </aside>
+            
         </section>
             
 
@@ -534,32 +327,105 @@
         // Function to load content data
         async function loadContentData() {
             try {
-                const response = await fetch('data/movies.json');
-                const data = await response.json();
-                contentData = data.content;
+                // Load movies and series in parallel
+                const [moviesResponse, seriesResponse] = await Promise.all([
+                    fetch('data/movies.json'),
+                    fetch('data/series.json')
+                ]);
+                
+                const moviesData = await moviesResponse.json();
+                const seriesData = await seriesResponse.json();
+                
+                // Combine both data sources
+                const allMovies = moviesData.content || moviesData.movies || [];
+                const allSeries = seriesData.series || [];
+                
+                // Get top 5 popular movies (sorted by rating)
+                const popularMovies = [...allMovies]
+                    .filter(content => content.type === 'film' || !content.type)
+                    .sort((a, b) => (b.rating || 0) - (a.rating || 0))
+                    .slice(0, 5);
+                
+                // Get top 5 popular series (from both sources)
+                const allSeriesCombined = [
+                    ...allMovies.filter(item => item.type === 'dizi' || item.type === 'Dizi'),
+                    ...allSeries
+                ];
+                
+                // Store all series in contentData for the series section
+                contentData = allSeriesCombined;
+                
+                // Display popular movies
+                const movieGrid = document.querySelector('.movie-grid');
+                if (movieGrid) {
+                    movieGrid.innerHTML = popularMovies
+                        .map(movie => createMovieElement(movie))
+                        .join('');
+                }
+                
+                // Create series section with top 5 popular series
                 createSeriesSection();
+                
+                // Initialize favorite buttons
+                document.querySelectorAll('.favorite-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        btn.classList.toggle('active');
+                        const icon = btn.querySelector('i');
+                        if (icon) {
+                            icon.classList.toggle('far');
+                            icon.classList.toggle('fas');
+                        }
+                    });
+                });
+                
             } catch (error) {
                 console.error('Error loading content data:', error);
+                const movieGrid = document.querySelector('.movie-grid');
+                if (movieGrid) {
+                    movieGrid.innerHTML = `
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <p>İçerik yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.</p>
+                        </div>
+                    `;
+                }
             }
         }
 
         // Function to create series section
         function createSeriesSection() {
+            // Remove existing series section if it exists
+            const existingSection = document.querySelector('.series-section');
+            if (existingSection) {
+                existingSection.remove();
+            }
+
+            // Get top 5 popular series (sorted by rating)
+            const popularSeries = [...contentData]
+                .sort((a, b) => (b.rating || 0) - (a.rating || 0))
+                .slice(0, 5);
+                
+            if (popularSeries.length === 0) return;
+
             const seriesSection = `
-                <section class="featured-section">
+                <section class="featured-section series-section">
                     <div class="section-header">
                         <h2><i class="fas fa-tv"></i> Popüler Diziler</h2>
                         <a href="diziler.html" class="view-all">Tümünü Gör <i class="fas fa-arrow-right"></i></a>
                     </div>
                     <div class="movie-grid">
-                        ${contentData.filter(content => content.type === 'dizi').map(content => createMovieElement(content)).join('')}
+                        ${popularSeries.map(content => createMovieElement(content)).join('')}
                     </div>
                     <div class="navigation">
-                        <a href="#"><i class="fas fa-chevron-left"></i> Önceki</a>
-                        <a href="#" class="active">1</a>
-                        <a href="#">2</a>
-                        <a href="#">3</a>
-                        <a href="#">Sonraki <i class="fas fa-chevron-right"></i></a>
+                        <a href="#" class="nav-arrow"><i class="fas fa-chevron-left"></i> Önceki</a>
+                        <div class="pagination">
+                            <a href="#" class="active">1</a>
+                            <a href="#">2</a>
+                            <a href="#">3</a>
+                        </div>
+                        <a href="#" class="nav-arrow">Sonraki <i class="fas fa-chevron-right"></i></a>
                     </div>
                 </section>
             `;
@@ -611,31 +477,14 @@
 
         // Initialize page
         document.addEventListener('DOMContentLoaded', () => {
-            // Load series data
-            loadSeriesData();
+            // Load content data (including movies and series)
+            loadContentData();
 
-            // Populate initial movies
-            const movieGrid = document.querySelector('.movie-grid');
-            if (movieGrid) {
-                movieGrid.innerHTML = contentData
-                    .filter(content => content.type === 'film')
-                    .map(content => createMovieElement(content))
-                    .join('');
+            // Add filter event listeners if filter sidebar exists
+            const filterButton = document.querySelector('.filter-sidebar .btn-primary');
+            if (filterButton) {
+                filterButton.addEventListener('click', filterMovies);
             }
-
-            // Add click event for favorite buttons
-            document.querySelectorAll('.favorite-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    btn.classList.toggle('active');
-                    btn.querySelector('i').classList.toggle('far');
-                    btn.querySelector('i').classList.toggle('fas');
-                });
-            });
-
-            // Add filter event listeners
-            document.querySelector('.filter-sidebar .btn-primary').addEventListener('click', filterMovies);
 
             // Reset filters
             document.querySelector('.filter-sidebar .btn-outline-primary').addEventListener('click', () => {
@@ -664,7 +513,5 @@
     <!-- Diğer JS dosyaları -->
     <script src="js/story-slider.js"></script>
     <script src="js/header.js"></script>
-    <script src="js/movie-filter.js"></script>
-
 </body>
 </html>
