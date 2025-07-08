@@ -1,30 +1,53 @@
 {
   "series": [
     {
-      "id": 1,
-      "title": "Breaking Bad",
-      "year": 2008,
-      "genre": "Dram",
-      "rating": 9.5,
-      "image": "img/series/breakingbad.jpg",
+      "title": "Ben 10 Classic",
+      "year": 2005,
+      "genre": ["Animasyon", "Aksiyon", "Macera"],
+      "rating": 8.1,
+      "image": "img/869.jpg",
+      "link": "Diziler/Ben10 Classic/ben10.html",
+      "director": "Duncan Rouleau",
       "type": "dizi"
     },
     {
-      "id": 2,
-      "title": "Game of Thrones",
+      "title": "Kuzey Güney",
       "year": 2011,
-      "genre": "Fantastik",
-      "rating": 9.3,
-      "image": "img/series/got.jpg",
+      "genre": ["Dram"],
+      "rating": 7.7,
+      "image": "img/Kuzey Güney.jpg",
+      "link": "Diziler/Kuzey Güney/Kuzey Güney.html",
+      "director": "Mehmet Ada Öztekin",
       "type": "dizi"
     },
     {
-      "id": 3,
-      "title": "Stranger Things",
-      "year": 2016,
-      "genre": "Bilim Kurgu",
-      "rating": 8.7,
-      "image": "img/series/strangerthings.jpg",
+      "title": "Esrarengiz Kasaba",
+      "year": 2012,
+      "genre": ["Animasyon", "Gizem", "Komedi"],
+      "rating": 8.9,
+      "image": "img/esrarengizkasaba.jpg",
+      "link": "Diziler/Esrarengiz Kasaba/EsrarengizKasaba.html",
+      "director": "Alex Hirsch",
+      "type": "dizi"
+    },
+    {
+      "title": "Regular Show",
+      "year": 2010,
+      "genre": ["Animasyon", "Komedi", "Macera"],
+      "rating": 8.5,
+      "image": "img/regularshows1.jpg",
+      "link": "Diziler/RegularShow/regularshow.html",
+      "director": "J.G. Quintel",
+      "type": "dizi"
+    },
+    {
+      "title": "Çarpışma",
+      "year": 2018,
+      "genre": ["Dram", "Aksiyon"],
+      "rating": 7.2,
+      "image": "img/Çarpışma.jpg",
+      "link": "Diziler/Çarpışma/Çarpışma.html",
+      "director": "Uluç Bayraktar",
       "type": "dizi"
     }
   ]

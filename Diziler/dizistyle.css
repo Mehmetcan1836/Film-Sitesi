@@ -49,6 +49,7 @@ body {
     padding: 2rem;
     border-radius: 8px;
     margin-bottom: 2rem;
+    float: left;
 }
 
 .episode-title {
@@ -174,4 +175,23 @@ body {
         flex-direction: column;
         gap: 1rem;
     }
+}
+/* Sidebar */
+.sidebar {
+    flex: 0 0 200px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: var(--transition);
+}
+.sidebar img {
+    width: 15%;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.sidebar img:hover {
+    transform: scale(1.02);
 }

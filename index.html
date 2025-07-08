@@ -8,117 +8,318 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
-    <script src="/js/header.js"></script>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preload" as="style" href="css/movie-grid.css" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" as="style" href="css/story-slider.css" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" media="print" onload="this.media='all'">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="css/movie-grid.css">
+        <link rel="stylesheet" href="css/story-slider.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    </noscript>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #141414;
+            color: #fff;
+            line-height: 1.6;
+        }
+        
+        /* Header Styles */
+        .main-header {
+            background: #0f0f0f;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .logo a {
+            color: #e50914;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+        
+        .logo a span {
+            color: #fff;
+        }
+        
+        /* Navigation */
+        .main-nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+        
+        .main-nav a {
+            color: #e5e5e5;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .main-nav a:hover,
+        .main-nav a.active {
+            color: #e50914;
+        }
+        
+        .main-nav i {
+            font-size: 1.1rem;
+        }
+        
+        /* Search Box */
+        .search-box {
+            flex: 1;
+            max-width: 400px;
+            position: relative;
+        }
+        
+        .search-box form {
+            display: flex;
+            width: 100%;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            background: #1a1a1a;
+            color: #fff;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+        
+        .search-input:focus {
+            border-color: #e50914;
+            box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.2);
+        }
+        
+        .search-btn {
+            background: #e50914;
+            border: none;
+            color: white;
+            padding: 0 15px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        
+        .search-btn:hover {
+            background: #f40612;
+        }
+        
+        /* User Actions */
+        .user-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .btn i {
+            font-size: 0.95em;
+        }
+        
+        .btn-primary {
+            background: #e50914;
+            color: white;
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background: #f40612;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #2a2a2a;
+            color: #fff;
+            border: 1px solid #444;
+        }
+        
+        .btn-secondary:hover {
+            background: #333;
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: #fff;
+            border: 1px solid #444;
+        }
+        
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
 
+        /* Popular Movies & Series Section */
+        .popular-section {
+            padding: 40px 0;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4a 100%);
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(255, 215, 0, 0.3);
+        }
+
+        .popular-section h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #141414;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .popular-section .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            padding: 0 15px;
+        }
+
+        .popular-section .movie-card {
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            border: 2px solid #ffd700;
+            padding: 20px;
+        }
+
+        .popular-section .movie-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .popular-section .movie-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .popular-section .movie-info {
+            margin-top: 15px;
+        }
+
+        .popular-section .movie-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: #ffd700;
+        }
+
+        .popular-section .movie-info p {
+            color: #fff;
+            opacity: 0.9;
+        }
+
+        
+    </style>
 </head>
 <body>
-    <div id="header-placeholder"></div>
-    
     <main class="main-content">
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-content">
-                <h1>En İyi Film ve Diziler Burada</h1>
-                <p>Binlerce film ve dizi arasından seçimini yap, istediğin zaman izle. Yüksek kaliteli içerikler sadece bir tık uzağında.</p>
-                <div class="hero-buttons">
-                    <a href="#trending" class="btn btn-primary"><i class="fas fa-play"></i> Hemen İzle</a>
-                    <a href="#trending" class="btn btn-outline"><i class="fas fa-info-circle"></i> Daha Fazla Bilgi</a>
+        
+        <section class="featured-section">
+            <div class="section-header">
+                <h2><i class="fas fa-newspaper"></i> Yeni Dizi&Filmler</h2>
+                
+            </div>
+            <!-- Story Slider -->
+        <div class="story-container">
+            <!-- Story items will be dynamically added here by JavaScript -->
+        </div>
+            <div class="section-header">
+                <h2><i class="fas fa-fire"></i> Popüler Filmler</h2>
+                <a href="filmler.html" class="view-all">Tümünü Gör <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            <div class="movie-grid">
+                <!-- Movie items will be dynamically loaded here -->
+            </div>
+
+            <!-- Filter Sidebar -->
+            
+        </section>
+            
+
+            <div class="story-modal">
+                <div class="story-content">
+                    <video class="story-video" controls autoplay></video>
+                    <button class="close-story">×</button>
                 </div>
             </div>
+            <div class="movie-grid">
+                <!-- Movie items will be dynamically loaded here -->
+            </div>
         </section>
-
-        <div class="container">
-            <!-- Trending Now Section -->
-            <section class="trending-section" id="trending">
-                <div class="section-header">
-                    <h2><i class="fas fa-fire"></i> Trendler</h2>
-                    <a href="#" class="view-all">Tümünü Gör <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="movie-grid" id="trending-container">
-                    <!-- Trending content will be loaded here -->
-                </div>
-            </section>
-            
-            <!-- Popular Movies Section -->
-            <section class="featured-section">
-                <div class="section-header">
-                    <h2><i class="fas fa-film"></i> Popüler Filmler</h2>
-                    <a href="filmler.html" class="view-all">Tümünü Gör <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="movie-grid" id="movies-container">
-                    <!-- Movies will be loaded here -->
-                </div>
-            </section>
-            
-            <!-- Popular Series Section -->
-            <section class="featured-section series-section">
-                <div class="section-header">
-                    <h2><i class="fas fa-tv"></i> Popüler Diziler</h2>
-                    <a href="diziler.html" class="view-all">Tümünü Gör <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="movie-grid" id="series-container">
-                    <!-- Series will be loaded here -->
-                </div>
-            </section>
-        </div>
     </main>
 
-    <footer class="footer mt-5 py-4 bg-dark text-white">
-        <div class="container text-center">
-            <p class="mb-0">© 2023 Film Sitesi. Tüm hakları saklıdır.</p>
-        </div>
-    </footer>
+    <!-- Popular Movies & Series Section -->
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <script>
-        // Sample data in case JSON files fail to load
-        const sampleMovies = [];
-        const sampleSeries = [];
+        // Content data will be loaded from JSON
+        let contentData = [];
 
-        // Function to create movie/series card HTML
-        function createMovieElement(movie, isTrending = false) {
-            if (!movie) return '';
-            
-            const isSeries = movie.type && (movie.type.toLowerCase() === 'dizi' || movie.type.toLowerCase() === 'series');
-            const detailUrl = isSeries ? `diziler/ben10-classic/ben10.html` : `film-detay.html?id=${movie.id || ''}`;
-            const imageUrl = movie.image && movie.image.trim() !== '' ? movie.image : 'img/placeholder.jpg';
-            const year = movie.year || 'Bilinmiyor';
-            const rating = movie.rating ? movie.rating.toFixed(1) : 'N/A';
-            const genre = movie.genre ? movie.genre.split(',')[0].trim() : 'Belirtilmemiş';
-            
-            // Add trending badge if it's in trending section
-            const trendingBadge = isTrending ? `
-                <div class="trending-badge">
-                    <i class="fas fa-fire"></i> Trend
-                </div>` : '';
-            
+        // Function to generate movie HTML
+        function createMovieElement(movie) {
             return `
-                <div class="movie-card" data-id="${movie.id || ''}">
-                    ${trendingBadge}
-                    <div class="movie-poster">
-                        <img src="${imageUrl}" alt="${movie.title || 'İçerik'}" onerror="this.onerror=null; this.src='img/placeholder.jpg';">
-                        <div class="movie-overlay">
-                            <a href="${detailUrl}" class="play-btn" title="İzle"><i class="fas fa-play"></i></a>
-                            <button class="favorite-btn" title="Favorilere Ekle"><i class="far fa-heart"></i></button>
-                            <a href="${detailUrl}" class="btn btn-outline btn-sm mt-3">Detaylar</a>
+                <div class="box">
+                    <a href="${movie.link}">
+                        <img loading="lazy" src="${movie.image}" alt="${movie.title}">
+                        <div class="info-panel">
+                            <h3>${movie.title}</h3>
+                            <div class="movie-meta">
+                                <span class="year">${movie.year}</span>
+                                <span class="genre">${movie.genre}</span>
+                                <span class="rating">
+                                    <i class="fas fa-star"></i> ${movie.rating}
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="movie-info">
-                        <h3>${movie.title || 'İsimsiz İçerik'}</h3>
-                        <div class="movie-meta">
-                            <span>${year}</span>
-                            <span>•</span>
-                            <span>${genre}</span>
-                            <span class="rating">
-                                <i class="fas fa-star"></i> ${rating}
-                            </span>
-                        </div>
-                    </div>
+                    </a>
+                    <button class="favorite-btn" aria-label="Favorilere Ekle">
+                        <i class="far fa-heart"></i>
+                    </button>
                 </div>
             `;
         }
@@ -126,110 +327,191 @@
         // Function to load content data
         async function loadContentData() {
             try {
-                // Try to load from JSON files
+                // Load movies and series in parallel
                 const [moviesResponse, seriesResponse] = await Promise.all([
-                    fetch('data/movies.json').catch(() => ({ json: () => ({ content: sampleMovies }) })),
-                    fetch('data/series.json').catch(() => ({ json: () => ({ series: sampleSeries }) }))
+                    fetch('data/movies.json'),
+                    fetch('data/series.json')
                 ]);
                 
                 const moviesData = await moviesResponse.json();
                 const seriesData = await seriesResponse.json();
                 
-                // Get movies and series
-                const movies = moviesData.content || moviesData.movies || [];
-                const series = seriesData.series || [];
+                // Combine both data sources
+                const allMovies = moviesData.content || moviesData.movies || [];
+                const allSeries = seriesData.series || [];
                 
-                // Combine and shuffle for trending
-                const allContent = [...movies, ...series];
-                const trending = [...allContent].sort(() => 0.5 - Math.random()).slice(0, 6);
+                // Get top 5 popular movies (sorted by rating)
+                const popularMovies = [...allMovies]
+                    .filter(content => content.type === 'film' || !content.type)
+                    .sort((a, b) => (b.rating || 0) - (a.rating || 0))
+                    .slice(0, 5);
                 
-                // Display trending
-                const trendingContainer = document.getElementById('trending-container');
-                if (trendingContainer) {
-                    trendingContainer.innerHTML = trending
-                        .slice(0, 6)
-                        .map(item => createMovieElement(item, true))
-                        .join('') || '<div class="error-message"><i class="fas fa-exclamation-circle"></i> İçerik bulunamadı</div>';
-                }
+                // Get top 5 popular series (from both sources)
+                const allSeriesCombined = [
+                    ...allMovies.filter(item => item.type === 'dizi' || item.type === 'Dizi'),
+                    ...allSeries
+                ];
                 
-                // Display movies
-                const moviesContainer = document.getElementById('movies-container');
-                if (moviesContainer) {
-                    moviesContainer.innerHTML = movies
-                        .filter(movie => !movie.type || movie.type.toLowerCase() === 'film')
-                        .slice(0, 8)
+                // Store all series in contentData for the series section
+                contentData = allSeriesCombined;
+                
+                // Display popular movies
+                const movieGrid = document.querySelector('.movie-grid');
+                if (movieGrid) {
+                    movieGrid.innerHTML = popularMovies
                         .map(movie => createMovieElement(movie))
-                        .join('') || '<div class="error-message"><i class="fas fa-exclamation-circle"></i> Film bulunamadı</div>';
+                        .join('');
                 }
                 
-                // Display series
-                const seriesContainer = document.getElementById('series-container');
-                if (seriesContainer) {
-                    seriesContainer.innerHTML = series
-                        .filter(series => series.type && (series.type.toLowerCase() === 'dizi' || series.type.toLowerCase() === 'series'))
-                        .slice(0, 8)
-                        .map(series => createMovieElement(series))
-                        .join('') || '<div class="error-message"><i class="fas fa-exclamation-circle"></i> Dizi bulunamadı</div>';
-                }
+                // Create series section with top 5 popular series
+                createSeriesSection();
                 
                 // Initialize favorite buttons
-                initializeFavoriteButtons();
+                document.querySelectorAll('.favorite-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        btn.classList.toggle('active');
+                        const icon = btn.querySelector('i');
+                        if (icon) {
+                            icon.classList.toggle('far');
+                            icon.classList.toggle('fas');
+                        }
+                    });
+                });
                 
             } catch (error) {
                 console.error('Error loading content data:', error);
-                showError('İçerik yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
+                const movieGrid = document.querySelector('.movie-grid');
+                if (movieGrid) {
+                    movieGrid.innerHTML = `
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <p>İçerik yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.</p>
+                        </div>
+                    `;
+                }
             }
         }
-        
-        // Initialize favorite buttons
-        function initializeFavoriteButtons() {
-            document.querySelectorAll('.favorite-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    this.classList.toggle('active');
-                    const icon = this.querySelector('i');
-                    if (icon) {
-                        icon.classList.toggle('far');
-                        icon.classList.toggle('fas');
-                    }
-                });
-            });
-        }
-        
-        // Show error message
-        function showError(message) {
-            const moviesContainer = document.getElementById('movies-container');
-            if (moviesContainer) {
-                moviesContainer.innerHTML = `
-                    <div class="error-message">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <p>${message}</p>
+
+        // Function to create series section
+        function createSeriesSection() {
+            // Remove existing series section if it exists
+            const existingSection = document.querySelector('.series-section');
+            if (existingSection) {
+                existingSection.remove();
+            }
+
+            // Get top 5 popular series (sorted by rating)
+            const popularSeries = [...contentData]
+                .sort((a, b) => (b.rating || 0) - (a.rating || 0))
+                .slice(0, 5);
+                
+            if (popularSeries.length === 0) return;
+
+            const seriesSection = `
+                <section class="featured-section series-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-tv"></i> Popüler Diziler</h2>
+                        <a href="diziler.html" class="view-all">Tümünü Gör <i class="fas fa-arrow-right"></i></a>
                     </div>
-                `;
+                    <div class="movie-grid">
+                        ${popularSeries.map(content => createMovieElement(content)).join('')}
+                    </div>
+                    <div class="navigation">
+                        <a href="#" class="nav-arrow"><i class="fas fa-chevron-left"></i> Önceki</a>
+                        <div class="pagination">
+                            <a href="#" class="active">1</a>
+                            <a href="#">2</a>
+                            <a href="#">3</a>
+                        </div>
+                        <a href="#" class="nav-arrow">Sonraki <i class="fas fa-chevron-right"></i></a>
+                    </div>
+                </section>
+            `;
+
+            const mainContent = document.querySelector('.main-content');
+            if (mainContent) {
+                mainContent.insertAdjacentHTML('beforeend', seriesSection);
             }
         }
-        
-        // Load header
-        function loadHeader() {
-            const headerPlaceholder = document.getElementById('header-placeholder');
-            if (headerPlaceholder) {
-                fetch('header.html')
-                    .then(response => response.text())
-                    .then(html => {
-                        headerPlaceholder.innerHTML = html;
-                    })
-                    .catch(error => {
-                        console.error('Error loading header:', error);
-                    });
+
+        // Function to filter content
+        function filterMovies() {
+            const genreFilters = Array.from(document.querySelectorAll('.filter-sidebar input[type="checkbox"]:checked'))
+                .map(checkbox => checkbox.value);
+            
+            const yearFrom = document.getElementById('yearFrom').value || 0;
+            const yearTo = document.getElementById('yearTo').value || 9999;
+            
+            const rating = document.getElementById('ratingRange').value;
+
+            // Filter content
+            const filteredContent = contentData.filter(content => {
+                const matchesGenre = genreFilters.length === 0 || genreFilters.includes(content.genre);
+                const matchesYear = content.year >= parseInt(yearFrom) && content.year <= parseInt(yearTo);
+                const matchesRating = content.rating >= parseFloat(rating);
+                
+                return matchesGenre && matchesYear && matchesRating;
+            });
+
+            // Update movie grid
+            const movieGrid = document.querySelector('.movie-grid');
+            movieGrid.innerHTML = filteredContent
+                .filter(content => content.type === 'film')
+                .map(content => createMovieElement(content))
+                .join('');
+
+            // Update series section
+            const seriesSection = document.querySelector('.featured-section:last-child');
+            if (seriesSection) {
+                const seriesGrid = seriesSection.querySelector('.movie-grid');
+                if (seriesGrid) {
+                    seriesGrid.innerHTML = filteredContent
+                        .filter(content => content.type === 'dizi')
+                        .map(content => createMovieElement(content))
+                        .join('');
+                }
             }
         }
-        
-        // Initialize when DOM is loaded
+
+        // Initialize page
         document.addEventListener('DOMContentLoaded', () => {
-            loadHeader();
+            // Load content data (including movies and series)
             loadContentData();
+
+            // Add filter event listeners if filter sidebar exists
+            const filterButton = document.querySelector('.filter-sidebar .btn-primary');
+            if (filterButton) {
+                filterButton.addEventListener('click', filterMovies);
+            }
+
+            // Reset filters
+            document.querySelector('.filter-sidebar .btn-outline-primary').addEventListener('click', () => {
+                document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+                document.getElementById('yearFrom').value = '';
+                document.getElementById('yearTo').value = '';
+                document.getElementById('ratingRange').value = '7.0';
+                filterMovies();
+            });
+
+            // Update rating display when slider changes
+            const ratingRange = document.getElementById('ratingRange');
+            const ratingValue = document.getElementById('ratingValue');
+            
+            ratingRange.addEventListener('input', function() {
+                ratingValue.textContent = this.value;
+            });
         });
     </script>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Diğer JS dosyaları -->
+    <script src="js/story-slider.js"></script>
+    <script src="js/header.js"></script>
 </body>
 </html>
