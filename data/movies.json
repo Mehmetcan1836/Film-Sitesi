@@ -1,0 +1,31 @@
+{
+  "content": [
+    {
+      "id": 1,
+      "title": "Inception",
+      "year": 2010,
+      "genre": "Bilim Kurgu",
+      "rating": 8.8,
+      "image": "img/movies/inception.jpg",
+      "type": "film"
+    },
+    {
+      "id": 2,
+      "title": "The Shawshank Redemption",
+      "year": 1994,
+      "genre": "Dram",
+      "rating": 9.3,
+      "image": "img/movies/shawshank.jpg",
+      "type": "film"
+    },
+    {
+      "id": 3,
+      "title": "The Dark Knight",
+      "year": 2008,
+      "genre": "Aksiyon",
+      "rating": 9.0,
+      "image": "img/movies/darkknight.jpg",
+      "type": "film"
+    }
+  ]
+}

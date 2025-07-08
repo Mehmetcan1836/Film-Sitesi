@@ -1,0 +1,31 @@
+{
+  "series": [
+    {
+      "id": 1,
+      "title": "Breaking Bad",
+      "year": 2008,
+      "genre": "Dram",
+      "rating": 9.5,
+      "image": "img/series/breakingbad.jpg",
+      "type": "dizi"
+    },
+    {
+      "id": 2,
+      "title": "Game of Thrones",
+      "year": 2011,
+      "genre": "Fantastik",
+      "rating": 9.3,
+      "image": "img/series/got.jpg",
+      "type": "dizi"
+    },
+    {
+      "id": 3,
+      "title": "Stranger Things",
+      "year": 2016,
+      "genre": "Bilim Kurgu",
+      "rating": 8.7,
+      "image": "img/series/strangerthings.jpg",
+      "type": "dizi"
+    }
+  ]
+}

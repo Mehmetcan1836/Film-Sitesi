@@ -3,50 +3,456 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Film Sitesi - En Yeni Filmler ve Diziler</title>
+    <title>Film Sitesi - Tüm Filmler</title>
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preload" as="style" href="css/movie-grid.css" onload="this.onload=null;this.rel='stylesheet'">
-<link rel="preload" as="style" href="css/story-slider.css" onload="this.onload=null;this.rel='stylesheet'">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" media="print" onload="this.media='all'">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-<noscript>
-    <link rel="stylesheet" href="css/movie-grid.css">
-    <link rel="stylesheet" href="css/story-slider.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-</noscript>
-<script src="js/header.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/header.js"></script>
 <style>
-    /* Global Styles */
-    * {
+    /* Page Specific Styles */
+    /* Page Specific Styles */
+    :root {
+        --primary: #e50914;
+        --primary-dark: #b20710;
+        --dark: #141414;
+        --dark-light: #222;
+        --light: #ffffff;
+        --gray: #999;
+        --transition: all 0.3s ease;
+    }
+    
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #0f0f0f;
+        color: var(--light);
+        line-height: 1.6;
+    }
+    
+    .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 15px;
+    }
+    
+    
+    /* Header Styles */
+    header {
+        background-color: rgba(0, 0, 0, 0.9);
+        padding: 15px 0;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+    
+    /* Main Content */
+    .main-content {
+        padding: 40px 0;
+    }
+    
+    /* Filter Section */
+    .filter-section {
+        background: #1a1a1a;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .filter-group {
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #333;
+    }
+    
+    .filter-group:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+    
+    .filter-group h4 {
+        color: #fff;
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .filter-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .filter-btn {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #e5e5e5;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: var(--transition);
+        font-weight: 500;
+    }
+    
+    .filter-btn:hover {
+        background: rgba(255, 255, 255, 0.15);
+        transform: translateY(-2px);
+    }
+    
+    .filter-btn.active {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: #fff;
+        font-weight: 600;
+    }
+    
+    /* Search Box */
+    .search-box {
+        position: relative;
+        margin-bottom: 25px;
+    }
+    
+    .search-box input {
+        width: 100%;
+        padding: 12px 20px 12px 45px;
+        border-radius: 30px;
+        border: 1px solid #333;
+        background: rgba(30, 30, 30, 0.8);
+        color: var(--light);
+        font-size: 0.95rem;
+        transition: var(--transition);
+    }
+    
+    .search-box input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.3);
+    }
+    
+    .search-box i {
+        position: absolute;
+        left: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #777;
+        font-size: 1.1rem;
+    }
+    
+    /* Movies Grid */
+    .movies-container {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        gap: 30px;
+    }
+    
+    .movies-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 25px;
+    }
+    
+    .movie-card {
+        background: #1a1a1a;
+        border-radius: 10px;
+        overflow: hidden;
+        transition: var(--transition);
+        position: relative;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .movie-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+    
+    .movie-poster {
+        position: relative;
+        padding-top: 150%;
+        overflow: hidden;
+    }
+    
+    .movie-poster img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: var(--transition);
+    }
+    
+    .movie-card:hover .movie-poster img {
+        transform: scale(1.05);
+    }
+    
+    .movie-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+        opacity: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+    }
+    
+    .movie-card:hover .movie-overlay {
+        opacity: 1;
+    }
+    
+    .play-btn {
+        color: #fff;
+        font-size: 2.5rem;
+        margin: 0 10px;
+        transition: var(--transition);
+    }
+    
+    .play-btn:hover {
+        color: var(--primary);
+        transform: scale(1.1);
+    }
+    
+    .favorite-btn {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: rgba(0, 0, 0, 0.7);
+        border: none;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        color: #fff;
+        font-size: 1.1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+    }
+    
+    .favorite-btn:hover, .favorite-btn.active {
+        background: var(--primary);
+        color: #fff;
+    }
+    
+    .favorite-btn i.fas {
+        color: var(--primary);
+    }
+    
+    .movie-info {
+        padding: 15px;
+    }
+    
+    .movie-info h3 {
+        font-size: 1rem;
+        margin: 0 0 8px 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .movie-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.85rem;
+        color: #aaa;
+    }
+    
+    .movie-meta span {
+        display: flex;
+        align-items: center;
+    }
+    
+    .movie-meta i {
+        color: #f5c518;
+        margin-right: 3px;
+        font-size: 0.9rem;
+    }
+    
+    /* Pagination */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 40px;
+        list-style: none;
+        padding: 0;
+    }
+    
+    .pagination .page-item {
+        margin: 0 5px;
+    }
+    
+    .pagination .page-link {
+        color: #fff;
+        background: #1a1a1a;
+        border: 1px solid #333;
+        padding: 8px 15px;
+        border-radius: 4px;
+        transition: var(--transition);
+    }
+    
+    .pagination .page-item.active .page-link {
+        background: var(--primary);
+        border-color: var(--primary);
+    }
+    
+    .pagination .page-item.disabled .page-link {
+        background: #1a1a1a;
+        border-color: #333;
+        color: #666;
+    }
+    
+    .pagination .page-link:hover {
+        background: var(--primary);
+        border-color: var(--primary);
+    }
+    
+    /* Section Header */
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+    
+    .section-header h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #fff;
         margin: 0;
-                  margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        display: flex;
+        align-items: center;
+    }
+    
+    .section-header h2 i {
+        margin-right: 10px;
+        color: var(--primary);
+    }
+    
+    /* Dropdown Menu */
+    .dropdown-menu {
+        background: #1a1a1a;
+        border: 1px solid #333;
+        border-radius: 8px;
+        padding: 10px 0;
+        min-width: 200px;
+    }
+    
+    .dropdown-item {
+        color: #e5e5e5;
+        padding: 8px 20px;
+        transition: var(--transition);
+    }
+    
+    .dropdown-item:hover, .dropdown-item:focus {
+        background: var(--primary);
+        color: #fff;
+    }
+    
+    .dropdown-item.active {
+        background: var(--primary);
+        color: #fff;
+    }
+    
+    .btn-outline {
+        color: #e5e5e5;
+        border: 1px solid #333;
+        background: transparent;
+        transition: var(--transition);
+    }
+    
+    .btn-outline:hover {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: #fff;
+    }
+    
+    /* Responsive Styles */
+    @media (max-width: 1200px) {
+        .movies-grid {
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        }
+    }
+    
+    @media (max-width: 992px) {
+        .movies-container {
+            grid-template-columns: 1fr;
         }
         
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: #141414;
-            color: #fff;
-            line-height: 1.6;
-        }
-        
-        /* Header Styles */
-        .main-header {
-            background: #0f0f0f;
-            padding: 15px 0;
+        .filter-section {
             position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            top: 80px;
+            z-index: 10;
+            margin-bottom: 20px;
         }
+        
+        .movies-grid {
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 20px;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .movies-grid {
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 15px;
+        }
+        
+        .filter-options {
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-right: -15px;
+            margin-left: -15px;
+            padding-left: 15px;
+        }
+        
+        .filter-options::-webkit-scrollbar {
+            height: 5px;
+        }
+        
+        .filter-options::-webkit-scrollbar-thumb {
+            background: #444;
+            border-radius: 10px;
+        }
+        
+        .filter-btn {
+            white-space: nowrap;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .movies-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .section-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        
+        .section-header .dropdown {
+            width: 100%;
+        }
+        
+        .section-header .btn-outline {
+            width: 100%;
+            justify-content: space-between;
+        }
+    }
         
         .container {
             max-width: 1400px;
@@ -257,341 +663,430 @@
 
         /* Filter Sidebar Styles */
         .filter-sidebar {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 300px;
-            background: #0f0f0f;
-            border-left: 1px solid rgba(255, 255, 255, 0.1);
-            overflow-y: auto;
-            padding: 20px;
-            height: 100%;
+            position: sticky;
+            top: 100px;
+            height: fit-content;
         }
 
-        .filter-sidebar h3 {
-            color: #fff;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #e50914;
-            padding-bottom: 10px;
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gray);
+            cursor: pointer;
+            transition: color 0.2s ease;
+            padding: 6px 0;
         }
 
-        .filter-group {
-            margin-bottom: 25px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .filter-option:hover {
+            color: var(--light);
         }
 
-        .filter-group h4 {
-            color: #fff;
-            margin-bottom: 15px;
-            font-size: 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 10px;
-        }
-
-        .form-check {
-            margin-bottom: 10px;
-        }
-
-        .form-check-label {
-            color: #fff;
-            font-size: 0.9rem;
-        }
-
-        .form-check-input {
-            accent-color: #e50914;
-        }
-
-        .form-range {
-            margin: 10px 0;
-            -webkit-appearance: none;
-            background: rgba(255, 255, 255, 0.1);
-            height: 8px;
-            border-radius: 4px;
+        .filter-option input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--primary);
             cursor: pointer;
         }
 
-        .form-range::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            background: #e50914;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .form-range::-webkit-slider-thumb:hover {
-            background: #ff0000;
-        }
-
-        .form-control {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff;
-            padding: 8px 12px;
-        }
-
-        .form-control:focus {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: #e50914;
-            box-shadow: 0 0 0 0.2rem rgba(229, 9, 20, 0.25);
-            color: #fff;
-        }
-
-        .input-group-text {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff;
-        }
-
-        .btn {
-            width: 100%;
-            margin: 10px 0;
-            padding: 12px;
-            border-radius: 4px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary {
-            background-color: #e50914;
-            border-color: #e50914;
-            color: #fff;
-        }
-
-        .btn-primary:hover {
-            background-color: #ff0000;
-            border-color: #ff0000;
-            transform: translateY(-1px);
-        }
-
-        .btn-outline-primary {
-            background-color: transparent;
-            border-color: #e50914;
-            color: #e50914;
-        }
-
-        .btn-outline-primary:hover {
-            background-color: rgba(229, 9, 20, 0.1);
-            color: #fff;
-        }
-
-        .filter-sidebar::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .filter-sidebar::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 4px;
-        }
-
-        .filter-sidebar::-webkit-scrollbar-thumb {
-            background: #e50914;
-            border-radius: 4px;
-        }
-
-        .filter-sidebar::-webkit-scrollbar-thumb:hover {
-            background: #ff0000;
-        }
-
-        /* Adjust main content for filter sidebar */
+        /* Main Content */
         .main-content {
-            position: relative;
-            padding-right: 320px; /* Filter width + padding */
-            min-height: 100vh;
+            padding: 40px 0;
         }
 
-        /* Mobile styles */
-        @media (max-width: 768px) {
+        /* Responsive Design */
+        @media (max-width: 992px) {
             .filter-sidebar {
                 display: none;
             }
 
-            .main-content {
-                padding-right: 0;
+            .filter-option {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                color: var(--gray);
+                cursor: pointer;
+                transition: color 0.2s ease;
+                padding: 6px 0;
             }
-        }
+
+            .filter-option:hover {
+                color: var(--light);
+            }
+
+            .filter-option input[type="checkbox"] {
+                width: 16px;
+                height: 16px;
+                accent-color: var(--primary);
+                cursor: pointer;
+            }
+
+            /* Main Content */
+            .main-content {
+                padding: 40px 0;
+            }
+
+            /* Responsive Design */
+            @media (max-width: 992px) {
+                .filter-sidebar {
+                    display: none;
+                }
+            }
 </style>
 </head>
 <body>
-
-
-    <main class="main-content">
-        <section class="featured-section">
-            
-
-            <div class="story-modal">
-                <div class="story-content">
-                    <video class="story-video" controls autoplay></video>
-                    <button class="close-story">×</button>
-                </div>
-            </div>
-
-            <div class="section-header">
-                <h2><i class="fas fa-fire"></i> Filmler Kategorisi</h2>
-                <a href="filmler.html" class="view-all">Tümünü Gör <i class="fas fa-arrow-right"></i></a>
-            </div>
-            
-            <div class="movie-grid">
-                <!-- Movie items will be dynamically loaded here -->
-            </div>
-
-            <!-- Filter Sidebar -->
-            <aside class="filter-sidebar">
-                <h3>Filtreleme</h3>
-                
-                <div class="filter-group">
-                    <h4>Kategori</h4>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="action" value="Aksiyon">
-                        <label class="form-check-label" for="action">Aksiyon</label>
+    <div id="header"></div>
+    
+    <div class="main-content">
+        <div class="container">
+            <div class="movies-container">
+                <!-- Filter Sidebar -->
+                <aside class="filter-section">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="movie-search" placeholder="Film ara...">
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="comedy" value="Komedi">
-                        <label class="form-check-label" for="comedy">Komedi</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="animation" value="Animasyon">
-                        <label class="form-check-label" for="animation">Animasyon</label>
-                    </div>
-                </div>
-
-                <div class="filter-group">
-                    <h4>Yıl Aralığı</h4>
-                    <div class="input-group mb-3">
-                        <input type="number" class="form-control" id="yearFrom" placeholder="Başlangıç Yılı">
-                        <span class="input-group-text">-</span>
-                        <input type="number" class="form-control" id="yearTo" placeholder="Bitiş Yılı">
-                    </div>
-                </div>
-
-                <div class="filter-group">
-                    <h4>IMDb Puanı</h4>
-                    <input type="range" class="form-range" min="0" max="10" step="0.1" id="ratingRange">
-                    <div class="rating-display">
-                        <i class="fas fa-star"></i>
-                        <span class="rating-value" id="ratingValue">7.0</span>
-                    </div>
-                </div>
-
-                <button class="btn btn-primary">Filtrele</button>
-                <button class="btn btn-outline-primary">Temizle</button>
-            </aside>
-        </section>
-            
-
-            <div class="story-modal">
-                <div class="story-content">
-                    <video class="story-video" controls autoplay></video>
-                    <button class="close-story">×</button>
-                </div>
-            </div>
-            <div class="movie-grid">
-                <!-- Movie items will be dynamically loaded here -->
-            </div>
-        </section>
-    </main>
-
-    <script>
-        // Content data will be loaded from JSON
-        let contentData = [];
-
-        // Function to generate movie HTML
-        function createMovieElement(movie) {
-            return `
-                <div class="box">
-                    <a href="${movie.link}">
-                        <img loading="lazy" src="${movie.image}" alt="${movie.title}">
-                        <div class="info-panel">
-                            <h3>${movie.title}</h3>
-                            <div class="movie-meta">
-                                <span class="year">${movie.year}</span>
-                                <span class="genre">${movie.genre}</span>
-                                <span class="rating">
-                                    <i class="fas fa-star"></i> ${movie.rating}
-                                </span>
-                            </div>
+                    
+                    <div class="filter-group">
+                        <h4>Türler</h4>
+                        <div class="filter-options">
+                            <button class="filter-btn active" data-filter-type="genre" data-filter-value="all">Tümü</button>
+                            <button class="filter-btn" data-filter-type="genre" data-filter-value="Aksiyon">Aksiyon</button>
+                            <button class="filter-btn" data-filter-type="genre" data-filter-value="Komedi">Komedi</button>
+                            <button class="filter-btn" data-filter-type="genre" data-filter-value="Dram">Dram</button>
+                            <button class="filter-btn" data-filter-type="genre" data-filter-value="Bilim Kurgu">Bilim Kurgu</button>
+                            <button class="filter-btn" data-filter-type="genre" data-filter-value="Korku">Korku</button>
+                            <button class="filter-btn" data-filter-type="genre" data-filter-value="Gerilim">Gerilim</button>
+                            <button class="filter-btn" data-filter-type="genre" data-filter-value="Macera">Macera</button>
                         </div>
-                    </a>
-                    <button class="favorite-btn" aria-label="Favorilere Ekle">
-                        <i class="far fa-heart"></i>
-                    </button>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <h4>Yıllar</h4>
+                        <div class="filter-options">
+                            <button class="filter-btn active" data-filter-type="year" data-filter-value="all">Tümü</button>
+                            <button class="filter-btn" data-filter-type="year" data-filter-value="2023">2023</button>
+                            <button class="filter-btn" data-filter-type="year" data-filter-value="2022">2022</button>
+                            <button class="filter-btn" data-filter-type="year" data-filter-value="2020">2020</button>
+                            <button class="filter-btn" data-filter-type="year" data-filter-value="2018">2018</button>
+                            <button class="filter-btn" data-filter-type="year" data-filter-value="2009">2000-2009</button>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <h4>IMDb Puanı</h4>
+                        <div class="filter-options">
+                            <button class="filter-btn active" data-filter-type="rating" data-filter-value="all">Tümü</button>
+                            <button class="filter-btn" data-filter-type="rating" data-filter-value="9">9.0+</button>
+                            <button class="filter-btn" data-filter-type="rating" data-filter-value="8">8.0+</button>
+                            <button class="filter-btn" data-filter-type="rating" data-filter-value="7">7.0+</button>
+                            <button class="filter-btn" data-filter-type="rating" data-filter-value="6">6.0+</button>
+                        </div>
+                    </div>
+                </aside>
+                
+                <!-- Movies Grid -->
+                <main class="movies-content">
+                    <div class="section-header">
+                        <h2><i class="fas fa-film"></i> Tüm Filmler</h2>
+                        <div class="dropdown">
+                            <button class="btn btn-outline dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="sort-text">Popüler</span>
+                                <i class="fas fa-chevron-down ms-2"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="sortDropdown">
+                                <li><a class="dropdown-item sort-option active" href="#" data-sort="popular">Popüler</a></li>
+                                <li><a class="dropdown-item sort-option" href="#" data-sort="newest">En Yeni</a></li>
+                                <li><a class="dropdown-item sort-option" href="#" data-sort="rating">IMDb Puanı (Yüksek)</a></li>
+                                <li><a class="dropdown-item sort-option" href="#" data-sort="year">Çıkış Yılı</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div id="movies-grid" class="movies-grid">
+                        <!-- Movie cards will be loaded here by JavaScript -->
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <!-- Pagination will be added by JavaScript -->
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Sonraki">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
-            `;
-        }
+            </div>
+        </div>
+    </div>
 
-        // Function to load content data
-        async function loadContentData() {
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Global variables
+        let movies = [];
+        let currentPage = 1;
+        const moviesPerPage = 12;
+        let activeFilters = {
+            genre: 'all',
+            year: 'all',
+            rating: 'all',
+            search: ''
+        };
+
+        // DOM Elements
+        const moviesGrid = document.getElementById('movies-grid');
+        const searchInput = document.getElementById('movie-search');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const pagination = document.querySelector('.pagination');
+        const sortDropdown = document.getElementById('sort-dropdown');
+        const sortOptions = document.querySelectorAll('.sort-option');
+        let currentSort = 'popular';
+
+        // Load movies from JSON
+        async function loadMovies() {
             try {
                 const response = await fetch('data/movies.json');
                 const data = await response.json();
-                contentData = data.content;
-                populateMovies();
+                movies = data.content || [];
+                displayMovies();
+                setupEventListeners();
             } catch (error) {
-                console.error('Error loading content data:', error);
+                console.error('Error loading movies:', error);
+                moviesGrid.innerHTML = '<div class="col-12 text-center py-5"><h4>Filmler yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.</h4></div>';
             }
         }
 
-        // Function to populate the movies grid
-        function populateMovies() {
-            const movieGrid = document.querySelector('.movie-grid');
-            if (movieGrid) {
-                movieGrid.innerHTML = contentData.map(movie => createMovieElement(movie)).join('');
-            }
-        }
-
-        // Function to filter movies
+        // Filter movies based on active filters
         function filterMovies() {
-            const genreFilters = Array.from(document.querySelectorAll('.filter-sidebar input[type="checkbox"]:checked'))
-                .map(checkbox => checkbox.value);
-            
-            const yearFrom = document.getElementById('yearFrom').value || 0;
-            const yearTo = document.getElementById('yearTo').value || 9999;
-            
-            const rating = document.getElementById('ratingRange').value;
-
-            const filteredMovies = contentData.filter(movie => {
-                    const matchesGenre = genreFilters.length === 0 || genreFilters.includes(movie.genre);
-                    const matchesYear = movie.year >= parseInt(yearFrom) && movie.year <= parseInt(yearTo);
-                    const matchesRating = movie.rating >= parseFloat(rating);
-                    
-                    return matchesGenre && matchesYear && matchesRating;
-                });
-
-            const movieGrid = document.querySelector('.movie-grid');
-            if (movieGrid) {
-                movieGrid.innerHTML = filteredMovies.map(movie => createMovieElement(movie)).join('');
-            }
+            return movies.filter(movie => {
+                // Filter by search term
+                if (activeFilters.search && 
+                    !movie.title.toLowerCase().includes(activeFilters.search.toLowerCase()) &&
+                    !movie.genre.toLowerCase().includes(activeFilters.search.toLowerCase())) {
+                    return false;
+                }
+                
+                // Filter by genre
+                if (activeFilters.genre !== 'all' && movie.genre !== activeFilters.genre) {
+                    return false;
+                }
+                
+                // Filter by year
+                if (activeFilters.year !== 'all') {
+                    const movieYear = parseInt(movie.year);
+                    const [startYear, endYear] = activeFilters.year === '2009' ? 
+                        [2000, 2009] : activeFilters.year === '2018' ? 
+                        [2010, 2018] : activeFilters.year === '2020' ? 
+                        [2019, 2020] : activeFilters.year === '2022' ? 
+                        [2021, 2022] : [2023, 2023];
+                        
+                    if (movieYear < startYear || movieYear > endYear) {
+                        return false;
+                    }
+                }
+                
+                // Filter by rating
+                if (activeFilters.rating !== 'all' && movie.rating < parseFloat(activeFilters.rating)) {
+                    return false;
+                }
+                
+                return true;
+            });
         }
 
-        // Initialize page
-        document.addEventListener('DOMContentLoaded', () => {
-            // Load content data
-            loadContentData();
+        // Sort movies
+        function sortMovies(filteredMovies) {
+            return [...filteredMovies].sort((a, b) => {
+                switch(currentSort) {
+                    case 'newest':
+                        return b.year - a.year;
+                    case 'rating':
+                        return b.rating - a.rating;
+                    case 'year':
+                        return a.year - b.year;
+                    case 'popular':
+                    default:
+                        return (b.rating * 2 + b.year / 10) - (a.rating * 2 + a.year / 10);
+                }
+            });
+        }
 
-            // Add click event for favorite buttons
-            document.querySelectorAll('.favorite-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
+        // Display movies in the grid
+        function displayMovies(page = 1) {
+            const filteredMovies = filterMovies();
+            const sortedMovies = sortMovies(filteredMovies);
+            
+            // Calculate pagination
+            const totalPages = Math.ceil(sortedMovies.length / moviesPerPage);
+            const startIndex = (page - 1) * moviesPerPage;
+            const paginatedMovies = sortedMovies.slice(startIndex, startIndex + moviesPerPage);
+            
+            // Generate movie cards
+            moviesGrid.innerHTML = paginatedMovies.length > 0 ? 
+                paginatedMovies.map(movie => `
+                    <div class="movie-card">
+                        <div class="movie-poster">
+                            <img src="${movie.image || 'img/placeholder.jpg'}" alt="${movie.title}" loading="lazy">
+                            <div class="movie-overlay">
+                                <a href="#" class="play-btn"><i class="fas fa-play"></i></a>
+                                <button class="favorite-btn" data-id="${movie.id}">
+                                    <i class="${localStorage.getItem(`fav_${movie.id}`) ? 'fas' : 'far'} fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="movie-info">
+                            <h3>${movie.title}</h3>
+                            <div class="movie-meta">
+                                <span>${movie.year}</span>
+                                <span>${movie.genre}</span>
+                                <span><i class="fas fa-star"></i> ${movie.rating}</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('') : 
+                '<div class="col-12 text-center py-5"><h4>Film bulunamadı. Filtreleri değiştirmeyi deneyin.</h4></div>';
+            
+            // Update pagination
+            updatePagination(totalPages, page);
+        }
+
+        // Update pagination controls
+        function updatePagination(totalPages, currentPage) {
+            if (totalPages <= 1) {
+                pagination.style.display = 'none';
+                return;
+            }
+            
+            pagination.style.display = 'flex';
+            let paginationHTML = '';
+            
+            // Previous button
+            paginationHTML += `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                <a class="page-link" href="#" data-page="${currentPage - 1}" aria-label="Önceki">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>`;
+            
+            // Page numbers
+            const maxPagesToShow = 5;
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+            
+            if (endPage - startPage + 1 < maxPagesToShow) {
+                startPage = Math.max(1, endPage - maxPagesToShow + 1);
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                paginationHTML += `
+                    <li class="page-item ${i === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="#" data-page="${i}">${i}</a>
+                    </li>`;
+            }
+            
+            // Next button
+            paginationHTML += `
+            <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                <a class="page-link" href="#" data-page="${currentPage + 1}" aria-label="Sonraki">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>`;
+            
+            pagination.innerHTML = paginationHTML;
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Search input
+            let searchTimeout;
+            searchInput.addEventListener('input', (e) => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    activeFilters.search = e.target.value.trim();
+                    currentPage = 1;
+                    displayMovies(currentPage);
+                }, 300);
+            });
+            
+            // Filter buttons
+            filterButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
                     e.preventDefault();
-                    e.stopPropagation();
-                    btn.classList.toggle('active');
-                    btn.querySelector('i').classList.toggle('far');
-                    btn.querySelector('i').classList.toggle('fas');
+                    const filterType = button.dataset.filterType;
+                    const filterValue = button.dataset.filterValue;
+                    
+                    // Update active button state
+                    document.querySelectorAll(`[data-filter-type="${filterType}"]`).forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    button.classList.add('active');
+                    
+                    // Update active filters
+                    activeFilters[filterType] = filterValue;
+                    currentPage = 1;
+                    displayMovies(currentPage);
                 });
             });
+            
+            // Sort options
+            sortOptions.forEach(option => {
+                option.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    currentSort = option.dataset.sort;
+                    document.querySelector('.sort-text').textContent = option.textContent;
+                    displayMovies(currentPage);
+                });
+            });
+            
+            // Pagination
+            pagination.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = e.target.closest('.page-link');
+                if (!target) return;
+                
+                const page = parseInt(target.dataset.page);
+                if (page && page !== currentPage) {
+                    currentPage = page;
+                    displayMovies(currentPage);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+            
+            // Favorite button
+            document.addEventListener('click', (e) => {
+                const favBtn = e.target.closest('.favorite-btn');
+                if (favBtn) {
+                    e.preventDefault();
+                    const movieId = favBtn.dataset.id;
+                    const icon = favBtn.querySelector('i');
+                    
+                    if (icon.classList.contains('far')) {
+                        icon.classList.replace('far', 'fas');
+                        localStorage.setItem(`fav_${movieId}`, 'true');
+                    } else {
+                        icon.classList.replace('fas', 'far');
+                        localStorage.removeItem(`fav_${movieId}`);
+                    }
+                }
+            });
+        }
 
-            // Add filter event listeners
-            document.getElementById('yearFrom').addEventListener('input', filterMovies);
-            document.getElementById('yearTo').addEventListener('input', filterMovies);
-            document.getElementById('ratingRange').addEventListener('input', filterMovies);
-            document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(checkbox => {
-                checkbox.addEventListener('change', filterMovies);
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            loadMovies();
+            
+            // Initialize tooltips
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
             });
         });
     </script>
 </body>
+</html>
 </html>
