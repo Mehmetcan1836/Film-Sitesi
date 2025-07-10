@@ -7,6 +7,35 @@ document.addEventListener("DOMContentLoaded", function () {
         position: relative;
         z-index: 1000;
       }
+      
+      /* Mobile search styles */
+      .mobile-search {
+        display: none;
+        width: 100%;
+        padding: 10px 15px;
+        background: #1a1a1a;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1100;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      }
+      
+      .mobile-search.active {
+        display: block;
+      }
+      
+      .mobile-search-close {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 1.2rem;
+        cursor: pointer;
+      }
       .navbar {
         padding: 0.6rem 0;
       }
@@ -193,14 +222,118 @@ document.addEventListener("DOMContentLoaded", function () {
               </li>
             </ul>
 
-            <div class="search-box">
-              <form action="/arama.html" method="GET" class="d-flex">
-                <input class="form-control search-input" type="search" name="q" placeholder="Dizi, film, oyuncu ara..." aria-label="Search">
-                <button class="search-btn" type="submit">
-                  <i class="fas fa-search"></i>
+            <!-- Mobile Search Toggle Button -->
+            <button class="btn btn-link d-lg-none ms-2" id="mobileSearchToggle" style="color: #fff;">
+              <i class="fas fa-search"></i>
+            </button>
+            
+            <!-- Mobile Search Bar -->
+            <div class="mobile-search" id="mobileSearchBar">
+              <form id="mobileSearchForm" class="d-flex position-relative">
+                <input class="form-control search-input" type="text" id="mobileSearchInput" placeholder="Dizi, film, oyuncu ara..." aria-label="Search" autocomplete="off">
+                <button type="button" class="mobile-search-close" id="mobileSearchClose">
+                  <i class="fas fa-times"></i>
                 </button>
               </form>
             </div>
+            
+            <!-- Desktop Search Box -->
+            <div class="search-box position-relative d-none d-lg-block">
+              <form id="searchForm" class="d-flex">
+                <input class="form-control search-input" type="text" id="searchInput" placeholder="Dizi, film, oyuncu ara..." aria-label="Search" autocomplete="off">
+                <button class="search-btn" type="button" id="searchButton">
+                  <i class="fas fa-search"></i>
+                </button>
+              </form>
+              <div class="search-dropdown" id="searchDropdown" style="display: none;">
+                <div class="search-filters p-3">
+                  <div class="filter-section">
+                    <h6>Kategori</h6>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="type" id="allType" value="" checked>
+                      <label class="form-check-label" for="allType">
+                        Tümü
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="type" id="movieType" value="film">
+                      <label class="form-check-label" for="movieType">
+                        Filmler
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="type" id="seriesType" value="dizi">
+                      <label class="form-check-label" for="seriesType">
+                        Diziler
+                      </label>
+                    </div>
+                  </div>
+                  <div class="filter-section mt-3">
+                    <h6>Tür</h6>
+                    <div class="genre-tags">
+                      <span class="badge bg-secondary me-1 mb-1">Aksiyon</span>
+                      <span class="badge bg-secondary me-1 mb-1">Komedi</span>
+                      <span class="badge bg-secondary me-1 mb-1">Dram</span>
+                      <span class="badge bg-secondary me-1 mb-1">Bilim Kurgu</span>
+                      <span class="badge bg-secondary me-1 mb-1">Korku</span>
+                      <span class="badge bg-secondary me-1 mb-1">Gerilim</span>
+                    </div>
+                  </div>
+                  <div class="search-actions mt-3 d-flex justify-content-between">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" id="clearFilters">Temizle</button>
+                    <button type="button" class="btn btn-sm btn-danger" id="applySearch">Ara</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <style>
+              .search-box {
+                position: relative;
+                width: 300px;
+                margin-right: 15px;
+              }
+              .search-dropdown {
+                position: absolute;
+                top: 100%;
+                right: 0;
+                width: 300px;
+                background: #1a1a1a;
+                border-radius: 8px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                margin-top: 5px;
+                z-index: 1000;
+                border: 1px solid #333;
+              }
+              .search-filters {
+                color: #fff;
+              }
+              .filter-section h6 {
+                color: #e50914;
+                font-size: 0.9rem;
+                margin-bottom: 10px;
+              }
+              .form-check {
+                margin-bottom: 5px;
+              }
+              .form-check-label {
+                cursor: pointer;
+              }
+              .genre-tags {
+                display: flex;
+                flex-wrap: wrap;
+              }
+              .badge {
+                cursor: pointer;
+                transition: all 0.2s;
+              }
+              .badge:hover {
+                opacity: 0.8;
+              }
+              .badge.bg-danger {
+                background-color: #e50914 !important;
+              }
+            </style>
 
             <div class="user-actions">
               <a href="https://mehmetcan1836.github.io/dizicomdownloader/" target="_blank" class="btn btn-primary">
@@ -218,6 +351,185 @@ document.addEventListener("DOMContentLoaded", function () {
     </header>
     `;
     document.body.insertAdjacentHTML("afterbegin", headerHTML);
+    
+    // Search functionality
+    const searchInput = document.getElementById('searchInput');
+    const mobileSearchInput = document.getElementById('mobileSearchInput');
+    const searchButton = document.getElementById('searchButton');
+    const mobileSearchToggle = document.getElementById('mobileSearchToggle');
+    const mobileSearchBar = document.getElementById('mobileSearchBar');
+    const mobileSearchClose = document.getElementById('mobileSearchClose');
+    const searchDropdown = document.getElementById('searchDropdown');
+    const applySearch = document.getElementById('applySearch');
+    const clearFilters = document.getElementById('clearFilters');
+    const genreTags = document.querySelectorAll('.genre-tags .badge');
+    
+    // Initialize search inputs with current query if any
+    const currentParams = new URLSearchParams(window.location.search);
+    if (currentParams.has('q')) {
+        const query = currentParams.get('q');
+        if (searchInput) searchInput.value = query;
+        if (mobileSearchInput) mobileSearchInput.value = query;
+    }
+    
+    // Toggle mobile search bar
+    if (mobileSearchToggle && mobileSearchBar) {
+      mobileSearchToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        mobileSearchBar.classList.toggle('active');
+        if (mobileSearchBar.classList.contains('active')) {
+          mobileSearchInput.focus();
+        }
+      });
+      
+      mobileSearchClose.addEventListener('click', (e) => {
+        e.stopPropagation();
+        mobileSearchBar.classList.remove('active');
+      });
+    }
+    
+    // Toggle search dropdown (desktop)
+    if (searchButton && searchDropdown) {
+      searchButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isHidden = searchDropdown.style.display === 'none' || !searchDropdown.style.display;
+        searchDropdown.style.display = isHidden ? 'block' : 'none';
+        
+        if (isHidden) {
+          searchInput.focus();
+        }
+      });
+    }
+    
+    // Close dropdown when clicking outside
+    if (searchDropdown) {
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.search-box') && searchDropdown.style.display === 'block') {
+          searchDropdown.style.display = 'none';
+        }
+      });
+    }
+    
+    // Toggle genre selection
+    if (genreTags && genreTags.length > 0) {
+      genreTags.forEach(tag => {
+        tag.addEventListener('click', () => {
+          tag.classList.toggle('bg-danger');
+          tag.classList.toggle('bg-secondary');
+        });
+      });
+    }
+    
+    // Clear filters
+    if (clearFilters) {
+      clearFilters.addEventListener('click', () => {
+        const typeRadios = document.querySelectorAll('input[name="type"]');
+        if (typeRadios && typeRadios.length > 0) {
+          typeRadios.forEach(radio => {
+            if (radio.value === '') radio.checked = true;
+            else radio.checked = false;
+          });
+        }
+        
+        if (genreTags && genreTags.length > 0) {
+          genreTags.forEach(tag => {
+            tag.classList.remove('bg-danger');
+            tag.classList.add('bg-secondary');
+          });
+        }
+      });
+    }
+    
+    // Apply search
+    function performSearch(inputElement) {
+      const query = inputElement ? inputElement.value.trim() : '';
+      const type = document.querySelector('input[name="type"]:checked')?.value || '';
+      const selectedGenres = Array.from(document.querySelectorAll('.genre-tags .bg-danger'))
+        .map(tag => tag.textContent.trim());
+      
+      // Only proceed if there's a search term or filters are applied
+      if (query || type || selectedGenres.length > 0) {
+        const params = new URLSearchParams();
+        
+        if (query) params.append('q', query);
+        if (type) params.append('type', type);
+        if (selectedGenres.length > 0) params.append('genre', selectedGenres.join(','));
+        
+        // Navigate to search results page
+        window.location.href = '/arama.html?' + params.toString();
+      } else {
+        // If no search term or filters, show all results
+        window.location.href = '/arama.html';
+      }
+      
+      // Close dropdown and mobile search after search
+      if (searchDropdown) {
+        searchDropdown.style.display = 'none';
+      }
+      if (mobileSearchBar) {
+        mobileSearchBar.classList.remove('active');
+      }
+    }
+    
+    // Event listeners
+    if (applySearch) {
+      applySearch.addEventListener('click', () => {
+        // Use desktop search input if mobile input is not active
+        const activeInput = mobileSearchBar && mobileSearchBar.classList.contains('active') ? mobileSearchInput : searchInput;
+        performSearch(activeInput);
+      });
+    }
+    
+    // Handle Enter key in search inputs
+    function handleSearchKeyPress(e, inputElement) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        performSearch(inputElement);
+      }
+    }
+    
+    // Desktop search input
+    if (searchInput) {
+      searchInput.addEventListener('keypress', (e) => handleSearchKeyPress(e, searchInput));
+      
+      // Focus the search input when dropdown is shown
+      searchInput.addEventListener('focus', () => {
+        if (searchDropdown) {
+          searchDropdown.style.display = 'block';
+        }
+      });
+      
+      // Handle search button click for desktop
+      if (searchButton) {
+        searchButton.addEventListener('click', (e) => {
+          e.preventDefault();
+          performSearch(searchInput);
+        });
+      }
+    }
+    
+    // Mobile search input
+    if (mobileSearchInput) {
+      mobileSearchInput.addEventListener('keypress', (e) => {
+        handleSearchKeyPress(e, mobileSearchInput);
+      });
+      
+      // Close mobile search when clicking outside
+      document.addEventListener('click', (e) => {
+        if (mobileSearchBar && !mobileSearchBar.contains(e.target) && !mobileSearchToggle.contains(e.target)) {
+          mobileSearchBar.classList.remove('active');
+        }
+      });
+      
+      // Handle mobile search form submission
+      const mobileSearchForm = document.getElementById('mobileSearchForm');
+      if (mobileSearchForm) {
+        mobileSearchForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          performSearch(mobileSearchInput);
+        });
+      }
+    }
     // header.js
 document.addEventListener('DOMContentLoaded', async function() {
   // Film sayfasında izlenme takibi

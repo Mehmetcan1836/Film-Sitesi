@@ -510,7 +510,7 @@
                             <h3>${movie.title}</h3>
                             <div class="movie-meta">
                                 <span class="year">${movie.year}</span>
-                                <span class="genre">${movie.genre}</span>
+                                <span class="genre">${Array.isArray(movie.genre) ? movie.genre.join(', ') : movie.genre}</span>
                                 <span class="rating">
                                     <i class="fas fa-star"></i> ${movie.rating}
                                 </span>
@@ -555,7 +555,20 @@
             const rating = document.getElementById('ratingRange').value;
 
             const filteredMovies = contentData.filter(movie => {
-                    const matchesGenre = genreFilters.length === 0 || genreFilters.includes(movie.genre);
+                    // Convert movie.genre to array if it's a string
+                    const movieGenres = Array.isArray(movie.genre) ? 
+                        movie.genre.map(g => g.trim().toLowerCase()) : 
+                        [String(movie.genre || '').trim().toLowerCase()];
+                    
+                    // Check if any of the selected genres match any of the movie's genres
+                    const matchesGenre = genreFilters.length === 0 || 
+                        genreFilters.some(selectedGenre => 
+                            movieGenres.some(movieGenre => 
+                                movieGenre.includes(selectedGenre.toLowerCase()) || 
+                                selectedGenre.toLowerCase().includes(movieGenre)
+                            )
+                        );
+                    
                     const matchesYear = movie.year >= parseInt(yearFrom) && movie.year <= parseInt(yearTo);
                     const matchesRating = movie.rating >= parseFloat(rating);
                     

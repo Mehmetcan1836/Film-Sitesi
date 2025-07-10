@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arama Sonuçları - Dizicom</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .search-results {
+            padding: 1rem 0;
+            background-color: #141414;
+            min-height: 100vh;
+        }
+        
+        .search-container {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-filters {
+            background: #1f1f1f;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+        
+        .filter-section {
+            margin-bottom: 1rem;
+        }
+        
+        .filter-section h6 {
+            color: #e50914;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .genre-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .genre-tags .badge {
+            cursor: pointer;
+            padding: 0.35em 0.65em;
+            font-size: 0.85em;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        
+        .search-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+        
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .result-card {
+            background: #1f1f1f;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .result-poster {
+            width: 100%;
+            padding-top: 150%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .result-poster img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .result-card:hover .result-poster img {
+            transform: scale(1.05);
+        }
+        
+        .result-info {
+            padding: 0.75rem;
+        }
+        
+        .result-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-clamp: 2;
+            max-height: 2.8em;
+            line-height: 1.4em;
+        }
+        
+        .result-meta {
+            font-size: 0.8rem;
+            color: #999;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .result-rating {
+            color: #e6b91e;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 768px) {
+            .search-header {
+                margin-bottom: 1.5rem;
+                padding: 0 10px;
+            }
+            
+            .search-header h2 {
+                font-size: 1.5rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .result-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 1rem;
+                padding: 0 10px;
+            }
+            
+            .result-title {
+                font-size: 0.9rem;
+                -webkit-line-clamp: 1;
+                line-clamp: 1;
+                max-height: 1.4em;
+            }
+            
+            .result-meta {
+                font-size: 0.75rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.25rem;
+            }
+            
+            .result-rating {
+                font-size: 0.8rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .result-grid {
+                grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+                gap: 0.6rem;
+            }
+            
+            .search-filters {
+                padding: 0.75rem;
+                margin: 0 10px 1rem;
+                border-radius: 6px;
+            }
+            
+            .filter-section h6 {
+                font-size: 0.85rem;
+                margin-bottom: 0.4rem;
+            }
+            
+            .genre-tags {
+                gap: 0.4rem;
+            }
+            
+            .genre-tags .badge {
+                font-size: 0.75rem;
+                padding: 0.2em 0.5em;
+            }
+            
+            .search-actions {
+                margin-top: 0.75rem;
+            }
+            
+            .search-actions .btn {
+                padding: 0.25rem 0.75rem;
+                font-size: 0.8rem;
+            }
+        }
+        
+        .search-header {
+            margin-bottom: 30px;
+            padding: 0 15px;
+        }
+        
+        .search-query {
+            color: #e50914;
+            font-weight: bold;
+        }
+        
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 0 15px;
+        }
+        
+        .box {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: #1a1a1a;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .box img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .info-panel {
+            padding: 15px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            color: #fff;
+        }
+        
+        .info-panel h3 {
+            font-size: 1rem;
+            margin: 0 0 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .movie-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+        
+        .rating {
+            color: #ffd700;
+        }
+        
+        .favorite-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .favorite-btn:hover {
+            background: #e50914;
+            transform: scale(1.1);
+        }
+        
+        .no-results {
+            color: #fff;
+            text-align: center;
+            padding: 50px 0;
+            grid-column: 1 / -1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header will be inserted by header.js -->
+    
+    <main class="search-results">
+        <div class="container">
+            <div class="search-header">
+                <h2 class="text-white mb-3">Arama Sonuçları: <span class="search-query" id="searchQuery"></span></h2>
+                <p class="text-muted" id="resultCount"></p>
+            </div>
+            
+            <div class="movie-grid" id="searchResults">
+                <!-- Results will be inserted here by JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <script src="js/header.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchTerm = urlParams.get('q') || '';
+            const typeFilter = urlParams.get('type') || '';
+            const genreFilter = urlParams.get('genre') ? 
+                urlParams.get('genre').split(',').map(g => g.trim().toLowerCase()) : [];
+            
+            // Arama başlığını güncelle
+            const searchQueryElement = document.getElementById('searchQuery');
+            if (searchQueryElement) {
+                searchQueryElement.textContent = searchTerm ? `"${searchTerm}"` : 'Tüm içerikler';
+            }
+            
+            if (!searchTerm) {
+                const resultCount = document.getElementById('resultCount');
+                if (resultCount) {
+                    resultCount.textContent = 'Lütfen geçerli bir arama terimi girin.';
+                }
+                return;
+            }
+            
+            // Arama için film ve dizileri yükle
+            Promise.all([
+                fetch('data/movies.json').then(res => {
+                    if (!res.ok) throw new Error('Filmler yüklenemedi');
+                    return res.json();
+                }),
+                fetch('data/series.json').then(res => {
+                    if (!res.ok) throw new Error('Diziler yüklenemedi');
+                    return res.json();
+                })
+            ]).then(([moviesData, seriesData]) => {
+                const results = [];
+                
+                // Veri yapılarından içerikleri çıkar
+                let movies = moviesData.content || [];
+                let series = seriesData.series || [];
+                
+                console.log('Arama parametreleri:', { searchTerm, typeFilter, genreFilter });
+                
+                // Gelişmiş arama fonksiyonu
+                const isMatch = (text, search) => {
+                    if (!text || !search) return 0;
+                    
+                    // Türkçe karakterleri normalize et ve küçük harfe çevir
+                    const normalizeText = (str) => 
+                        str.toString().toLowerCase()
+                           .normalize('NFD')
+                           .replace(/[\u0300-\u036f]/g, '')
+                           .replace(/[^a-z0-9\s]/g, '');
+                    
+                    const normalizedText = normalizeText(text);
+                    const normalizedSearch = normalizeText(search);
+                    
+                    // Arama terimlerini ayır
+                    const searchTerms = normalizedSearch.split(/\s+/).filter(term => term.length > 0);
+                    
+                    // Eğer arama terimi yoksa eşleşme yok
+                    if (searchTerms.length === 0) return 0;
+                    
+                    // Her bir arama terimi için puan hesapla
+                    let totalScore = 0;
+                    
+                    for (const term of searchTerms) {
+                        // 1. Tam eşleşme (en yüksek öncelik)
+                        if (normalizedText === term) {
+                            totalScore += 100;
+                            continue;
+                        }
+                        
+                        // 2. Kelime başlangıçlarında eşleşme
+                        const startsWithTerm = normalizedText.split(/\s+/).some(word => word.startsWith(term));
+                        if (startsWithTerm) {
+                            totalScore += 50;
+                            continue;
+                        }
+                        
+                        // 3. İçinde geçiyorsa
+                        if (normalizedText.includes(term)) {
+                            totalScore += 20;
+                            continue;
+                        }
+                        
+                        // 4. Levenshtein mesafesi ile benzerlik kontrolü
+                        const similarity = calculateSimilarity(normalizedText, term);
+                        if (similarity > 0.7) {
+                            totalScore += Math.floor(similarity * 10);
+                        }
+                    }
+                    
+                    // Eğer tüm terimler eşleştiyse ekstra puan ver
+                    const allTermsMatch = searchTerms.every(term => 
+                        normalizedText.includes(term) ||
+                        normalizedText.split(/\s+/).some(word => word.startsWith(term))
+                    );
+                    
+                    if (allTermsMatch) {
+                        totalScore += 30;
+                    }
+                    
+                    return totalScore;
+                };
+                
+                // İki metin arasındaki benzerliği hesapla (Levenshtein mesafesi)
+                function calculateSimilarity(s1, s2) {
+                    const longer = s1.length > s2.length ? s1 : s2;
+                    const shorter = s1.length > s2.length ? s2 : s1;
+                    
+                    if (longer.length === 0) return 1.0;
+                    
+                    const distance = calculateLevenshteinDistance(longer, shorter);
+                    return (longer.length - distance) / parseFloat(longer.length);
+                }
+                
+                function calculateLevenshteinDistance(s1, s2) {
+                    const m = s1.length;
+                    const n = s2.length;
+                    const dp = Array(m + 1).fill().map(() => Array(n + 1).fill(0));
+                    
+                    for (let i = 0; i <= m; i++) dp[i][0] = i;
+                    for (let j = 0; j <= n; j++) dp[0][j] = j;
+                    
+                    for (let i = 1; i <= m; i++) {
+                        for (let j = 1; j <= n; j++) {
+                            const cost = s1[i - 1] === s2[j - 1] ? 0 : 1;
+                            dp[i][j] = Math.min(
+                                dp[i - 1][j] + 1,     // Silme
+                                dp[i][j - 1] + 1,     // Ekleme
+                                dp[i - 1][j - 1] + cost // Değiştirme
+                            );
+                        }
+                    }
+                    
+                    return dp[m][n];
+                }
+                
+                // Filtreleme ve arama fonksiyonu
+                const filterAndSearch = (items, type) => {
+                    return items
+                        .filter(item => {
+                            // Tip filtresi
+                            if (typeFilter && type !== typeFilter) return false;
+                            
+                            // Tür filtresi
+                            if (genreFilter.length > 0) {
+                                const itemGenres = Array.isArray(item.genre) ? 
+                                    item.genre.map(g => g.trim().toLowerCase()) : [];
+                                const hasMatchingGenre = genreFilter.some(selectedGenre => 
+                                    itemGenres.some(itemGenre => 
+                                        itemGenre.includes(selectedGenre) || selectedGenre.includes(itemGenre)
+                                    )
+                                );
+                                if (!hasMatchingGenre) return false;
+                            }
+                            
+                            // Arama terimi yoksa tüm sonuçları döndür
+                            if (!searchTerm) return true;
+                            
+                            // Başlıkta ara
+                            if (isMatch(item.title, searchTerm)) return true;
+                            
+                            // Türlerde ara (case-insensitive)
+                            if (Array.isArray(item.genre) && 
+                                item.genre.some(g => {
+                                    const normalizedGenre = g.toLowerCase();
+                                    const normalizedSearch = searchTerm.toLowerCase();
+                                    return normalizedGenre.includes(normalizedSearch) || 
+                                           normalizedSearch.includes(normalizedGenre);
+                                })) return true;
+                            
+                            // Yönetmende ara
+                            if (item.director && isMatch(item.director, searchTerm)) return true;
+                            
+                            return false;
+                        })
+                        .map(item => ({
+                            ...item,
+                            type: type,
+                            link: item.link || '#',
+                            poster: item.image || 'img/poster-placeholder.jpg',
+                            genre: Array.isArray(item.genre) ? item.genre : [],
+                            score: calculateRelevanceScore(item, searchTerm)
+                        }));
+                };
+                
+                // İlgililik puanını hesapla
+                function calculateRelevanceScore(item, term) {
+                    if (!term) return 1; // Arama yoksa tüm sonuçlar eşit öncelikte
+                    
+                    let score = 0;
+                    
+                    // Başlıkta tam eşleşme
+                    if (item.title.toLowerCase() === term) score += 100;
+                    
+                    // Başlıkta başlangıç
+                    if (item.title.toLowerCase().startsWith(term)) score += 50;
+                    
+                    // Başlıkta içerme
+                    if (item.title.toLowerCase().includes(term)) score += 20;
+                    
+                    // Türlerde eşleşme
+                    if (Array.isArray(item.genre)) {
+                        const genreMatch = item.genre.some(g => 
+                            g.toLowerCase().includes(term)
+                        );
+                        if (genreMatch) score += 15;
+                    }
+                    
+                    // Yönetmen eşleşmesi
+                    if (item.director && item.director.toLowerCase().includes(term)) {
+                        score += 10;
+                    }
+                    
+                    return score;
+                }
+                
+                // Filmleri ve dizileri filtrele
+                const filteredMovies = filterAndSearch(movies, 'film');
+                const filteredSeries = filterAndSearch(series, 'dizi');
+                
+                // Tüm sonuçları birleştir ve puanına göre sırala
+                const allResults = [...filteredMovies, ...filteredSeries]
+                    .sort((a, b) => b.score - a.score);
+                
+                // Sonuçları ekle
+                results.push(...allResults);
+                
+                console.log('Total results:', results.length);
+                displayResults(results);
+            }).catch(error => {
+                console.error('Arama sırasında hata oluştu:', error);
+                document.getElementById('resultCount').textContent = 'Arama yapılırken bir hata oluştu. Lütfen daha sonra tekrar deneyin.';
+            });
+            
+            function displayResults(results) {
+                const resultsContainer = document.getElementById('searchResults');
+                const resultCount = document.getElementById('resultCount');
+                
+                resultCount.textContent = `${results.length} sonuç bulundu`;
+                
+                if (results.length === 0) {
+                    resultsContainer.innerHTML = `
+                        <div class="col-12">
+                            <div class="no-results">
+                                <i class="fas fa-search fa-3x mb-3"></i>
+                                <h3>Sonuç bulunamadı</h3>
+                                <p class="text-muted">Aradığınız kriterlere uygun içerik bulunamadı.</p>
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                resultsContainer.innerHTML = results.map(item => `
+                    <div class="box">
+                        <a href="${item.link || '#'}">
+                            <img loading="lazy" src="${item.poster}" alt="${item.title}">
+                            <div class="info-panel">
+                                <h3>${item.title}</h3>
+                                <div class="movie-meta">
+                                    <span class="year">${item.year || ''}</span>
+                                    <span class="genre">${Array.isArray(item.genre) ? item.genre[0] : ''}</span>
+                                    ${item.rating ? `<span class="rating">
+                                        <i class="fas fa-star"></i> ${item.rating}
+                                    </span>` : ''}
+                                </div>
+                            </div>
+                        </a>
+                        <button class="favorite-btn" aria-label="Favorilere Ekle">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                `).join('');
+            }
+        });
+    </script>
+</body>
+</html>

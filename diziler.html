@@ -550,7 +550,7 @@
                             <h3>${series.title}</h3>
                             <div class="movie-meta">
                                 <span class="year">${series.year}</span>
-                                <span class="genre">${series.genre}</span>
+                                <span class="genre">${Array.isArray(series.genre) ? series.genre.join(', ') : series.genre}</span>
                                 <span class="rating">
                                     <i class="fas fa-star"></i> ${series.rating}
                                 </span>
@@ -632,7 +632,17 @@
                     if (!series) return false;
                     
                     // Check genre (if any genre filters are selected)
-                    const matchesGenre = genreFilters.length === 0 || genreFilters.includes(series.genre);
+                    const seriesGenres = Array.isArray(series.genre) ? 
+                        series.genre.map(g => g.trim().toLowerCase()) : 
+                        [String(series.genre || '').trim().toLowerCase()];
+                    
+                    const matchesGenre = genreFilters.length === 0 || 
+                        genreFilters.some(selectedGenre => 
+                            seriesGenres.some(seriesGenre => 
+                                seriesGenre.includes(selectedGenre.toLowerCase()) || 
+                                selectedGenre.toLowerCase().includes(seriesGenre)
+                            )
+                        );
                     
                     // Check year range
                     const seriesYear = parseInt(series.year) || 0;
