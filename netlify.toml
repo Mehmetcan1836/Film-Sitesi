@@ -1,0 +1,14 @@
+[[redirects]]
+  from = "/diziler"
+  to = "/diziler.html"
+  status = 200
+
+[[redirects]]
+  from = "/filmler"
+  to = "/filmler.html"
+  status = 200
+
+[[redirects]]
+  from = "/iletişim"
+  to = "/iletişim.html"
+  status = 200
