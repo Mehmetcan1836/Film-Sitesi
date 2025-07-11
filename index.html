@@ -344,7 +344,7 @@
                 const popularMovies = [...allMovies]
                     .filter(content => content.type === 'film' || !content.type)
                     .sort((a, b) => (b.rating || 0) - (a.rating || 0))
-                    .slice(0, 5);
+                    .slice(0, 7);
                 
                 // Get top 5 popular series (from both sources)
                 const allSeriesCombined = [
