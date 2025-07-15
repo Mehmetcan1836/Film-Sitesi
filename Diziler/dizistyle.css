@@ -303,11 +303,7 @@ body {
         }
         
         .main-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
+            
             gap: 15px;
         }
         
