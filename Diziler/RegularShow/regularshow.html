@@ -74,10 +74,20 @@
               </button>
           </div>
           <br>
-            <!-- Episode Grid -->
-            <div class="episode-grid" id="episodeGrid">
-                <!-- Episodes will be dynamically loaded here -->
-            </div>
+          
+          <!-- Season Selector -->
+          <div class="season-selector-container mb-4">
+              <label for="seasonSelect" class="me-2">Sezon Seçin:</label>
+              <select id="seasonSelect" class="form-select d-inline-block w-auto">
+                  <option value="all">Tüm Sezonlar</option>
+                  <!-- Seasons will be added by JavaScript -->
+              </select>
+          </div>
+          
+          <!-- Episode Grid -->
+          <div class="episode-grid" id="episodesContainer">
+              <!-- Episodes will be loaded here -->
+          </div>
             
             <div class="pagination" id="pagination">
             <!-- Pagination will be dynamically generated -->
@@ -91,8 +101,209 @@
         <span id="toastMessage">Bölüm listenize eklendi</span>
     </div>
 
+    <style>
+        /* Season Selector Styles */
+        .season-selector-container {
+            padding: 10px 20px;
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .season-selector-container label {
+            color: #fff;
+            font-weight: 500;
+        }
+        
+        #seasonSelect {
+            background-color: #2d2d2d;
+            color: #fff;
+            border: 1px solid #444;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        
+        #seasonSelect:focus {
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+            border-color: #0d6efd;
+        }
+        
+        .episode-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
+        }
+        
+        .episode-card {
+            background: #1a1a1a;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .episode-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .episode-thumbnail {
+            position: relative;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            overflow: hidden;
+        }
+        
+        .episode-thumbnail img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .episode-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .episode-card:hover .episode-overlay {
+            opacity: 1;
+        }
+        
+        .play-btn {
+            color: #fff;
+            font-size: 2.5rem;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        
+        .play-btn:hover {
+            transform: scale(1.1);
+            color: #fff;
+        }
+        
+        .episode-info {
+            padding: 15px;
+        }
+        
+        .episode-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .episode-number {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        .watch-later {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+        
+        .watch-later:hover, .watch-later.active {
+            color: #ffd700;
+        }
+        
+        .episode-title {
+            color: #fff;
+            font-size: 1.1rem;
+            margin: 0 0 10px 0;
+        }
+        
+        .episode-desc {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .episode-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.8rem;
+        }
+        
+        .episode-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .episode-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    
     <script>
-       
+        // Watch Later functionality
+        let watchLater = JSON.parse(localStorage.getItem('watchLater')) || [];
+        
+        // Initialize seasons data
+        function getSeasons() {
+            const seasons = new Set();
+            episodes.forEach(episode => {
+                if (episode && episode.season !== undefined) {
+                    seasons.add(episode.season);
+                }
+            });
+            return Array.from(seasons).sort((a, b) => a - b);
+        }
+        
+        // Initialize season selector
+        function initSeasonSelector() {
+            const seasonSelect = document.getElementById('seasonSelect');
+            if (!seasonSelect) return;
+            
+            const seasons = getSeasons();
+            
+            // Clear existing options except the first one
+            while (seasonSelect.options.length > 1) {
+                seasonSelect.remove(1);
+            }
+            
+            // Add season options
+            seasons.forEach(season => {
+                const option = document.createElement('option');
+                option.value = season;
+                option.textContent = `Sezon ${season}`;
+                seasonSelect.appendChild(option);
+            });
+            
+            // Add event listener
+            seasonSelect.addEventListener('change', function() {
+                const selectedSeason = this.value;
+                if (selectedSeason === 'all') {
+                    renderEpisodes(episodes);
+                } else {
+                    const filteredEpisodes = episodes.filter(episode => 
+                        episode && episode.season == selectedSeason
+                    );
+                    renderEpisodes(filteredEpisodes);
+                }
+            });
+        }
         
         // Sample episode data (in a real app, this would come from an API)
         const episodes = [
@@ -138,63 +349,78 @@
             
 
           ]
-        // Watch Later functionality
-        let watchLater = JSON.parse(localStorage.getItem('watchLater')) || [];
-        
         // Render episodes
-        function renderEpisodes(episodesToRender) {
-            const episodeGrid = document.getElementById('episodeGrid');
-            episodeGrid.innerHTML = '';
+        function renderEpisodes(episodesToRender = episodes) {
+            const container = document.getElementById('episodesContainer');
+            if (!container) return;
+            
+            container.innerHTML = '';
             
             episodesToRender.forEach(episode => {
-                const isInWatchLater = watchLater.some(item => item.id === episode.id);
+                if (!episode || typeof episode !== 'object') return;
+                
+                const isInWatchLater = watchLater.some(item => item && item.id === episode.id);
+                const season = episode.season || 1;
+                const number = episode.number || 0;
+                const title = episode.title || '';
+                const description = episode.description || '';
+                const date = episode.date || '';
+                const duration = episode.duration || '';
+                const image = episode.image || '/img/placeholder.jpg';
                 
                 const episodeCard = document.createElement('div');
                 episodeCard.className = 'episode-card';
                 episodeCard.innerHTML = `
                     <div class="episode-thumbnail">
-                        <img src="${episode.image}" alt="${episode.title}">
+                        <img src="${image}" alt="${title}" onerror="this.src='/img/placeholder.jpg'">
                         <div class="episode-overlay">
-                            <a href="../Esrarengiz Kasaba/Sezon${episode.season}/${episode.season}.Sezon ${episode.number}.Bölüm Esrarengiz Kasaba.html" class="play-btn">
+                            <a href="../RegularShow/Sezon${season}/${season}.Sezon ${number}.Bölüm Regular Show.html" class="play-btn">
                                 <i class="fas fa-play"></i>
                             </a>
                         </div>
                     </div>
                     <div class="episode-info">
                         <div class="episode-header">
-                            <span class="episode-number">${episode.number}. Bölüm</span>
+                            <span class="episode-number">Sezon ${season} • Bölüm ${number}</span>
                             <button class="watch-later ${isInWatchLater ? 'active' : ''}" data-id="${episode.id}">
                                 <i class="far fa-bookmark"></i>
                             </button>
                         </div>
-                        <h3 class="episode-title">${episode.title}</h3>
-                        <p class="episode-desc">${episode.description}</p>
+                        <h3 class="episode-title">${title}</h3>
+                        <p class="episode-desc">${description}</p>
                         <div class="episode-meta">
-                            <span><i class="far fa-calendar-alt"></i> ${episode.date}</span>
-                            <span><i class="far fa-clock"></i> ${episode.duration}</span>
+                            <span><i class="far fa-calendar-alt"></i> ${date}</span>
+                            <span><i class="far fa-clock"></i> ${duration}</span>
                         </div>
                     </div>
                 `;
                 
-                episodeGrid.appendChild(episodeCard);
+                container.appendChild(episodeCard);
             });
             
             // Add event listeners to watch later buttons
             document.querySelectorAll('.watch-later').forEach(button => {
-                button.addEventListener('click', toggleWatchLater);
+                if (button && button.addEventListener) {
+                    button.addEventListener('click', toggleWatchLater);
+                }
             });
         }
         
         // Toggle watch later
         function toggleWatchLater(e) {
-            const button = e.currentTarget;
-            const episodeId = parseInt(button.dataset.id);
-            const episode = episodes.find(ep => ep.id === episodeId);
+            if (!e || !e.currentTarget) return;
             
-            const index = watchLater.findIndex(item => item.id === episodeId);
+            const button = e.currentTarget;
+            const episodeId = parseInt(button.dataset.id, 10);
+            if (isNaN(episodeId)) return;
+            
+            const episode = episodes.find(ep => ep && ep.id === episodeId);
+            if (!episode) return;
+            
+            const index = watchLater.findIndex(item => item && item.id === episodeId);
             
             if (index === -1) {
-                watchLater.push(episode);
+                watchLater.push({...episode});
                 button.classList.add('active');
                 showToast('Bölüm listenize eklendi');
             } else {
@@ -203,13 +429,19 @@
                 showToast('Bölüm listenizden kaldırıldı');
             }
             
-            localStorage.setItem('watchLater', JSON.stringify(watchLater));
+            try {
+                localStorage.setItem('watchLater', JSON.stringify(watchLater));
+            } catch (error) {
+                console.error('Error saving to localStorage:', error);
+            }
         }
         
         // Show toast notification
         function showToast(message) {
             const toast = document.getElementById('toast');
             const toastMessage = document.getElementById('toastMessage');
+            
+            if (!toast || !toastMessage) return;
             
             toastMessage.textContent = message;
             toast.classList.add('show');
@@ -223,129 +455,71 @@
         const searchInput = document.getElementById('searchInput');
         const searchBtn = document.getElementById('searchBtn');
         
-        function searchEpisodes() {
-            const searchTerm = searchInput.value.toLowerCase();
-            const filteredEpisodes = episodes.filter(episode => 
-                episode.title.toLowerCase().includes(searchTerm) || 
-                episode.description.toLowerCase().includes(searchTerm)
-            );
+        function handleSearch() {
+            if (!searchInput) return;
             
-            renderEpisodes(filteredEpisodes.length > 0 ? filteredEpisodes : episodes);
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            if (!searchTerm) {
+                renderEpisodes(episodes);
+                const seasonSelect = document.getElementById('seasonSelect');
+                if (seasonSelect) seasonSelect.value = 'all';
+                return;
+            }
+            
+            const filteredEpisodes = episodes.filter(episode => {
+                if (!episode) return false;
+                const title = episode.title ? episode.title.toLowerCase() : '';
+                const description = episode.description ? episode.description.toLowerCase() : '';
+                return title.includes(searchTerm) || description.includes(searchTerm);
+            });
+            
+            renderEpisodes(filteredEpisodes);
         }
         
-        searchBtn.addEventListener('click', searchEpisodes);
+        searchBtn.addEventListener('click', handleSearch);
         searchInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
-                searchEpisodes();
+                handleSearch();
             }
         });
-        
-        // Pagination
-        const itemsPerPage = 10;
-        let currentPage = 1;
-        
-        function setupPagination(items, container, rowsPerPage) {
-            container.innerHTML = '';
-            const pageCount = Math.ceil(items.length / rowsPerPage);
-            
-            // Previous button
-            const prevBtn = document.createElement('button');
-            prevBtn.className = 'page-btn';
-            prevBtn.innerHTML = '&laquo;';
-            prevBtn.disabled = currentPage === 1;
-            prevBtn.addEventListener('click', () => {
-                if (currentPage > 1) {
-                    currentPage--;
-                    renderEpisodes(getPaginatedItems(items));
-                    setupPagination(items, container, rowsPerPage);
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-            });
-            container.appendChild(prevBtn);
-            // Move this to the top of your script section
-
-
-function updateThemeIcon(icon, theme) {
-    if (!icon) return;
-    icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-}
-
-// Update the DOMContentLoaded event listener
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize theme
-    initializeTheme();
-    
-    // Initialize episodes and pagination
-    const paginationContainer = document.getElementById('pagination');
-    if (paginationContainer) {
-        setupPagination(episodes, paginationContainer, itemsPerPage);
-        renderEpisodes(getPaginatedItems(episodes));
-    }
-});
-            // Page numbers
-            for (let i = 1; i <= pageCount; i++) {
-                const btn = document.createElement('button');
-                btn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
-                btn.textContent = i;
-                
-                if (i === currentPage) {
-                    btn.disabled = true;
-                }
-                
-                btn.addEventListener('click', () => {
-                    currentPage = i;
-                    renderEpisodes(getPaginatedItems(items));
-                    setupPagination(items, container, rowsPerPage);
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                });
-                
-                container.appendChild(btn);
-            }
-            
-            // Next button
-            const nextBtn = document.createElement('button');
-            nextBtn.className = 'page-btn';
-            nextBtn.innerHTML = '&raquo;';
-            nextBtn.disabled = currentPage === pageCount;
-            nextBtn.addEventListener('click', () => {
-                if (currentPage < pageCount) {
-                    currentPage++;
-                    renderEpisodes(getPaginatedItems(items));
-                    setupPagination(items, container, rowsPerPage);
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-            });
-            container.appendChild(nextBtn);
-        }
-        
-        function getPaginatedItems(items) {
-            const start = (currentPage - 1) * itemsPerPage;
-            const end = start + itemsPerPage;
-            return items.slice(start, end);
-        }
         
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            const paginationContainer = document.getElementById('pagination');
-            setupPagination(episodes, paginationContainer, itemsPerPage);
-            renderEpisodes(getPaginatedItems(episodes));
-        });
-        
-        // View Toggle
-        const viewButtons = document.querySelectorAll('.view-btn');
-        const episodeGrid = document.getElementById('episodeGrid');
-        
-        viewButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                viewButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
+            // Initialize season selector
+            initSeasonSelector();
+            
+            // Initial render
+            if (episodes && episodes.length > 0) {
+                renderEpisodes(episodes);
                 
-                if (button.dataset.view === 'list') {
-                    episodeGrid.classList.add('list-view');
-                } else {
-                    episodeGrid.classList.remove('list-view');
+                // Initialize watch later buttons
+                document.querySelectorAll('.watch-later').forEach(button => {
+                    button.addEventListener('click', toggleWatchLater);
+                });
+                
+                // Initialize view toggle
+                const viewButtons = document.querySelectorAll('.view-btn');
+                const episodesContainer = document.getElementById('episodesContainer');
+                
+                viewButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        viewButtons.forEach(btn => btn.classList.remove('active'));
+                        button.classList.add('active');
+                        
+                        if (button.dataset.view === 'list') {
+                            episodesContainer.classList.add('list-view');
+                        } else {
+                            episodesContainer.classList.remove('list-view');
+                        }
+                    });
+                });
+            } else {
+                console.error('No episodes data found');
+                const container = document.getElementById('episodesContainer');
+                if (container) {
+                    container.innerHTML = '<p class="no-results">Bölümler yüklenirken bir hata oluştu.</p>';
                 }
-            });
+            }
         });
     </script>
     <script src="/js/header.js"></script>
