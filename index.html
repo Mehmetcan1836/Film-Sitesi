@@ -252,21 +252,189 @@
             opacity: 0.9;
         }
 
+        /* Trailer Showcase Styles */
+        .trailer-showcase {
+            padding: 20px 0 40px;
+            position: relative;
+        }
+
+        .trailer-container {
+            position: relative;
+            margin: 0 auto;
+            max-width: 1200px;
+            overflow: hidden;
+        }
+
+        .trailer-slider {
+            display: flex;
+            transition: transform 0.5s ease;
+            gap: 20px;
+            padding: 20px 0;
+        }
+
+        .trailer-item {
+            min-width: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            background: #1f1f1f;
+        }
+
+        .trailer-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .trailer-thumbnail {
+            position: relative;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            background: #000;
+            cursor: pointer;
+        }
+
+        .trailer-thumbnail img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.3s ease;
+        }
+
+        .trailer-thumbnail:hover img {
+            opacity: 0.7;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(229, 9, 20, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .trailer-item:hover .play-button {
+            background: #ff0a16;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .trailer-info {
+            padding: 15px;
+        }
+
+        .trailer-info h3 {
+            margin: 0 0 8px;
+            font-size: 1.1rem;
+            color: #fff;
+        }
+
+        .trailer-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #aaa;
+            font-size: 0.85rem;
+        }
+
+        .trailer-nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        .trailer-nav-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .trailer-nav-btn:hover {
+            background: #e50914;
+            transform: scale(1.1);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 0 20px;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            color: #fff;
+            margin: 0;
+        }
+
+        .section-header h2 i {
+            margin-right: 10px;
+            color: #e50914;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .trailer-item {
+                min-width: 250px;
+            }
+            
+            .section-header {
+                padding: 0 15px;
+            }
+            
+            .section-header h2 {
+                font-size: 1.3rem;
+            }
+        }
         
     </style>
 </head>
 <body>
     <main class="main-content">
-        
+        <!-- Trailer Showcase Section -->
+        <section class="trailer-showcase">
+            <div class="section-header">
+                <h2><i class="fas fa-play-circle"></i> Yakında Gelecekler</h2>
+                <div class="trailer-nav">
+                    <button class="trailer-nav-btn prev-trailer"><i class="fas fa-chevron-left"></i></button>
+                    <button class="trailer-nav-btn next-trailer"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="trailer-container">
+                <div class="trailer-slider">
+                    <!-- Trailers will be loaded dynamically -->
+                </div>
+            </div>
+        </section>
+
         <section class="featured-section">
             <div class="section-header">
-                <h2><i class="fas fa-newspaper"></i> Yeni Dizi&Filmler</h2>
-                
+                <h2><i class="fas fa-newspaper"></i> Yeni Dizi & Filmler</h2>
             </div>
             <!-- Story Slider -->
-        <div class="story-container">
-            <!-- Story items will be dynamically added here by JavaScript -->
-        </div>
+            <div class="story-container">
+                <!-- Story items will be dynamically added here by JavaScript -->
+            </div>
             <div class="section-header">
                 <h2><i class="fas fa-fire"></i> Popüler Filmler</h2>
                 <a href="filmler.html" class="view-all">Tümünü Gör <i class="fas fa-arrow-right"></i></a>
@@ -299,6 +467,305 @@
     <script>
         // Content data will be loaded from JSON
         let contentData = [];
+        
+        // TMDB API Configuration
+        const TMDB_API_KEY = '995d04f68f5dc7d1299752f1510bc93d';
+        const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
+        const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w500';
+        const YOUTUBE_BASE_URL = 'https://www.youtube.com/embed/';
+        
+        // Initialize trailer slider with TMDB data
+        async function initTrailerSlider() {
+            const slider = document.querySelector('.trailer-slider');
+            const prevBtn = document.querySelector('.prev-trailer');
+            const nextBtn = document.querySelector('.next-trailer');
+            let currentPosition = 0;
+            const itemWidth = 320; // Width + gap of each trailer item
+            let upcomingTrailers = [];
+            
+            // Show loading state
+            slider.innerHTML = '<div class="loading">Yakında gelecek filmler yükleniyor...</div>';
+            
+            try {
+                console.log('Fetching upcoming movies...');
+                // 1. Fetch upcoming movies
+                const moviesResponse = await fetch(
+                    `${TMDB_BASE_URL}/movie/upcoming?language=tr-TR&page=1&region=TR`, 
+                    {
+                        method: 'GET',
+                        headers: {
+                            'accept': 'application/json',
+                            'Authorization': `Bearer ${TMDB_API_KEY}`
+                        }
+                    }
+                );
+                
+                console.log('Movies response status:', moviesResponse.status);
+                
+                if (!moviesResponse.ok) {
+                    const errorText = await moviesResponse.text();
+                    console.error('Error fetching movies:', errorText);
+                    throw new Error(`Failed to fetch upcoming movies: ${moviesResponse.status} ${moviesResponse.statusText}`);
+                }
+                
+                const moviesData = await moviesResponse.json();
+                console.log('Movies data:', moviesData);
+                const movies = moviesData.results || [];
+                console.log('Number of movies found:', movies.length);
+                
+                // Get first 5 upcoming movies
+                const upcomingMovies = movies.slice(0, 5);
+                
+                // 2. For each movie, fetch its videos to get the trailer
+                const trailers = await Promise.all(
+                    upcomingMovies.map(async (movie) => {
+                        try {
+                            console.log(`Fetching videos for movie: ${movie.id} - ${movie.title}`);
+                            const videosResponse = await fetch(
+                                `${TMDB_BASE_URL}/movie/${movie.id}/videos?language=tr-TR`, 
+                                {
+                                    method: 'GET',
+                                    headers: {
+                                        'accept': 'application/json',
+                                        'Authorization': `Bearer ${TMDB_API_KEY}`
+                                    }
+                                }
+                            );
+                            
+                            console.log(`Videos response status for ${movie.id}:`, videosResponse.status);
+                            
+                            if (!videosResponse.ok) {
+                                const errorText = await videosResponse.text();
+                                console.error(`Error fetching videos for ${movie.id}:`, errorText);
+                                return null;
+                            }
+                            
+                            const videosData = await videosResponse.json();
+                            console.log(`Videos for ${movie.id}:`, videosData);
+                            const videos = videosData.results || [];
+                            
+                            // Try to find a trailer, first in Turkish, then any language
+                            let trailer = videos.find(video => 
+                                video.type === 'Trailer' && 
+                                video.site === 'YouTube' &&
+                                video.iso_639_1 === 'tr'
+                            );
+                            
+                            if (!trailer) {
+                                trailer = videos.find(video => 
+                                    video.type === 'Trailer' && 
+                                    video.site === 'YouTube'
+                                );
+                            }
+                            
+                            console.log(`Found trailer for ${movie.id}:`, trailer ? trailer.key : 'No trailer found');
+                            
+                            return {
+                                id: movie.id,
+                                title: movie.title,
+                                thumbnail: movie.backdrop_path 
+                                    ? `${TMDB_IMAGE_BASE}${movie.backdrop_path}`
+                                    : 'https://via.placeholder.com/500x281?text=Resim+Yok',
+                                videoUrl: trailer 
+                                    ? `${YOUTUBE_BASE_URL}${trailer.key}`
+                                    : null,
+                                releaseDate: new Date(movie.release_date).toLocaleDateString('tr-TR', {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric'
+                                }),
+                                type: 'Film',
+                                overview: movie.overview || 'Açıklama bulunamadı.'
+                            };
+                        } catch (error) {
+                            console.error(`Error processing movie ${movie.id}:`, error);
+                            return null;
+                        }
+                    })
+                );
+                
+                // Filter out any null values (failed fetches)
+                upcomingTrailers = trailers.filter(trailer => trailer !== null && trailer.videoUrl);
+                
+                // If no trailers found, show message
+                if (upcomingTrailers.length === 0) {
+                    slider.innerHTML = `
+                        <div class="error-message" style="width: 100%; text-align: center; padding: 20px;">
+                            <i class="fas fa-exclamation-circle" style="font-size: 2em; color: #e50914; margin-bottom: 10px;"></i>
+                            <p>Şu anda gösterilecek fragman bulunamadı. Lütfen daha sonra tekrar deneyin.</p>
+                            <button onclick="window.location.reload()" style="margin-top: 15px; padding: 8px 20px; background: #e50914; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                <i class="fas fa-sync-alt"></i> Tekrar Dene
+                            </button>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Clear loading state
+                slider.innerHTML = '';
+                
+                // Create trailer items
+                upcomingTrailers.forEach(trailer => {
+                    const trailerItem = document.createElement('div');
+                    trailerItem.className = 'trailer-item';
+                    trailerItem.innerHTML = `
+                        <div class="trailer-thumbnail">
+                            <img src="${trailer.thumbnail}" alt="${trailer.title}">
+                            <button class="play-button" data-video="${trailer.videoUrl}">
+                                <i class="fas fa-play"></i>
+                            </button>
+                        </div>
+                        <div class="trailer-info">
+                            <h3>${trailer.title}</h3>
+                            <div class="trailer-meta">
+                                <span>${trailer.type}</span>
+                                <span>${trailer.releaseDate}</span>
+                            </div>
+                        </div>
+                    `;
+                    slider.appendChild(trailerItem);
+                });
+                
+                const visibleItems = Math.min(4, upcomingTrailers.length);
+                
+                // Navigation functions
+                function updateButtons() {
+                    if (!prevBtn || !nextBtn) return;
+                    prevBtn.disabled = currentPosition === 0;
+                    nextBtn.disabled = currentPosition <= -(upcomingTrailers.length - visibleItems) * itemWidth;
+                }
+                
+                function moveSlider(direction) {
+                    const itemsCount = upcomingTrailers.length;
+                    const maxPosition = -(itemsCount - visibleItems) * itemWidth;
+                    
+                    if (direction === 'prev' && currentPosition < 0) {
+                        currentPosition += itemWidth;
+                    } else if (direction === 'next' && currentPosition > maxPosition) {
+                        currentPosition = Math.max(maxPosition, currentPosition - itemWidth);
+                    }
+                    
+                    slider.style.transform = `translateX(${currentPosition}px)`;
+                    updateButtons();
+                }
+                
+                // Add event listeners if buttons exist
+                if (prevBtn && nextBtn) {
+                    prevBtn.addEventListener('click', () => moveSlider('prev'));
+                    nextBtn.addEventListener('click', () => moveSlider('next'));
+                    updateButtons();
+                }
+                
+                // Handle play button clicks
+                document.addEventListener('click', (e) => {
+                    const playBtn = e.target.closest('.play-button');
+                    if (!playBtn) return;
+                    
+                    const videoUrl = playBtn.dataset.video;
+                    if (videoUrl) {
+                        openTrailerModal(videoUrl);
+                    }
+                });
+                
+            } catch (error) {
+                console.error('Error loading trailers:', error);
+                slider.innerHTML = `
+                    <div class="error-message">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Fragmanlar yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Function to open trailer in modal
+        function openTrailerModal(videoUrl) {
+            // Create modal if it doesn't exist
+            let modal = document.getElementById('trailerModal');
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'trailerModal';
+                modal.style.position = 'fixed';
+                modal.style.top = '0';
+                modal.style.left = '0';
+                modal.style.width = '100%';
+                modal.style.height = '100%';
+                modal.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+                modal.style.display = 'flex';
+                modal.style.justifyContent = 'center';
+                modal.style.alignItems = 'center';
+                modal.style.zIndex = '1000';
+                modal.style.opacity = '0';
+                modal.style.transition = 'opacity 0.3s';
+                
+                const closeBtn = document.createElement('button');
+                closeBtn.innerHTML = '&times;';
+                closeBtn.style.position = 'absolute';
+                closeBtn.style.top = '20px';
+                closeBtn.style.right = '30px';
+                closeBtn.style.background = 'none';
+                closeBtn.style.border = 'none';
+                closeBtn.style.color = 'white';
+                closeBtn.style.fontSize = '40px';
+                closeBtn.style.cursor = 'pointer';
+                closeBtn.style.zIndex = '1001';
+                closeBtn.addEventListener('click', closeTrailerModal);
+                
+                const iframe = document.createElement('iframe');
+                iframe.id = 'trailerIframe';
+                iframe.style.border = 'none';
+                iframe.style.width = '80vw';
+                iframe.style.height = '45vw';
+                iframe.style.maxWidth = '1200px';
+                iframe.style.maxHeight = '675px';
+                
+                modal.appendChild(closeBtn);
+                modal.appendChild(iframe);
+                document.body.appendChild(modal);
+                
+                // Fade in effect
+                setTimeout(() => { modal.style.opacity = '1'; }, 10);
+                
+                // Close on background click
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) closeTrailerModal();
+                });
+                
+                // Close on Escape key
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') closeTrailerModal();
+                });
+            }
+            
+            // Set video source
+            const iframe = document.getElementById('trailerIframe');
+            iframe.src = videoUrl + '?autoplay=1&rel=0&showinfo=0&modestbranding=1';
+            
+            // Show modal
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeTrailerModal() {
+            const modal = document.getElementById('trailerModal');
+            if (!modal) return;
+            
+            // Stop video
+            const iframe = document.getElementById('trailerIframe');
+            if (iframe) {
+                const src = iframe.src;
+                iframe.src = '';
+                iframe.src = src.replace('autoplay=1', 'autoplay=0');
+            }
+            
+            // Fade out and remove
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                if (modal && modal.parentNode) {
+                    document.body.style.overflow = '';
+                    modal.parentNode.removeChild(modal);
+                }
+            }, 300);
+        }
 
         // Function to generate movie HTML
         function createMovieElement(movie) {
@@ -477,25 +944,47 @@
 
         // Initialize page
         document.addEventListener('DOMContentLoaded', () => {
+            // Initialize trailer slider
+            initTrailerSlider();
+            
             // Load content data (including movies and series)
             loadContentData();
-
-            // Add filter event listeners if filter sidebar exists
-            const filterButton = document.querySelector('.filter-sidebar .btn-primary');
-            if (filterButton) {
-                filterButton.addEventListener('click', filterMovies);
-            }
-
-            // Reset filters
-            document.querySelector('.filter-sidebar .btn-outline-primary').addEventListener('click', () => {
-                document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(checkbox => {
-                    checkbox.checked = false;
-                });
-                document.getElementById('yearFrom').value = '';
-                document.getElementById('yearTo').value = '';
-                document.getElementById('ratingRange').value = '7.0';
-                filterMovies();
+            createSeriesSection();
+            
+            // Initialize filter events
+            document.querySelectorAll('.filter-sidebar input')?.forEach(input => {
+                input.addEventListener('change', filterMovies);
             });
+            
+            // Year range inputs
+            document.getElementById('yearFrom')?.addEventListener('input', filterMovies);
+            document.getElementById('yearTo')?.addEventListener('input', filterMovies);
+            document.getElementById('ratingRange')?.addEventListener('input', filterMovies);
+            
+            // Reset filters
+            const resetButton = document.querySelector('.filter-sidebar .btn-outline-primary');
+            if (resetButton) {
+                resetButton.addEventListener('click', () => {
+                    const checkboxes = document.querySelectorAll('.filter-sidebar input[type="checkbox"]');
+                    if (checkboxes.length > 0) {
+                        checkboxes.forEach(checkbox => {
+                            checkbox.checked = false;
+                        });
+                    }
+                    
+                    const yearFrom = document.getElementById('yearFrom');
+                    const yearTo = document.getElementById('yearTo');
+                    const ratingRange = document.getElementById('ratingRange');
+                    
+                    if (yearFrom) yearFrom.value = '';
+                    if (yearTo) yearTo.value = '';
+                    if (ratingRange) ratingRange.value = '7.0';
+                    
+                    if (typeof filterMovies === 'function') {
+                        filterMovies();
+                    }
+                });
+            }
 
             // Update rating display when slider changes
             const ratingRange = document.getElementById('ratingRange');
