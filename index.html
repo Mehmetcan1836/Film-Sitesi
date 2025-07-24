@@ -252,6 +252,253 @@
             opacity: 0.9;
         }
 
+        /* Trailer Slider Styles */
+        .trailer-slider {
+            display: flex;
+            transition: transform 0.3s ease-in-out;
+            gap: 20px;
+            margin: 0 -10px;
+            padding: 0 10px;
+        }
+        
+        .trailer-item {
+            flex: 0 0 280px;
+            background: #1a1a1a;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .trailer-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .trailer-thumbnail {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 150%; /* 2:3 Aspect Ratio */
+            background-color: #1a1a1a;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        
+        .trailer-thumbnail img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .trailer-item:hover .trailer-thumbnail img {
+            transform: scale(1.05);
+        }
+        
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background: rgba(229, 9, 20, 0.9);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+        
+        .trailer-item:hover .play-button {
+            opacity: 1;
+        }
+        
+        .play-button:hover {
+            background: #ff0a16;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #fff;
+            border-radius: 50%;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+        
+        .play-button:hover {
+            background: #e50914;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        .trailer-info {
+            padding: 15px;
+        }
+        
+        .trailer-info h3 {
+            margin: 0 0 8px;
+            font-size: 16px;
+            color: white;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .trailer-meta {
+            display: flex;
+            gap: 10px;
+            font-size: 14px;
+            color: #999;
+        }
+        
+        .slider-nav {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .slider-nav button {
+            background: #333;
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .slider-nav button:hover:not(:disabled) {
+            background: #e50914;
+            transform: scale(1.1);
+        }
+        
+        .slider-nav button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            width: 90%;
+            max-width: 1000px;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            padding: 5px 15px;
+            transition: color 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            color: #e50914;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            background: #000;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .trailer-item {
+                flex: 0 0 240px;
+            }
+            
+            .play-button {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .trailer-item {
+                flex: 0 0 200px;
+            }
+            
+            .trailer-info h3 {
+                font-size: 14px;
+            }
+            
+            .trailer-meta {
+                font-size: 12px;
+            }
+        }
+
+        .trailer-thumbnail:hover img {
+            opacity: 0.7;
+        }
+
         /* Trailer Showcase Styles */
         .trailer-showcase {
             padding: 20px 0 40px;
@@ -474,208 +721,155 @@
         const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w500';
         const YOUTUBE_BASE_URL = 'https://www.youtube.com/embed/';
         
-        // Initialize trailer slider with TMDB data
-        async function initTrailerSlider() {
+        // Fallback trailers data with direct TMDB image URLs
+        const FALLBACK_TRAILERS = [
+            {
+                id: 1,
+                title: 'Dune: Part Two',
+                thumbnail: 'https://www.themoviedb.org/t/p/w500/8b8R8l88Qje9dn9OE8PY05Nx1KT.jpg',
+                videoUrl: 'https://www.youtube.com/embed/Way9Dexny3w',
+                releaseDate: '15 Mart 2024',
+                type: 'Film'
+            },
+            {
+                id: 2,
+                title: 'The Witcher: Sezon 4',
+                thumbnail: 'https://www.themoviedb.org/t/p/w500/8WUVHemMFH28IgELkFd9qFWw0z7.jpg',
+                videoUrl: 'https://www.youtube.com/embed/2XWzDZwJz0Y',
+                releaseDate: '29 Aralık 2023',
+                type: 'Dizi'
+            },
+            {
+                id: 3,
+                title: 'Avatar 3',
+                thumbnail: 'https://www.themoviedb.org/t/p/w500/5m0vU7x37HwnHv2JXZWMgIuQvVr.jpg',
+                videoUrl: 'https://www.youtube.com/embed/d9MyW72ELq0',
+                releaseDate: '19 Aralık 2025',
+                type: 'Film'
+            },
+            {
+                id: 4,
+                title: 'Stranger Things Sezon 5',
+                thumbnail: 'https://www.themoviedb.org/t/p/w500/49WJfeN0moxb1IP2GnKn96pnhvl.jpg',
+                videoUrl: 'https://www.youtube.com/embed/4uRZQ8Tn6YI',
+                releaseDate: '29 Aralık 2023',
+                type: 'Dizi'
+            }
+        ];
+        
+        // Function to set up slider navigation
+        function setupSliderNavigation(slider, prevBtn, nextBtn, itemWidth) {
+            const items = slider.querySelectorAll('.trailer-item');
+            let currentPosition = 0;
+            const maxPosition = -((items.length - 3) * itemWidth);
+            
+            // Update slider position
+            function updateSlider() {
+                slider.style.transform = `translateX(${currentPosition}px)`;
+                // Disable/enable buttons based on position
+                prevBtn.disabled = currentPosition >= 0;
+                nextBtn.disabled = currentPosition <= maxPosition;
+            }
+            
+            // Previous button click
+            prevBtn.addEventListener('click', () => {
+                currentPosition = Math.min(currentPosition + (itemWidth * 3), 0);
+                updateSlider();
+            });
+            
+            // Next button click
+            nextBtn.addEventListener('click', () => {
+                currentPosition = Math.max(currentPosition - (itemWidth * 3), maxPosition);
+                updateSlider();
+            });
+            
+            // Initial update
+            updateSlider();
+        }
+        
+        // Initialize trailer slider with static data
+        function initTrailerSlider() {
             const slider = document.querySelector('.trailer-slider');
             const prevBtn = document.querySelector('.prev-trailer');
             const nextBtn = document.querySelector('.next-trailer');
+            const itemWidth = 300; // Width of each trailer item including margin
             let currentPosition = 0;
-            const itemWidth = 320; // Width + gap of each trailer item
-            let upcomingTrailers = [];
             
-            // Show loading state
-            slider.innerHTML = '<div class="loading">Yakında gelecek filmler yükleniyor...</div>';
+            // Clear any existing content
+            slider.innerHTML = '';
             
-            try {
-                console.log('Fetching upcoming movies...');
-                // 1. Fetch upcoming movies
-                const moviesResponse = await fetch(
-                    `${TMDB_BASE_URL}/movie/upcoming?language=tr-TR&page=1&region=TR`, 
-                    {
-                        method: 'GET',
-                        headers: {
-                            'accept': 'application/json',
-                            'Authorization': `Bearer ${TMDB_API_KEY}`
-                        }
-                    }
-                );
+            // Add trailer items
+            FALLBACK_TRAILERS.forEach(trailer => {
+                console.log('Creating trailer item:', trailer.title);
+                const trailerItem = document.createElement('div');
+                trailerItem.className = 'trailer-item';
                 
-                console.log('Movies response status:', moviesResponse.status);
-                
-                if (!moviesResponse.ok) {
-                    const errorText = await moviesResponse.text();
-                    console.error('Error fetching movies:', errorText);
-                    throw new Error(`Failed to fetch upcoming movies: ${moviesResponse.status} ${moviesResponse.statusText}`);
-                }
-                
-                const moviesData = await moviesResponse.json();
-                console.log('Movies data:', moviesData);
-                const movies = moviesData.results || [];
-                console.log('Number of movies found:', movies.length);
-                
-                // Get first 5 upcoming movies
-                const upcomingMovies = movies.slice(0, 5);
-                
-                // 2. For each movie, fetch its videos to get the trailer
-                const trailers = await Promise.all(
-                    upcomingMovies.map(async (movie) => {
-                        try {
-                            console.log(`Fetching videos for movie: ${movie.id} - ${movie.title}`);
-                            const videosResponse = await fetch(
-                                `${TMDB_BASE_URL}/movie/${movie.id}/videos?language=tr-TR`, 
-                                {
-                                    method: 'GET',
-                                    headers: {
-                                        'accept': 'application/json',
-                                        'Authorization': `Bearer ${TMDB_API_KEY}`
-                                    }
-                                }
-                            );
-                            
-                            console.log(`Videos response status for ${movie.id}:`, videosResponse.status);
-                            
-                            if (!videosResponse.ok) {
-                                const errorText = await videosResponse.text();
-                                console.error(`Error fetching videos for ${movie.id}:`, errorText);
-                                return null;
-                            }
-                            
-                            const videosData = await videosResponse.json();
-                            console.log(`Videos for ${movie.id}:`, videosData);
-                            const videos = videosData.results || [];
-                            
-                            // Try to find a trailer, first in Turkish, then any language
-                            let trailer = videos.find(video => 
-                                video.type === 'Trailer' && 
-                                video.site === 'YouTube' &&
-                                video.iso_639_1 === 'tr'
-                            );
-                            
-                            if (!trailer) {
-                                trailer = videos.find(video => 
-                                    video.type === 'Trailer' && 
-                                    video.site === 'YouTube'
-                                );
-                            }
-                            
-                            console.log(`Found trailer for ${movie.id}:`, trailer ? trailer.key : 'No trailer found');
-                            
-                            return {
-                                id: movie.id,
-                                title: movie.title,
-                                thumbnail: movie.backdrop_path 
-                                    ? `${TMDB_IMAGE_BASE}${movie.backdrop_path}`
-                                    : 'https://via.placeholder.com/500x281?text=Resim+Yok',
-                                videoUrl: trailer 
-                                    ? `${YOUTUBE_BASE_URL}${trailer.key}`
-                                    : null,
-                                releaseDate: new Date(movie.release_date).toLocaleDateString('tr-TR', {
-                                    year: 'numeric',
-                                    month: 'long',
-                                    day: 'numeric'
-                                }),
-                                type: 'Film',
-                                overview: movie.overview || 'Açıklama bulunamadı.'
-                            };
-                        } catch (error) {
-                            console.error(`Error processing movie ${movie.id}:`, error);
-                            return null;
-                        }
-                    })
-                );
-                
-                // Filter out any null values (failed fetches)
-                upcomingTrailers = trailers.filter(trailer => trailer !== null && trailer.videoUrl);
-                
-                // If no trailers found, show message
-                if (upcomingTrailers.length === 0) {
-                    slider.innerHTML = `
-                        <div class="error-message" style="width: 100%; text-align: center; padding: 20px;">
-                            <i class="fas fa-exclamation-circle" style="font-size: 2em; color: #e50914; margin-bottom: 10px;"></i>
-                            <p>Şu anda gösterilecek fragman bulunamadı. Lütfen daha sonra tekrar deneyin.</p>
-                            <button onclick="window.location.reload()" style="margin-top: 15px; padding: 8px 20px; background: #e50914; color: white; border: none; border-radius: 4px; cursor: pointer;">
-                                <i class="fas fa-sync-alt"></i> Tekrar Dene
-                            </button>
+                trailerItem.innerHTML = `
+                    <div class="trailer-thumbnail">
+                        <img src="${trailer.thumbnail}" alt="${trailer.title}" onerror="this.onerror=null; this.src='https://via.placeholder.com/500x750/1a1a1a/ffffff?text=Image+Not+Found'">
+                        <div class="play-button" data-video="${trailer.videoUrl}">
+                            <i class="fas fa-play"></i>
                         </div>
-                    `;
-                    return;
-                }
-                
-                // Clear loading state
-                slider.innerHTML = '';
-                
-                // Create trailer items
-                upcomingTrailers.forEach(trailer => {
-                    const trailerItem = document.createElement('div');
-                    trailerItem.className = 'trailer-item';
-                    trailerItem.innerHTML = `
-                        <div class="trailer-thumbnail">
-                            <img src="${trailer.thumbnail}" alt="${trailer.title}">
-                            <button class="play-button" data-video="${trailer.videoUrl}">
-                                <i class="fas fa-play"></i>
-                            </button>
+                    </div>
+                    <div class="trailer-info">
+                        <h3>${trailer.title}</h3>
+                        <div class="trailer-meta">
+                            <span>${trailer.type}</span>
+                            <span>${trailer.releaseDate}</span>
                         </div>
-                        <div class="trailer-info">
-                            <h3>${trailer.title}</h3>
-                            <div class="trailer-meta">
-                                <span>${trailer.type}</span>
-                                <span>${trailer.releaseDate}</span>
-                            </div>
-                        </div>
-                    `;
-                    slider.appendChild(trailerItem);
-                });
+                    </div>
+                `;
                 
-                const visibleItems = Math.min(4, upcomingTrailers.length);
-                
-                // Navigation functions
-                function updateButtons() {
-                    if (!prevBtn || !nextBtn) return;
-                    prevBtn.disabled = currentPosition === 0;
-                    nextBtn.disabled = currentPosition <= -(upcomingTrailers.length - visibleItems) * itemWidth;
-                }
-                
-                function moveSlider(direction) {
-                    const itemsCount = upcomingTrailers.length;
-                    const maxPosition = -(itemsCount - visibleItems) * itemWidth;
-                    
-                    if (direction === 'prev' && currentPosition < 0) {
-                        currentPosition += itemWidth;
-                    } else if (direction === 'next' && currentPosition > maxPosition) {
-                        currentPosition = Math.max(maxPosition, currentPosition - itemWidth);
-                    }
-                    
-                    slider.style.transform = `translateX(${currentPosition}px)`;
-                    updateButtons();
-                }
-                
-                // Add event listeners if buttons exist
-                if (prevBtn && nextBtn) {
-                    prevBtn.addEventListener('click', () => moveSlider('prev'));
-                    nextBtn.addEventListener('click', () => moveSlider('next'));
-                    updateButtons();
-                }
-                
-                // Handle play button clicks
-                document.addEventListener('click', (e) => {
-                    const playBtn = e.target.closest('.play-button');
-                    if (!playBtn) return;
-                    
-                    const videoUrl = playBtn.dataset.video;
+                slider.appendChild(trailerItem);
+            });
+            
+            // Handle play button clicks
+            document.querySelectorAll('.play-button').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const videoUrl = btn.getAttribute('data-video');
                     if (videoUrl) {
                         openTrailerModal(videoUrl);
                     }
                 });
+            });
+            
+            // Handle slider navigation
+            function updateSlider() {
+                slider.style.transform = `translateX(${currentPosition}px)`;
                 
-            } catch (error) {
-                console.error('Error loading trailers:', error);
-                slider.innerHTML = `
-                    <div class="error-message">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <p>Fragmanlar yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.</p>
-                    </div>
-                `;
+                // Update button states
+                if (prevBtn) {
+                    prevBtn.disabled = currentPosition >= 0;
+                }
+                if (nextBtn) {
+                    const maxScroll = -((FALLBACK_TRAILERS.length - 3) * itemWidth);
+                    nextBtn.disabled = currentPosition <= maxScroll;
+                }
             }
+            
+            // Previous button click handler
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    currentPosition = Math.min(currentPosition + (itemWidth * 3), 0);
+                    updateSlider();
+                });
+            }
+            
+            // Next button click handler
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    const maxScroll = -((FALLBACK_TRAILERS.length - 3) * itemWidth);
+                    currentPosition = Math.max(currentPosition - (itemWidth * 3), maxScroll);
+                    updateSlider();
+                });
+            }
+            
+            // Initial update
+            updateSlider();
+            
+            // Make sure slider is properly initialized
+            setTimeout(updateSlider, 100);
         }
         
         // Function to open trailer in modal
