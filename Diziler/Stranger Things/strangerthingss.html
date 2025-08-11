@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regular Show izle - Dizicom</title>
+    <link rel="stylesheet" href="/Diziler/dizistyle.css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../../img/favicon.png">
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preload" as="style" href="css/movie-grid.css" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" as="style" href="css/story-slider.css" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" media="print" onload="this.media='all'">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+
+    <noscript>
+        <link rel="stylesheet" href="css/movie-grid.css">
+        <link rel="stylesheet" href="css/story-slider.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    </noscript>
+    <body style="background-color: var(--dark);">
+<!-- Main Content -->
+    <div class="content">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="title">
+                <i class="fas fa-tv"></i>
+                STRANGER THINGS
+            </div>
+            <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg" alt="Regular Show">
+            <ul>
+                <li>Stranger Things</li>
+                <li><i class="fas fa-film"></i> Animasyon</li>
+                <li><i class="fas fa-laugh-squint"></i> Komedi</li>
+                <li><i class="fas fa-tv"></i> TV</li>
+                <li><i class="far fa-clock"></i> 11 Dk.</li>
+                <li><i class="fas fa-list-ol"></i> 246 Bölüm.</li>
+                <li><i class="far fa-calendar-alt"></i> 2009 • Final Yaptı</li>
+                <li>
+                    <span class="tag">IMDb 6.1</span>
+                    <span class="tag">+16</span>
+                    <span class="tag">4K</span>
+                </li>
+            </ul>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main">
+            <div class="main-header">
+                <h1 class="title">Tüm Bölümler</h1>
+            </div>
+            
+            <!-- About Section -->
+            <section class="hakkındas">
+                <h3><i class="fas fa-info-circle"></i> Hakkında</h3>
+                <p>1980'lerin başında, küçük bir kasabada kaybolan bir çocuğun gizemli bir şekilde ortadan kaybolmasıyla başlayan olaylar, gizli deneyler, doğaüstü güçlere sahip bir kız ve tehlikeli bir alternatif boyutun varlığını ortaya çıkarır.</p>
+            </section>
+             <!-- Header -->
+             <div class="search-container">
+              <input type="text" class="search-input" id="searchInput" placeholder="Bölüm ara...">
+              <button class="search-btn" id="searchBtn">
+                  <i class="fas fa-search"></i>
+              </button>
+          </div>
+          <br>
+          
+          <!-- Season Selector -->
+          <div class="season-selector-container mb-4">
+              <label for="seasonSelect" class="me-2">Sezon Seçin:</label>
+              <select id="seasonSelect" class="form-select d-inline-block w-auto">
+                  <option value="all">Tüm Sezonlar</option>
+                  <!-- Seasons will be added by JavaScript -->
+              </select>
+          </div>
+          
+          <!-- Episode Grid -->
+          <div class="episode-grid" id="episodesContainer">
+              <!-- Episodes will be loaded here -->
+          </div>
+            
+            <div class="pagination" id="pagination">
+            <!-- Pagination will be dynamically generated -->
+        </div>
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Bölüm listenize eklendi</span>
+    </div>
+
+    <style>
+        /* Season Selector Styles */
+        .season-selector-container {
+            padding: 10px 20px;
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .season-selector-container label {
+            color: #fff;
+            font-weight: 500;
+        }
+        
+        #seasonSelect {
+            background-color: #2d2d2d;
+            color: #fff;
+            border: 1px solid #444;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        
+        #seasonSelect:focus {
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+            border-color: #0d6efd;
+        }
+        
+        .episode-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
+        }
+        
+        .episode-card {
+            background: #1a1a1a;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .episode-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .episode-thumbnail {
+            position: relative;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            overflow: hidden;
+        }
+        
+        .episode-thumbnail img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .episode-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .episode-card:hover .episode-overlay {
+            opacity: 1;
+        }
+        
+        .play-btn {
+            color: #fff;
+            font-size: 2.5rem;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        
+        .play-btn:hover {
+            transform: scale(1.1);
+            color: #fff;
+        }
+        
+        .episode-info {
+            padding: 15px;
+        }
+        
+        .episode-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .episode-number {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        .watch-later {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+        
+        .watch-later:hover, .watch-later.active {
+            color: #ffd700;
+        }
+        
+        .episode-title {
+            color: #fff;
+            font-size: 1.1rem;
+            margin: 0 0 10px 0;
+        }
+        
+        .episode-desc {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .episode-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.8rem;
+        }
+        
+        .episode-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .episode-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    
+    <script>
+        // Watch Later functionality
+        let watchLater = JSON.parse(localStorage.getItem('watchLater')) || [];
+        
+        // Initialize seasons data
+        function getSeasons() {
+            const seasons = new Set();
+            episodes.forEach(episode => {
+                if (episode && episode.season !== undefined) {
+                    seasons.add(episode.season);
+                }
+            });
+            return Array.from(seasons).sort((a, b) => a - b);
+        }
+        
+        // Initialize season selector
+        function initSeasonSelector() {
+            const seasonSelect = document.getElementById('seasonSelect');
+            if (!seasonSelect) return;
+            
+            const seasons = getSeasons();
+            
+            // Clear existing options except the first one
+            while (seasonSelect.options.length > 1) {
+                seasonSelect.remove(1);
+            }
+            
+            // Add season options
+            seasons.forEach(season => {
+                const option = document.createElement('option');
+                option.value = season;
+                option.textContent = `Sezon ${season}`;
+                seasonSelect.appendChild(option);
+            });
+            
+            // Add event listener
+            seasonSelect.addEventListener('change', function() {
+                const selectedSeason = this.value;
+                if (selectedSeason === 'all') {
+                    renderEpisodes(episodes);
+                } else {
+                    const filteredEpisodes = episodes.filter(episode => 
+                        episode && episode.season == selectedSeason
+                    );
+                    renderEpisodes(filteredEpisodes);
+                }
+            });
+        }
+        
+        // Sample episode data (in a real app, this would come from an API)
+        const episodes = [
+    // Season 1
+            // Season 1
+            {id: 1, season: 1, number: 1, title: "The Power", description: "Mordecai ve Rigby, bir elektrikli süpürge ile oynamaya çalışır. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "13.09.2010", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 2, season: 1, number: 2, title: "Just Set Up the Chairs", description: "Mordecai ve Rigby, bir parkta sandalyeler düzenlemeye çalışır. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "20.09.2010", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 3, season: 1, number: 3, title: "Caffeinated Concert Tickets", description: "Mordecai ve Rigby, bir konsere gitmek için bir yol bulmaya çalışır. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "27.09.2010", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 4, season: 1, number: 4, title: "Death Punchies", description: "Mordecai ve Rigby, bir ölüm yumruğu öğretir. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "04.10.2010", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 5, season: 1, number: 5, title: "Free Cake", description: "Mordecai ve Rigby, ücretsiz bir kek alır. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "11.10.2010", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 6, season: 1, number: 6, title: "Meat Your Maker", description: "Mordecai ve Rigby, bir et lokantasına gider. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "18.10.2010", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 7, season: 1, number: 7, title: "Grilled Cheese Deluxe", description: "Mordecai ve Rigby, bir peynirli sandviç yapmaya çalışır. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "25.10.2010", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 8, season: 1, number: 8, title: "The Unicorns Have Got to Go", description: "Mordecai ve Rigby, bir unicornu evlerinden kovmaya çalışır. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "01.11.2010", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 9, season: 1, number: 9, title: "Prank Callers", description: "Mordecai ve Rigby, bir telefon hattını hackleyerek birbirlerine şaka yapmaya çalışır. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "08.11.2010", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 10, season: 1, number: 10, title: "Don", description: "Mordecai ve Rigby, bir arabayı çalar. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "15.11.2010", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 11, season: 1, number: 11, title: "Rigby's Body", description: "Rigby, vücudunu kaybeder. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "22.11.2010", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 12, season: 1, number: 12, title: "Mordecai and the Rigbys", description: "Mordecai ve Rigby, bir müzik grubu kurar. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "29.11.2010", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 13, season: 2, number: 1, title: "Ello Gov'nor", description: "Mordecai ve Rigby, bir İngiliz aksanıyla konuşmaya çalışır. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "29.11.2010", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 14, season: 2, number: 2, title: "It's Time", description: "Mordecai ve Rigby, bir saatli bir adamla mücadele eder. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "06.12.2010", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 15, season: 2, number: 3, title: "Appreciation Day", description: "Mordecai ve Rigby, bir appreciation day kutlar. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "13.12.2010", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 16, season: 2, number: 4, title: "Peeps", description: "Mordecai ve Rigby, bir Easter egg ile oynar. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "20.12.2010", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 17, season: 2, number: 5, title: "Dizzy", description: "Mordecai ve Rigby, bir dizi ile oynar. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "27.12.2010", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 18, season: 2, number: 6, title: "My Mom", description: "Mordecai ve Rigby, bir anne ile mücadele eder. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "03.01.2011", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 19, season: 2, number: 7, title: "High Score", description: "Mordecai ve Rigby, bir video oyununda rekora gider. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "10.01.2011", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 20, season: 2, number: 8, title: "Rage Against the TV", description: "Mordecai ve Rigby, bir televizyon ile mücadele eder. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "17.01.2011", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 21, season: 2, number: 9, title: "Party Pete", description: "Mordecai ve Rigby, bir parti organize eder. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "24.01.2011", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 22, season: 2, number: 10, title: "Brain Eraser", description: "Mordecai ve Rigby, bir beyin siliciyle oynar. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "31.01.2011", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 23, season: 2, number: 11, title: "Benson Be Gone", description: "Mordecai ve Rigby, Benson'ı kovmaya çalışır. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "07.02.2011", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 24, season: 2, number: 12, title: "But I Have a Receipt", description: "Mordecai ve Rigby, bir fişle mücadele eder. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "14.02.2011", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 25, season: 2, number: 13, title: "This Is My Jam", description: "Mordecai ve Rigby, bir müzik grubu kurar. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "21.02.2011", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 26, season: 2, number: 14, title: "Muscle Woman", description: "Mordecai ve Rigby, bir kadınla mücadele eder. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "28.02.2011", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 27, season: 2, number: 15, title: "Temp Check", description: "Mordecai ve Rigby, bir ateş ölçerle oynar. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "07.03.2011", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 28, season: 2, number: 16, title: "Jinx", description: "Mordecai ve Rigby, bir kötü şans ile mücadele eder. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "14.03.2011", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 29, season: 2, number: 17, title: "See You There", description: "Mordecai ve Rigby, bir parti organize eder. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "21.03.2011", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 30, season: 2, number: 18, title: "Do Me a Solid", description: "Mordecai ve Rigby, bir arkadaşlık ile mücadele eder. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "28.03.2011", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 31, season: 2, number: 19, title: "Grave Sights", description: "Mordecai ve Rigby, bir mezarlıkta oynar. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "04.04.2011", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 32, season: 2, number: 20, title: "Really Real Wrestling", description: "Mordecai ve Rigby, bir güreş maçına katılır. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "11.04.2011", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 33, season: 2, number: 21, title: "Over the Top", description: "Mordecai ve Rigby, bir kitle ile mücadele eder. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "18.04.2011", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 34, season: 2, number: 22, title: "The Night Owl", description: "Mordecai ve Rigby, bir gece kartalı ile mücadele eder. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "25.04.2011", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 35, season: 2, number: 23, title: "A Bunch of Full Grown Geese", description: "Mordecai ve Rigby, bir kaz sürüsü ile mücadele eder. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "02.05.2011", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 36, season: 2, number: 24, title: "More Smarter", description: "Mordecai ve Rigby, bir zeka testi ile oynar. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "09.05.2011", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            {id: 37, season: 2, number: 25, title: "First Day", description: "Mordecai ve Rigby, bir ilk gün kutlar. Ancak, her şeyin ters gittiğini görürüz.", duration: "22 dk", date: "16.05.2011", image: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg"},
+            
+
+          ]
+        // Render episodes
+        function renderEpisodes(episodesToRender = episodes) {
+            const container = document.getElementById('episodesContainer');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            episodesToRender.forEach(episode => {
+                if (!episode || typeof episode !== 'object') return;
+                
+                const isInWatchLater = watchLater.some(item => item && item.id === episode.id);
+                const season = episode.season || 1;
+                const number = episode.number || 0;
+                const title = episode.title || '';
+                const description = episode.description || '';
+                const date = episode.date || '';
+                const duration = episode.duration || '';
+                const image = episode.image || '/img/placeholder.jpg';
+                
+                const episodeCard = document.createElement('div');
+                episodeCard.className = 'episode-card';
+                episodeCard.innerHTML = `
+                    <div class="episode-thumbnail">
+                        <img src="${image}" alt="${title}" onerror="this.src='/img/placeholder.jpg'">
+                        <div class="episode-overlay">
+                            <a href="../Stranger Things/Sezon${season}/Stranger Things ${season}.Sezon ${number}.Bölüm.html" class="play-btn">
+                                <i class="fas fa-play"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="episode-info">
+                        <div class="episode-header">
+                            <span class="episode-number">Sezon ${season} • Bölüm ${number}</span>
+                            <button class="watch-later ${isInWatchLater ? 'active' : ''}" data-id="${episode.id}">
+                                <i class="far fa-bookmark"></i>
+                            </button>
+                        </div>
+                        <h3 class="episode-title">${title}</h3>
+                        <p class="episode-desc">${description}</p>
+                        <div class="episode-meta">
+                            <span><i class="far fa-calendar-alt"></i> ${date}</span>
+                            <span><i class="far fa-clock"></i> ${duration}</span>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(episodeCard);
+            });
+            
+            // Add event listeners to watch later buttons
+            document.querySelectorAll('.watch-later').forEach(button => {
+                if (button && button.addEventListener) {
+                    button.addEventListener('click', toggleWatchLater);
+                }
+            });
+        }
+        
+        // Toggle watch later
+        function toggleWatchLater(e) {
+            if (!e || !e.currentTarget) return;
+            
+            const button = e.currentTarget;
+            const episodeId = parseInt(button.dataset.id, 10);
+            if (isNaN(episodeId)) return;
+            
+            const episode = episodes.find(ep => ep && ep.id === episodeId);
+            if (!episode) return;
+            
+            const index = watchLater.findIndex(item => item && item.id === episodeId);
+            
+            if (index === -1) {
+                watchLater.push({...episode});
+                button.classList.add('active');
+                showToast('Bölüm listenize eklendi');
+            } else {
+                watchLater.splice(index, 1);
+                button.classList.remove('active');
+                showToast('Bölüm listenizden kaldırıldı');
+            }
+            
+            try {
+                localStorage.setItem('watchLater', JSON.stringify(watchLater));
+            } catch (error) {
+                console.error('Error saving to localStorage:', error);
+            }
+        }
+        
+        // Show toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            if (!toast || !toastMessage) return;
+            
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        
+        function handleSearch() {
+            if (!searchInput) return;
+            
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            if (!searchTerm) {
+                renderEpisodes(episodes);
+                const seasonSelect = document.getElementById('seasonSelect');
+                if (seasonSelect) seasonSelect.value = 'all';
+                return;
+            }
+            
+            const filteredEpisodes = episodes.filter(episode => {
+                if (!episode) return false;
+                const title = episode.title ? episode.title.toLowerCase() : '';
+                const description = episode.description ? episode.description.toLowerCase() : '';
+                return title.includes(searchTerm) || description.includes(searchTerm);
+            });
+            
+            renderEpisodes(filteredEpisodes);
+        }
+        
+        searchBtn.addEventListener('click', handleSearch);
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleSearch();
+            }
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize season selector
+            initSeasonSelector();
+            
+            // Initial render
+            if (episodes && episodes.length > 0) {
+                renderEpisodes(episodes);
+                
+                // Initialize watch later buttons
+                document.querySelectorAll('.watch-later').forEach(button => {
+                    button.addEventListener('click', toggleWatchLater);
+                });
+                
+                // Initialize view toggle
+                const viewButtons = document.querySelectorAll('.view-btn');
+                const episodesContainer = document.getElementById('episodesContainer');
+                
+                viewButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        viewButtons.forEach(btn => btn.classList.remove('active'));
+                        button.classList.add('active');
+                        
+                        if (button.dataset.view === 'list') {
+                            episodesContainer.classList.add('list-view');
+                        } else {
+                            episodesContainer.classList.remove('list-view');
+                        }
+                    });
+                });
+            } else {
+                console.error('No episodes data found');
+                const container = document.getElementById('episodesContainer');
+                if (container) {
+                    container.innerHTML = '<p class="no-results">Bölümler yüklenirken bir hata oluştu.</p>';
+                }
+            }
+        });
+    </script>
+    <script src="/js/header.js"></script>
+</body>
+</html>

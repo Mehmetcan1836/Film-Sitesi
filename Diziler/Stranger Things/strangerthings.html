@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stranger Things izle - Dizicom</title>
+    <link rel="stylesheet" href="/Diziler/dizistyle.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="icon" type="image/png" href="../../img/favicon.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body style="background-color: var(--dark);">
+    <div class="content">
+        <aside class="sidebar">
+            <div class="title"><i class="fas fa-tv"></i> STRANGER THINGS</div>
+            <img src="/img/stranger-things.jpg" alt="Stranger Things">
+            <ul>
+                <li>Stranger Things</li>
+                <li><i class="fas fa-film"></i> Bilim Kurgu</li>
+                <li><i class="fas fa-ghost"></i> Korku</li>
+                <li><i class="fas fa-theater-masks"></i> Dram</li>
+                <li><i class="fas fa-tv"></i> Netflix</li>
+                <li><i class="far fa-clock"></i> 51 dk.</li>
+                <li><i class="fas fa-list-ol"></i> 34 Bl.</li>
+                <li><i class="far fa-calendar-alt"></i> 2016 - Devam Ediyor</li>
+                <li><span class="tag">IMDb 8.7</span><span class="tag">+16</span><span class="tag">HD</span></li>
+            </ul>
+        </aside>
+        
+        <main class="main">
+            <div class="main-header"><h1 class="title">Tüm Bölümler</h1></div>
+            
+            <section class="hakkındas">
+                <h3><i class="fas fa-info-circle"></i> Hakkında</h3>
+                <p>1980'lerin başında, küçük bir kasabada kaybolan bir çocuğun gizemli bir şekilde ortadan kaybolmasıyla başlayan olaylar, gizli deneyler, doğaüstü güçlere sahip bir kız ve tehlikeli bir alternatif boyutun varlığını ortaya çıkarır.</p>
+            </section>
+            
+            <div class="search-container">
+                <input type="text" class="search-input" id="searchInput" placeholder="Bölüm ara...">
+                <button class="search-btn" id="searchBtn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <br>
+            
+            <div class="season-selector-container mb-4">
+                <label for="seasonSelect" class="me-2">Sezon Seçin:</label>
+                <select id="seasonSelect" class="form-select d-inline-block w-auto">
+                    <option value="all">Tüm Sezonlar</option>
+                </select>
+            </div>
+            
+            <div id="episodesContainer" class="episode-grid">
+                <!-- Episodes will be loaded here -->
+            </div>
+            
+            <div class="pagination" id="pagination">
+                <!-- Pagination will be added here -->
+            </div>
+        </main>
+    </div>
+
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Bölüm listenize eklendi</span>
+    </div>
+
+    <script>
+        // Episode data for Season 1 (sample)
+        const episodes = [
+            { id: 1, season: 1, number: 1, title: "Will'in Kayboluşu", duration: "48 dk", 
+              description: "Kasabadan bir çocuk kaybolunca, gizemli bir kızla tanışan bir grup çocuk, arkadaşlarını bulmak için tehlikeli bir maceraya atılır." },
+            { id: 2, season: 1, number: 2, title: "Çılgın Palyaço", duration: "55 dk",
+              description: "Lucas, Mike ve Dustin, Eleven'ı yanlarına alır. Joyce, Will'den ürkütücü bir sinyal alır." }
+            // More episodes would be added here
+        ];
+        
+        let watchLater = JSON.parse(localStorage.getItem('watchLater')) || [];
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            initSeasonSelector();
+            renderEpisodes();
+            
+            document.getElementById('searchBtn').addEventListener('click', renderEpisodes);
+            document.getElementById('searchInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') renderEpisodes();
+            });
+            
+            document.getElementById('seasonSelect').addEventListener('change', renderEpisodes);
+        });
+        
+        function renderEpisodes() {
+            const container = document.getElementById('episodesContainer');
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const selectedSeason = document.getElementById('seasonSelect').value;
+            
+            let filtered = episodes.filter(ep => 
+                (selectedSeason === 'all' || ep.season == selectedSeason) &&
+                (ep.title.toLowerCase().includes(searchTerm) || 
+                 ep.description.toLowerCase().includes(searchTerm))
+            );
+            
+            container.innerHTML = filtered.map(ep => `
+                <div class="episode-card">
+                    <div class="episode-number">${ep.number}</div>
+                    <div class="episode-details">
+                        <h3>${ep.season}. Sezon • ${ep.number}. Bölüm</h3>
+                        <h2>${ep.title}</h2>
+                        <p>${ep.description}</p>
+                        <div class="episode-meta">
+                            <span><i class="far fa-clock"></i> ${ep.duration}</span>
+                            <a href="Sezon${ep.season}/Stranger Things ${ep.season}.Sezon ${ep.number}.Bölüm.html" 
+                               class="btn btn-sm btn-primary">
+                                İzle <i class="fas fa-play"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function initSeasonSelector() {
+            const seasonSelect = document.getElementById('seasonSelect');
+            seasonSelect.innerHTML = '<option value="all">Tüm Sezonlar</option>';
+            
+            // Add seasons 1-4
+            for (let i = 1; i <= 4; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = `Sezon ${i}`;
+                seasonSelect.appendChild(option);
+            }
+        }
+    </script>
+    <script src="../../../js/header.js"></script>
+</body>
+</html>

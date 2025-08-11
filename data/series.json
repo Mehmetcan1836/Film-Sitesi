@@ -49,6 +49,18 @@
       "link": "Diziler/Çarpışma/Çarpışma.html",
       "director": "Uluç Bayraktar",
       "type": "dizi"
+    },
+    {
+      "title": "Stranger Things",
+      "year": 2016,
+      "genre": ["Bilim Kurgu", "Korku", "Dram"],
+      "rating": 8.7,
+      "image": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg",
+      "link": "Diziler/Stranger Things/strangerthingss.html",
+      "director": "The Duffer Brothers",
+      "type": "dizi"
     }
   ]
 }
+    
+    

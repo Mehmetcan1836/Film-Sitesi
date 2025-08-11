@@ -185,8 +185,8 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: var(--transition);
 }
-.sidebar img {
-    width: 15%;
+.sidebar img{
+    max-width: 200px;
     border-radius: 8px;
     margin-bottom: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
