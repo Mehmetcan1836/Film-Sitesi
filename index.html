@@ -501,14 +501,14 @@
 
         /* Trailer Showcase Styles */
         .trailer-showcase {
-            padding: 20px 0 40px;
+            padding: 10px 0 10px;
             position: relative;
         }
 
         .trailer-container {
             position: relative;
             margin: 0 auto;
-            max-width: 1200px;
+            max-width: 1250px;
             overflow: hidden;
         }
 
@@ -536,7 +536,6 @@
 
         .trailer-thumbnail {
             position: relative;
-            padding-top: 56.25%; /* 16:9 Aspect Ratio */
             background: #000;
             cursor: pointer;
         }
@@ -695,17 +694,12 @@
             
         </section>
             
-
-            <div class="story-modal">
-                <div class="story-content">
-                    <video class="story-video" controls autoplay></video>
-                    <button class="close-story">×</button>
-                </div>
-            </div>
-            <div class="movie-grid">
-                <!-- Movie items will be dynamically loaded here -->
-            </div>
-        </section>
+    <div class="story-modal">
+        <div class="story-content">
+            <video class="story-video" controls autoplay></video>
+            <button class="close-story">×</button>
+        </div>
+    </div>
     </main>
 
     <!-- Popular Movies & Series Section -->
@@ -754,7 +748,15 @@
                 videoUrl: 'https://www.youtube.com/embed/4uRZQ8Tn6YI',
                 releaseDate: '29 Aralık 2023',
                 type: 'Dizi'
-            }
+            },
+            {
+                id: 5,
+                title: 'Teen Wolf The Movie',
+                thumbnail: 'https://www.themoviedb.org/t/p/w500/5m0vU7x37HwnHv2JXZWMgIuQvVr.jpg',
+                videoUrl: 'https://www.youtube.com/embed/d9MyW72ELq0',
+                releaseDate: '19 Aralık 2025',
+                type: 'Film'
+            },
         ];
         
         // Function to set up slider navigation
