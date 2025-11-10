@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dizicom - En Yeni Filmler ve Diziler</title>
     <link rel="stylesheet" href="css/trailer-slider.css">
+    <link rel="shortcut icon" href="img/logos.png" type="image/x-icon">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -35,7 +36,54 @@
             color: #fff;
             line-height: 1.6;
         }
-       
+       /* Footer */
+    .footer {
+      background: #0f0f0f;
+      padding: 40px 0;
+      text-align: center;
+      margin-top: 60px;
+    }
+    
+    .footer p {
+      color: #999;
+      margin-bottom: 20px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+    
+    .footer a {
+      color: #e5e5e5;
+      text-decoration: none;
+      margin: 0 10px;
+      transition: color 0.2s ease;
+    }
+    
+    .footer a:hover {
+      color: #e50914;
+    }
+    
+    .social-links {
+      margin-top: 20px;
+    }
+    
+    .social-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      margin: 0 5px;
+      transition: all 0.2s ease;
+    }
+    
+    .social-links a:hover {
+      background: #e50914;
+      transform: translateY(-3px);
+    }
 
     </style>
 </head>
@@ -88,7 +136,30 @@
 
     <!-- Popular Movies & Series Section -->
 
-
+     <footer class="footer">
+    <div class="container">
+      <p>Sitemize eklenen tüm dizi bölümlerinin videoları video barındırma sitelerinden alınarak eklenmektedir. Telif hakkı size ait olan eserlerin linkleri ile beraber <strong>matypower18000@gmail.com</strong> e-posta adresinden bizimle irtibat kurduğunuz takdirde ilgili eser 3 iş günü içerisinde sitemizden kaldırılacaktır.</p>
+      
+      <p>
+        <a href="#">Yabancı Diziler</a>
+        <a href="#">Yerli Diziler</a>
+        <a href="#">Asya Dizileri</a>
+        <a href="#">Animasyonlar</a>
+        <a href="#">Animeler</a>
+        <a href="#">Belgeseller</a>
+        <a href="#">Gizlilik Politikası</a>
+      </p>
+      
+      <p>Copyright 2014-2024</p>
+      
+      <div class="social-links">
+        <a href="#" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="mailto:matypower18000@gmail.com" title="E-posta"><i class="fas fa-envelope"></i></a>
+      </div>
+    </div>
+  </footer>
     <script>
         // Content data will be loaded from JSON
         let contentData = [];
