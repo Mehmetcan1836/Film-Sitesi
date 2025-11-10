@@ -1,0 +1,84 @@
+{
+    "trailers": [
+        {
+            "id": 693134,
+            "title": "Dune: Part Two",
+            "thumbnail": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg",
+            "videoUrl": "https://www.youtube.com/embed/Way9Dexny3w",
+            "releaseDate": "15 Mart 2024",
+            "type": "Film"
+        },
+        {
+            "id": 71914,
+            "title": "The Witcher: Sezon 4",
+            "thumbnail": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/7vjaCdMw15FEbXyLQTVa04URsPm.jpg",
+            "videoUrl": "https://www.youtube.com/embed/2XWzDZwJz0Y",
+            "releaseDate": "29 Aralık 2023",
+            "type": "Dizi"
+        },
+        {
+            "id": 83095,
+            "title": "Avatar 3",
+            "thumbnail": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/qzMYKnT4MG1d0gnhwytr4cKhUvS.jpg",
+            "videoUrl": "https://www.youtube.com/embed/d9MyW72ELq0",
+            "releaseDate": "19 Aralık 2025",
+            "type": "Film"
+        },
+        {
+            "id": 66732,
+            "title": "Stranger Things Sezon 5",
+            "thumbnail": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/49WJfeN0moxb9IPfGn8AIqMGskD.jpg",
+            "videoUrl": "https://www.youtube.com/embed/4uRZQ8Tn6YI",
+            "releaseDate": "2024",
+            "type": "Dizi"
+        },
+        {
+            "id": 948713,
+            "title": "Teen Wolf The Movie",
+            "thumbnail": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/wAkpPm3zXhn29pqgvqtZuNHxL8k.jpg",
+            "videoUrl": "https://www.youtube.com/embed/d9MyW72ELq0",
+            "releaseDate": "2023",
+            "type": "Film"
+        },
+        {
+            "id": 526896,
+            "title": "The Batman Part II",
+            "thumbnail": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/2nyhlvXMqR9Xgj3liMEJqvAFVyy.jpg",
+            "videoUrl": "https://www.youtube.com/embed/mqqft2x_Aa4",
+            "releaseDate": "3 Ekim 2025",
+            "type": "Film"
+        },
+        {
+            "id": 94997,
+            "title": "House of the Dragon: Season 2",
+            "thumbnail": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/xiB0hsxMpgxpJehYxUDhiUkg2w.jpg",
+            "videoUrl": "https://www.youtube.com/embed/kNx-JS92The",
+            "releaseDate": "16 Haziran 2024",
+            "type": "Dizi"
+        },
+        {
+            "id": 533535,
+            "title": "Deadpool 3",
+            "thumbnail": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/zHKHh5zH7kZL5lFhJ7ZRPWNrrf5.jpg",
+            "videoUrl": "https://www.youtube.com/embed/Y_JUZxT1bhI",
+            "releaseDate": "26 Temmuz 2024",
+            "type": "Film"
+        },
+        {
+            "id": 119051,
+            "title": "Wednesday: Season 2",
+            "thumbnail": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9PFonBhy4cQy7Jz20NpMygczOkv.jpg",
+            "videoUrl": "https://www.youtube.com/embed/Di310WS8zLk",
+            "releaseDate": "2024",
+            "type": "Dizi"
+        },
+        {
+            "id": 68507,
+            "title": "Kingdom: Season 3",
+            "thumbnail": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/ApwXS5kPqT3anWdwWv5RTkP8hDy.jpg",
+            "videoUrl": "https://www.youtube.com/embed/7eQT85cBF24",
+            "releaseDate": "2024",
+            "type": "Dizi"
+        }
+    ]
+}

@@ -1026,6 +1026,20 @@
             });
         });
     </script>
-    <script src="/js/header.js"></script>
+    <script src="../../js/header.js"></script>
+    <script>
+const seriesData = {
+    id: "ben10classic",
+    title: "Ben 10 Classic",
+    totalSeasons: 4,
+    episodesPerSeason: [13, 13, 13, 13],
+    currentSeason: 1
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    initializeSeasonSelector(seriesData.id, seriesData.totalSeasons, seriesData.currentSeason);
+    loadEpisodeList(seriesData.id, seriesData.currentSeason);
+});
+</script>
 </body>
 </html>
