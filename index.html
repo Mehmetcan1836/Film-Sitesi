@@ -99,6 +99,11 @@
         cursor: grabbing;
         transition: none; /* remove transition while dragging for smooth follow */
     }
+    .trailer-item img {
+        draggable: false;
+        user-select: none;
+        pointer-events: none;
+    }
 
     /* Detail modal styles */
     .detail-modal {
@@ -277,7 +282,7 @@
                     
                     trailerItem.innerHTML = `
                         <div class="trailer-thumbnail">
-                            <img src="${trailer.thumbnail}" alt="${trailer.title}" onerror="this.onerror=null; this.src='https://via.placeholder.com/500x750/1a1a1a/ffffff?text=Image+Not+Found'">
+                            <img src="${trailer.thumbnail}" alt="${trailer.title}" draggable="false" onerror="this.onerror=null; this.src='https://via.placeholder.com/500x750/1a1a1a/ffffff?text=Image+Not+Found'">
                             <div class="play-button" role="button" tabindex="0">
                                 <i class="fas fa-play"></i>
                             </div>
@@ -350,9 +355,8 @@
 
                 // Pointer down (mouse or touch)
                 slider.addEventListener('pointerdown', (e) => {
-                    // If the user clicked on an interactive control, do not start dragging.
-                    // This allows clicks on .play-button / links / buttons to work.
-                    if (e.target.closest('.play-button, a, button, .watch-card, input, label')) {
+                    // If the user clicked on an interactive control, do not start dragging
+                    if (e.target.closest('.play-button, a, button')) {
                         return;
                     }
                     isDragging = true;
@@ -360,9 +364,8 @@
                     prevPosition = currentPosition;
                     currentTranslate = prevPosition;
                     slider.classList.add('dragging');
-                    // capture the pointer to continue receiving events (safe-guard)
+                    // capture the pointer to continue receiving events
                     try { slider.setPointerCapture(e.pointerId); } catch (err) {}
-                    // don't call e.preventDefault() here so clicks on child controls aren't blocked
                 });
 
                 // Pointer move
