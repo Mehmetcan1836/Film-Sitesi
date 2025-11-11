@@ -4,26 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dizicom - En Yeni Filmler ve Diziler</title>
-    <link rel="stylesheet" href="css/trailer-slider.css">
-    <link rel="shortcut icon" href="img/logos.png" type="image/x-icon">
+    
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preload" as="style" href="css/movie-grid.css" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" as="style" href="css/story-slider.css" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" media="print" onload="this.media='all'">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    <noscript>
-        <link rel="stylesheet" href="css/movie-grid.css">
-        <link rel="stylesheet" href="css/story-slider.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    </noscript>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/movie-grid.css">
+    
     <style>
-        /* Global Styles */
         * {
             margin: 0;
             padding: 0;
@@ -36,807 +31,281 @@
             color: #fff;
             line-height: 1.6;
         }
-       /* Footer */
-    .footer {
-      background: #0f0f0f;
-      padding: 40px 0;
-      text-align: center;
-      margin-top: 60px;
-    }
-    
-    .footer p {
-      color: #999;
-      margin-bottom: 20px;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.6;
-    }
-    
-    .footer a {
-      color: #e5e5e5;
-      text-decoration: none;
-      margin: 0 10px;
-      transition: color 0.2s ease;
-    }
-    
-    .footer a:hover {
-      color: #e50914;
-    }
-    
-    .social-links {
-      margin-top: 20px;
-    }
-    
-    .social-links a {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 50%;
-      margin: 0 5px;
-      transition: all 0.2s ease;
-    }
-    
-    .social-links a:hover {
-      background: #e50914;
-      transform: translateY(-3px);
-    }
 
-    /* Trailer slider interaction styles */
-    .trailer-container { overflow: hidden; }
-    .trailer-slider {
-        display: flex;
-        gap: 16px;
-        transition: transform 0.3s ease;
-        touch-action: pan-y; /* allow vertical page scroll while handling horizontal drags */
-        cursor: grab;
-        user-select: none;
-    }
-    .trailer-slider.dragging {
-        cursor: grabbing;
-        transition: none; /* remove transition while dragging for smooth follow */
-    }
-    .trailer-item img {
-        draggable: false;
-        user-select: none;
-        pointer-events: none;
-    }
+        .main-content {
+            min-height: 100vh;
+            padding-top: 20px;
+        }
 
-    /* Detail modal styles */
-    .detail-modal {
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.85);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1100;
-        padding: 20px;
-        opacity: 0;
-        transition: opacity 0.2s ease;
-    }
-    .detail-modal.show { opacity: 1; }
-    .detail-content {
-        background: #111;
-        width: 100%;
-        max-width: 1100px;
-        max-height: 90vh;
-        overflow: auto;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-        padding: 18px;
-        border-radius: 8px;
-        color: #fff;
-    }
-    .detail-left { padding-right: 10px; }
-    .detail-right { padding-left: 10px; display:flex; align-items:center; justify-content:center; }
-    .detail-poster {
-        width: 100%;
-        max-width: 320px;
-        border-radius: 6px;
-        overflow: hidden;
-        margin-bottom: 12px;
-    }
-    .watch-card {
-        display:block;
-        background:#222;
-        border-radius:6px;
-        width: 30%;
-        padding:8px;
-        text-decoration:none;
-        color:#fff;
-        margin-top:10px;
-        transition:transform .15s ease, box-shadow .15s ease;
-    }
-    .watch-card img { width:100%; height:auto; display:block; border-radius:4px; }
-    .watch-card .watch-cta { display:flex; justify-content:space-between; align-items:center; margin-top:8px; }
-    .watch-card:hover { transform:translateY(-4px); box-shadow:0 6px 20px rgba(0,0,0,0.6); }
-    .detail-meta { font-size:14px; color:#cfcfcf; margin-bottom:8px; }
-    .detail-title { font-size:20px; margin-bottom:6px; }
-    .detail-section { margin-bottom:12px; }
-    .detail-section h4 { margin-bottom:6px; font-size:15px; }
-    .close-detail {
-        position:absolute;
-        right:calc(50% - 540px + 10px);
-        top:calc(50% - 45vh);
-        background:none;
-        border:none;
-        color:#fff;
-        font-size:28px;
-        cursor:pointer;
-    }
-    @media (max-width: 900px) {
-        .detail-content { grid-template-columns: 1fr; }
-        .close-detail { right: 20px; top: 20px; }
-    }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 40px 0 30px 0;
+            padding: 0 20px;
+        }
+
+        .section-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .view-all {
+            color: #e50914;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .view-all:hover {
+            color: #ff0000;
+        }
+
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+            padding: 0 20px;
+            margin-bottom: 40px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 1.1rem;
+            color: #aaa;
+        }
+
+        .loading .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #333;
+            border-top: 4px solid #e50914;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .box {
+            background: #1a1a1a;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #333;
+        }
+
+        .box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 24px rgba(229, 9, 20, 0.3);
+        }
+
+        .box img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .info-panel {
+            padding: 15px;
+        }
+
+        .info-panel h3 {
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            line-height: 1.4;
+            height: 2.8em;
+            overflow: hidden;
+        }
+
+        .movie-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+
+        .rating {
+            color: #ffd700;
+        }
+
+        footer {
+            background: #0f0f0f;
+            padding: 40px 0;
+            text-align: center;
+            margin-top: 60px;
+            border-top: 1px solid #222;
+        }
+
+        footer p {
+            color: #999;
+            margin-bottom: 15px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        footer a {
+            color: #e5e5e5;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.2s ease;
+        }
+
+        footer a:hover {
+            color: #e50914;
+        }
+
+        .social-links {
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            margin: 0 5px;
+            transition: all 0.2s ease;
+        }
+
+        .social-links a:hover {
+            background: #e50914;
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 768px) {
+            .movie-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 15px;
+                padding: 0 10px;
+            }
+
+            .section-header {
+                padding: 0 10px;
+            }
+        }
     </style>
 </head>
 <body>
-    <main class="main-content">
-        <!-- Trailer Showcase Section -->
-        <section class="trailer-showcase">
-            <div class="section-header">
-                <h2><i class="fas fa-play-circle"></i> Yakında Gelecekler</h2>
-                <div class="trailer-nav">
-                    <button class="trailer-nav-btn prev-trailer"><i class="fas fa-chevron-left"></i></button>
-                    <button class="trailer-nav-btn next-trailer"><i class="fas fa-chevron-right"></i></button>
-                </div>
-            </div>
-            <div class="trailer-container">
-                <div class="trailer-slider">
-                    <!-- Trailers will be loaded dynamically -->
-                </div>
-            </div>
-        </section>
+    <!-- Header/Navbar (loaded by header.js) -->
+    <div id="header-container"></div>
 
-        <section class="featured-section">
-            <div class="section-header">
-                <h2><i class="fas fa-newspaper"></i> Yeni Dizi & Filmler</h2>
-            </div>
-            <!-- Story Slider -->
-            <div class="story-container">
-                <!-- Story items will be dynamically added here by JavaScript -->
-            </div>
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Popüler Filmler -->
+        <section>
             <div class="section-header">
                 <h2><i class="fas fa-fire"></i> Popüler Filmler</h2>
                 <a href="filmler.html" class="view-all">Tümünü Gör <i class="fas fa-arrow-right"></i></a>
             </div>
-            
-            <div class="movie-grid">
-                <!-- Movie items will be dynamically loaded here -->
+            <div id="popularMovies" class="movie-grid">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <div>Filmler yükleniyor...</div>
+                </div>
             </div>
-
-            <!-- Filter Sidebar -->
-            
         </section>
-            
-    <div class="story-modal">
-        <div class="story-content">
-            <video class="story-video" controls autoplay></video>
-            <button class="close-story">×</button>
-        </div>
-    </div>
+
+        <!-- Popüler Diziler -->
+        <section>
+            <div class="section-header">
+                <h2><i class="fas fa-tv"></i> Popüler Diziler</h2>
+                <a href="diziler.html" class="view-all">Tümünü Gör <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div id="popularTVShows" class="movie-grid">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <div>Diziler yükleniyor...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trend Filmler -->
+        <section>
+            <div class="section-header">
+                <h2><i class="fas fa-star"></i> Trend Filmler</h2>
+            </div>
+            <div id="trendingMovies" class="movie-grid">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <div>Trend filmler yükleniyor...</div>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <!-- Popular Movies & Series Section -->
-
-     <footer class="footer">
-    <div class="container">
-      <p>Sitemize eklenen tüm dizi bölümlerinin videoları video barındırma sitelerinden alınarak eklenmektedir. Telif hakkı size ait olan eserlerin linkleri ile beraber <strong>matypower18000@gmail.com</strong> e-posta adresinden bizimle irtibat kurduğunuz takdirde ilgili eser 3 iş günü içerisinde sitemizden kaldırılacaktır.</p>
-      
-      <p>
-        <a href="#">Yabancı Diziler</a>
-        <a href="#">Yerli Diziler</a>
-        <a href="#">Asya Dizileri</a>
-        <a href="#">Animasyonlar</a>
-        <a href="#">Animeler</a>
-        <a href="#">Belgeseller</a>
-        <a href="#">Gizlilik Politikası</a>
-      </p>
-      
-      <p>Copyright 2014-2024</p>
-      
-      <div class="social-links">
-        <a href="#" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
-        <a href="#" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="mailto:matypower18000@gmail.com" title="E-posta"><i class="fas fa-envelope"></i></a>
-      </div>
+    <!-- Detail Modal (for Bootstrap) -->
+    <div id="mediaModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content" style="background: linear-gradient(135deg, #1a1a1a 0%, #141414 100%); border: 1px solid rgba(229,9,20,0.3); border-radius: 12px;">
+                <div class="modal-header" style="border-bottom: 2px solid rgba(229,9,20,0.2); padding: 18px 20px;">
+                    <h5 id="modalTitle" class="modal-title" style="font-weight: 700; color: #fff;"></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" style="filter: brightness(1.2);"></button>
+                </div>
+                <div id="modalBody" class="modal-body" style="color: #fff; padding: 25px;"></div>
+            </div>
+        </div>
     </div>
-  </footer>
-    <script>
-        // Content data will be loaded from JSON
-        let contentData = [];
-        
-        // TMDB API Configuration
-        const TMDB_API_KEY = '995d04f68f5dc7d1299752f1510bc93d';
-        const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
-        const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w500';
-        const YOUTUBE_BASE_URL = 'https://www.youtube.com/embed/';
 
-        // Initialize trailer slider with data from JSON
-        async function initTrailerSlider() {
-            const slider = document.querySelector('.trailer-slider');
-            const prevBtn = document.querySelector('.prev-trailer');
-            const nextBtn = document.querySelector('.next-trailer');
-            const itemWidth = 300;
-            let currentPosition = 0;
-            
-            try {
-                // Fetch trailer data from JSON file
-                const response = await fetch('data/trailers.json');
-                const data = await response.json();
-                const trailers = data.trailers;
-                
-                // Clear existing content
-                slider.innerHTML = '';
-                
-                // Add trailer items
-                trailers.forEach(trailer => {
-                    const trailerItem = document.createElement('div');
-                    trailerItem.className = 'trailer-item';
-                    
-                    trailerItem.innerHTML = `
-                        <div class="trailer-thumbnail">
-                            <img src="${trailer.thumbnail}" alt="${trailer.title}" draggable="false" onerror="this.onerror=null; this.src='https://via.placeholder.com/500x750/1a1a1a/ffffff?text=Image+Not+Found'">
-                            <div class="play-button" role="button" tabindex="0">
-                                <i class="fas fa-play"></i>
-                            </div>
-                        </div>
-                        <div class="trailer-info">
-                            <h3>${trailer.title}</h3>
-                            <div class="trailer-meta">
-                                <span>${trailer.type || ''}</span>
-                                <span>${trailer.releaseDate || ''}</span>
-                            </div>
-                        </div>
-                    `;
-                    
-                    slider.appendChild(trailerItem);
-
-                    // Attach click handler directly using the trailer object
-                    const playBtn = trailerItem.querySelector('.play-button');
-                    if (playBtn) {
-                        playBtn.addEventListener('click', (e) => {
-                            e.preventDefault();
-                            // Open detail modal with trailer data (left: info, right: trailer)
-                            openDetailModal(trailer);
-                        });
-                        // also allow keyboard activation
-                        playBtn.addEventListener('keydown', (ev) => {
-                            if (ev.key === 'Enter' || ev.key === ' ') {
-                                ev.preventDefault();
-                                openDetailModal(trailer);
-                            }
-                        });
-                    }
-                });
-                
-                // Handle slider navigation
-                function updateSlider() {
-                    // Ensure smooth animation when not dragging
-                    if (!slider.classList.contains('dragging')) {
-                        slider.style.transition = 'transform 0.3s ease';
-                    }
-                    slider.style.transform = `translateX(${currentPosition}px)`;
-                    const maxScroll = -((trailers.length - 3) * itemWidth);
-                    
-                    // Update button states
-                    if (prevBtn) prevBtn.disabled = currentPosition >= 0;
-                    if (nextBtn) nextBtn.disabled = currentPosition <= maxScroll;
-                }
-                
-                // Previous button click handler
-                if (prevBtn) {
-                    prevBtn.addEventListener('click', () => {
-                        currentPosition = Math.min(currentPosition + (itemWidth * 3), 0);
-                        updateSlider();
-                    });
-                }
-                
-                // Next button click handler
-                if (nextBtn) {
-                    nextBtn.addEventListener('click', () => {
-                        const maxScroll = -((trailers.length - 3) * itemWidth);
-                        currentPosition = Math.max(currentPosition - (itemWidth * 3), maxScroll);
-                        updateSlider();
-                    });
-                }
-                
-                // --- Drag / Swipe support (pointer events) ---
-                let isDragging = false;
-                let startX = 0;
-                let prevPosition = 0; // position at drag start
-                let currentTranslate = 0;
-
-                // Pointer down (mouse or touch)
-                slider.addEventListener('pointerdown', (e) => {
-                    // If the user clicked on an interactive control, do not start dragging
-                    if (e.target.closest('.play-button, a, button')) {
-                        return;
-                    }
-                    isDragging = true;
-                    startX = e.clientX;
-                    prevPosition = currentPosition;
-                    currentTranslate = prevPosition;
-                    slider.classList.add('dragging');
-                    // capture the pointer to continue receiving events
-                    try { slider.setPointerCapture(e.pointerId); } catch (err) {}
-                });
-
-                // Pointer move
-                slider.addEventListener('pointermove', (e) => {
-                    if (!isDragging) return;
-                    const delta = e.clientX - startX;
-                    currentTranslate = prevPosition + delta;
-                    // optionally limit small overscroll (soft bounds)
-                    const maxScroll = -((trailers.length - 3) * itemWidth);
-                    const overscroll = 100;
-                    if (currentTranslate > overscroll) currentTranslate = overscroll;
-                    if (currentTranslate < maxScroll - overscroll) currentTranslate = maxScroll - overscroll;
-                    slider.style.transform = `translateX(${currentTranslate}px)`;
-                });
-
-                // Pointer up / cancel
-                function endDrag(e) {
-                    if (!isDragging) return;
-                    isDragging = false;
-                    slider.classList.remove('dragging');
-                    // release pointer capture
-                    try { slider.releasePointerCapture(e.pointerId); } catch (err) {}
-                    // Snap to nearest item width
-                    const maxScroll = -((trailers.length - 3) * itemWidth);
-                    // Round to nearest itemWidth
-                    let snapped = Math.round(currentTranslate / itemWidth) * itemWidth;
-                    // Clamp
-                    if (snapped > 0) snapped = 0;
-                    if (snapped < maxScroll) snapped = maxScroll;
-                    currentPosition = snapped;
-                    updateSlider();
-                }
-
-                slider.addEventListener('pointerup', endDrag);
-                slider.addEventListener('pointercancel', endDrag);
-                slider.addEventListener('pointerleave', (e) => {
-                    // If pointer leaves while dragging, end drag
-                    if (isDragging) endDrag(e);
-                });
-                // --- End drag support ---
-
-                // Initial update
-                updateSlider();
-                
-            } catch (error) {
-                console.error('Error loading trailer data:', error);
-                slider.innerHTML = '<div class="error">Fragmanlar yüklenirken bir hata oluştu</div>';
-            }
-        }
-
-        // New: Open detail modal showing info (left) + trailer (right)
-        function openDetailModal(trailer) {
-            // Close existing detail modal if any
-            closeDetailModal();
-
-            const modal = document.createElement('div');
-            modal.className = 'detail-modal';
-            modal.id = 'detailModal';
-
-            const content = document.createElement('div');
-            content.className = 'detail-content';
-
-            // Left column: info + poster + watch-card
-            const left = document.createElement('div');
-            left.className = 'detail-left';
-            left.innerHTML = `
-                <div class="detail-poster">
-                    <img src="${trailer.thumbnail}" alt="${trailer.title}" style="width:100%;display:block;">
+    <!-- Player Modal -->
+    <div id="playerModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content" style="background: linear-gradient(135deg, #1a1a1a 0%, #141414 100%); border: 1px solid rgba(229,9,20,0.3); border-radius: 12px;">
+                <div class="modal-header" style="border-bottom: 2px solid rgba(229,9,20,0.2); padding: 18px 20px;">
+                    <h5 id="playerTitle" class="modal-title" style="font-weight: 700; color: #fff;"></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" style="filter: brightness(1.2);"></button>
                 </div>
-                <div class="detail-section">
-                    <div class="detail-title">${trailer.title || ''}</div>
-                    <div class="detail-meta">${trailer.type || ''} • ${trailer.releaseDate || ''}</div>
-                    <div class="detail-description">${(trailer.description || trailer.overview || 'Açıklama yok.')}</div>
+                <div class="modal-body p-0">
+                    <iframe id="playerIframe" 
+                            width="100%" 
+                            height="500" 
+                            style="border: none;" 
+                            allow="autoplay; encrypted-media; picture-in-picture"
+                            allowfullscreen>
+                    </iframe>
                 </div>
-                <div class="detail-section">
-                    <h4>Oyuncular</h4>
-                    <div class="detail-cast">${(Array.isArray(trailer.cast) ? trailer.cast.join(', ') : (trailer.cast || 'Bilgi yok.'))}</div>
-                </div>
-                <div class="detail-section">
-                    <h4>Türler</h4>
-                    <div class="detail-genres">${(Array.isArray(trailer.genres) ? trailer.genres.join(', ') : (trailer.genres || 'Bilgi yok.'))}</div>
-                </div>
-                <a class="watch-card" href="${trailer.watchLink || trailer.link || '#'}" target="_self" title="İzle">
-                    <img src="${trailer.thumbnail}" alt="İzle">
-                    <div class="watch-cta">
-                        <strong>Sayfaya Git</strong>
-                        <span style="background:#e50914;padding:6px 10px;border-radius:4px;color:#fff;font-weight:600;">İZLE</span>
-                    </div>
-                </a>
-            `;
+            </div>
+        </div>
+    </div>
 
-            // Right column: embedded trailer
-            const right = document.createElement('div');
-            right.className = 'detail-right';
-            const iframe = document.createElement('iframe');
-            iframe.src = (trailer.videoUrl || '') + '?autoplay=1&rel=0&modestbranding=1';
-            iframe.width = '100%';
-            iframe.height = '100%';
-            iframe.style.minHeight = '320px';
-            iframe.style.border = 'none';
-            iframe.allow = 'autoplay; encrypted-media; picture-in-picture';
-            right.appendChild(iframe);
-
-            content.appendChild(left);
-            content.appendChild(right);
-
-            // Close button
-            const closeBtn = document.createElement('button');
-            closeBtn.className = 'close-detail';
-            closeBtn.title = 'Kapat';
-            closeBtn.innerHTML = '&times;';
-            closeBtn.addEventListener('click', closeDetailModal);
-
-            modal.appendChild(content);
-            modal.appendChild(closeBtn);
-            document.body.appendChild(modal);
-
-            // show
-            setTimeout(() => modal.classList.add('show'), 10);
-            document.body.style.overflow = 'hidden';
-
-            // close on background click
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) closeDetailModal();
-            });
-            // close on ESC
-            function escHandler(ev) {
-                if (ev.key === 'Escape') closeDetailModal();
-            }
-            document.addEventListener('keydown', escHandler);
-
-            // store handler for removal
-            modal._escHandler = escHandler;
-        }
-
-        function closeDetailModal() {
-            const modal = document.getElementById('detailModal');
-            if (!modal) return;
-            // stop iframe
-            const iframe = modal.querySelector('iframe');
-            if (iframe) iframe.src = '';
-            modal.classList.remove('show');
-            setTimeout(() => {
-                if (modal && modal.parentNode) modal.parentNode.removeChild(modal);
-                document.body.style.overflow = '';
-            }, 200);
-            if (modal._escHandler) document.removeEventListener('keydown', modal._escHandler);
-        }
-
-        // Function to open trailer in modal
-        function openTrailerModal(videoUrl) {
-            // Create modal if it doesn't exist
-            let modal = document.getElementById('trailerModal');
-            if (!modal) {
-                modal = document.createElement('div');
-                modal.id = 'trailerModal';
-                modal.style.position = 'fixed';
-                modal.style.top = '0';
-                modal.style.left = '0';
-                modal.style.width = '100%';
-                modal.style.height = '100%';
-                modal.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
-                modal.style.display = 'flex';
-                modal.style.justifyContent = 'center';
-                modal.style.alignItems = 'center';
-                modal.style.zIndex = '1000';
-                modal.style.opacity = '0';
-                modal.style.transition = 'opacity 0.3s';
-                
-                const closeBtn = document.createElement('button');
-                closeBtn.innerHTML = '&times;';
-                closeBtn.style.position = 'absolute';
-                closeBtn.style.top = '20px';
-                closeBtn.style.right = '30px';
-                closeBtn.style.background = 'none';
-                closeBtn.style.border = 'none';
-                closeBtn.style.color = 'white';
-                closeBtn.style.fontSize = '40px';
-                closeBtn.style.cursor = 'pointer';
-                closeBtn.style.zIndex = '1001';
-                closeBtn.addEventListener('click', closeTrailerModal);
-                
-                const iframe = document.createElement('iframe');
-                iframe.id = 'trailerIframe';
-                iframe.style.border = 'none';
-                iframe.style.width = '80vw';
-                iframe.style.height = '45vw';
-                iframe.style.maxWidth = '1200px';
-                iframe.style.maxHeight = '675px';
-                
-                modal.appendChild(closeBtn);
-                modal.appendChild(iframe);
-                document.body.appendChild(modal);
-                
-                // Fade in effect
-                setTimeout(() => { modal.style.opacity = '1'; }, 10);
-                
-                // Close on background click
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) closeTrailerModal();
-                });
-                
-                // Close on Escape key
-                document.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape') closeTrailerModal();
-                });
-            }
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>Sitemize eklenen tüm dizi bölümlerinin videoları video barındırma sitelerinden alınarak eklenmektedir. Telif hakkı size ait olan eserlerin linkleri ile beraber <strong>matypower18000@gmail.com</strong> e-posta adresinden bizimle irtibat kurduğunuz takdirde ilgili eser 3 iş günü içerisinde sitemizden kaldırılacaktır.</p>
             
-            // Set video source
-            const iframe = document.getElementById('trailerIframe');
-            iframe.src = videoUrl + '?autoplay=1&rel=0&showinfo=0&modestbranding=1';
+            <p>
+                <a href="#">Yabancı Diziler</a>
+                <a href="#">Yerli Diziler</a>
+                <a href="#">Asya Dizileri</a>
+                <a href="#">Animasyonlar</a>
+                <a href="#">Gizlilik Politikası</a>
+            </p>
             
-            // Show modal
-            document.body.style.overflow = 'hidden';
-        }
-        
-        function closeTrailerModal() {
-            const modal = document.getElementById('trailerModal');
-            if (!modal) return;
+            <p style="margin-bottom: 0; color: #666;">© 2024 Dizicom. Tüm Hakları Saklıdır.</p>
             
-            // Stop video
-            const iframe = document.getElementById('trailerIframe');
-            if (iframe) {
-                const src = iframe.src;
-                iframe.src = '';
-                iframe.src = src.replace('autoplay=1', 'autoplay=0');
-            }
-            
-            // Fade out and remove
-            modal.style.opacity = '0';
-            setTimeout(() => {
-                if (modal && modal.parentNode) {
-                    document.body.style.overflow = '';
-                    modal.parentNode.removeChild(modal);
-                }
-            }, 300);
-        }
+            <div class="social-links">
+                <a href="#" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="mailto:matypower18000@gmail.com" title="E-posta"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+    </footer>
 
-        // Function to generate movie HTML
-        function createMovieElement(movie) {
-            return `
-                <div class="box">
-                    <a href="${movie.link}">
-                        <img loading="lazy" src="${movie.image}" alt="${movie.title}">
-                        <div class="info-panel">
-                            <h3>${movie.title}</h3>
-                            <div class="movie-meta">
-                                <span class="year">${movie.year}</span>
-                                <span class="genre">${movie.genre}</span>
-                                <span class="rating">
-                                    <i class="fas fa-star"></i> ${movie.rating}
-                                </span>
-                            </div>
-                        </div>
-                    </a>
-                    <button class="favorite-btn" aria-label="Favorilere Ekle">
-                        <i class="far fa-heart"></i>
-                    </button>
-                </div>
-            `;
-        }
-
-        // Function to load content data
-        async function loadContentData() {
-            try {
-                // Load movies and series in parallel
-                const [moviesResponse, seriesResponse] = await Promise.all([
-                    fetch('data/movies.json'),
-                    fetch('data/series.json')
-                ]);
-                
-                const moviesData = await moviesResponse.json();
-                const seriesData = await seriesResponse.json();
-                
-                // Combine both data sources
-                const allMovies = moviesData.content || moviesData.movies || [];
-                const allSeries = seriesData.series || [];
-                
-                // Get top 5 popular movies (sorted by rating)
-                const popularMovies = [...allMovies]
-                    .filter(content => content.type === 'film' || !content.type)
-                    .sort((a, b) => (b.rating || 0) - (a.rating || 0))
-                    .slice(0, 7);
-                
-                // Get top 5 popular series (from both sources)
-                const allSeriesCombined = [
-                    ...allMovies.filter(item => item.type === 'dizi' || item.type === 'Dizi'),
-                    ...allSeries
-                ];
-                
-                // Store all series in contentData for the series section
-                contentData = allSeriesCombined;
-                
-                // Display popular movies
-                const movieGrid = document.querySelector('.movie-grid');
-                if (movieGrid) {
-                    movieGrid.innerHTML = popularMovies
-                        .map(movie => createMovieElement(movie))
-                        .join('');
-                }
-                
-                // Create series section with top 5 popular series
-                createSeriesSection();
-                
-                // Initialize favorite buttons
-                document.querySelectorAll('.favorite-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        btn.classList.toggle('active');
-                        const icon = btn.querySelector('i');
-                        if (icon) {
-                            icon.classList.toggle('far');
-                            icon.classList.toggle('fas');
-                        }
-                    });
-                });
-                
-            } catch (error) {
-                console.error('Error loading content data:', error);
-                const movieGrid = document.querySelector('.movie-grid');
-                if (movieGrid) {
-                    movieGrid.innerHTML = `
-                        <div class="error-message">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <p>İçerik yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.</p>
-                        </div>
-                    `;
-                }
-            }
-        }
-
-        // Function to create series section
-        function createSeriesSection() {
-            // Remove existing series section if it exists
-            const existingSection = document.querySelector('.series-section');
-            if (existingSection) {
-                existingSection.remove();
-            }
-
-            // Get top 5 popular series (sorted by rating)
-            const popularSeries = [...contentData]
-                .sort((a, b) => (b.rating || 0) - (a.rating || 0))
-                .slice(0, 5);
-                
-            if (popularSeries.length === 0) return;
-
-            const seriesSection = `
-                <section class="featured-section series-section">
-                    <div class="section-header">
-                        <h2><i class="fas fa-tv"></i> Popüler Diziler</h2>
-                        <a href="diziler.html" class="view-all">Tümünü Gör <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                    <div class="movie-grid">
-                        ${popularSeries.map(content => createMovieElement(content)).join('')}
-                    </div>
-                    <div class="navigation">
-                        <a href="#" class="nav-arrow"><i class="fas fa-chevron-left"></i> Önceki</a>
-                        <div class="pagination">
-                            <a href="#" class="active">1</a>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                        </div>
-                        <a href="#" class="nav-arrow">Sonraki <i class="fas fa-chevron-right"></i></a>
-                    </div>
-                </section>
-            `;
-
-            const mainContent = document.querySelector('.main-content');
-            if (mainContent) {
-                mainContent.insertAdjacentHTML('beforeend', seriesSection);
-            }
-        }
-
-        // Function to filter content
-        function filterMovies() {
-            const genreFilters = Array.from(document.querySelectorAll('.filter-sidebar input[type="checkbox"]:checked'))
-                .map(checkbox => checkbox.value);
-            
-            const yearFrom = document.getElementById('yearFrom').value || 0;
-            const yearTo = document.getElementById('yearTo').value || 9999;
-            
-            const rating = document.getElementById('ratingRange').value;
-
-            // Filter content
-            const filteredContent = contentData.filter(content => {
-                const matchesGenre = genreFilters.length === 0 || genreFilters.includes(content.genre);
-                const matchesYear = content.year >= parseInt(yearFrom) && content.year <= parseInt(yearTo);
-                const matchesRating = content.rating >= parseFloat(rating);
-                
-                return matchesGenre && matchesYear && matchesRating;
-            });
-
-            // Update movie grid
-            const movieGrid = document.querySelector('.movie-grid');
-            movieGrid.innerHTML = filteredContent
-                .filter(content => content.type === 'film')
-                .map(content => createMovieElement(content))
-                .join('');
-
-            // Update series section
-            const seriesSection = document.querySelector('.featured-section:last-child');
-            if (seriesSection) {
-                const seriesGrid = seriesSection.querySelector('.movie-grid');
-                if (seriesGrid) {
-                    seriesGrid.innerHTML = filteredContent
-                        .filter(content => content.type === 'dizi')
-                        .map(content => createMovieElement(content))
-                        .join('');
-                }
-            }
-        }
-
-        // Initialize page
-        document.addEventListener('DOMContentLoaded', () => {
-            // Initialize trailer slider
-            initTrailerSlider();
-            
-            // Load content data (including movies and series)
-            loadContentData();
-            createSeriesSection();
-            
-            // Initialize filter events if filter sidebar exists
-            const filterSidebar = document.querySelector('.filter-sidebar');
-            if (filterSidebar) {
-                // Filter checkboxes
-                filterSidebar.querySelectorAll('input[type="checkbox"]').forEach(input => {
-                    input.addEventListener('change', filterMovies);
-                });
-                
-                // Year range inputs
-                const yearFrom = document.getElementById('yearFrom');
-                const yearTo = document.getElementById('yearTo');
-                const ratingRange = document.getElementById('ratingRange');
-                const ratingValue = document.getElementById('ratingValue');
-                
-                if (yearFrom) yearFrom.addEventListener('input', filterMovies);
-                if (yearTo) yearTo.addEventListener('input', filterMovies);
-                if (ratingRange) {
-                    ratingRange.addEventListener('input', filterMovies);
-                    if (ratingValue) {
-                        ratingRange.addEventListener('input', function() {
-                            ratingValue.textContent = this.value;
-                        });
-                    }
-                }
-                
-                // Reset button
-                const resetButton = filterSidebar.querySelector('.btn-outline-primary');
-                if (resetButton) {
-                    resetButton.addEventListener('click', () => {
-                        const checkboxes = filterSidebar.querySelectorAll('input[type="checkbox"]');
-                        checkboxes.forEach(checkbox => checkbox.checked = false);
-                        
-                        if (yearFrom) yearFrom.value = '';
-                        if (yearTo) yearTo.value = '';
-                        if (ratingRange) ratingRange.value = '7.0';
-                        if (ratingValue) ratingValue.textContent = '7.0';
-                        
-                        filterMovies();
-                    });
-                }
-            }
-        });
-    </script>
-
-    <!-- Bootstrap JS Bundle with Popper -->
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Diğer JS dosyaları -->
-    <script src="js/story-slider.js"></script>
     <script src="js/header.js"></script>
+    <script src="data/app.js"></script>
 </body>
 </html>

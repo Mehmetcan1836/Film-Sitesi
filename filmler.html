@@ -9,17 +9,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preload" as="style" href="css/movie-grid.css" onload="this.onload=null;this.rel='stylesheet'">
-<link rel="preload" as="style" href="css/story-slider.css" onload="this.onload=null;this.rel='stylesheet'">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" media="print" onload="this.media='all'">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-<noscript>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Poppins Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-</noscript>
-<script src="js/header.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/movie-grid.css">
+    <link rel="stylesheet" href="css/header.css">
 <style>
     /* Global Styles */
     * {
@@ -34,336 +29,124 @@
         color: #fff;
         line-height: 1.6;
     }
-    /* Filter Sidebar Styles */
-        .filter-sidebar {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 300px;
-            background: #0f0f0f;
-            border-left: 1px solid rgba(255, 255, 255, 0.1);
-            overflow-y: auto;
-            padding: 20px;
-            height: 100%;
+
+    .main-content {
+        min-height: 100vh;
+        padding-top: 20px;
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 40px 0 30px 0;
+        padding: 0 20px;
+    }
+
+    .section-header h2 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .movie-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 20px;
+        padding: 0 20px;
+        margin-bottom: 40px;
+    }
+
+    .loading {
+        text-align: center;
+        padding: 40px 20px;
+        font-size: 1.1rem;
+        color: #aaa;
+        grid-column: 1 / -1;
+    }
+
+    .loading .spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid #333;
+        border-top: 4px solid #e50914;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 768px) {
+        .movie-grid {
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 15px;
+            padding: 0 10px;
         }
 
-        .filter-sidebar h3 {
-            color: #fff;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #e50914;
-            padding-bottom: 10px;
+        .section-header {
+            padding: 0 10px;
         }
-
-        .filter-group {
-            margin-bottom: 25px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .filter-group h4 {
-            color: #fff;
-            margin-bottom: 15px;
-            font-size: 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 10px;
-        }
-
-        .form-check {
-            margin-bottom: 10px;
-        }
-
-        .form-check-label {
-            color: #fff;
-            font-size: 0.9rem;
-        }
-
-        .form-check-input {
-            accent-color: #e50914;
-        }
-
-        .form-range {
-            margin: 10px 0;
-            -webkit-appearance: none;
-            background: rgba(255, 255, 255, 0.1);
-            height: 8px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .form-range::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            background: #e50914;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .form-range::-webkit-slider-thumb:hover {
-            background: #ff0000;
-        }
-
-        .form-control {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff;
-            padding: 8px 12px;
-        }
-
-        .form-control:focus {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: #e50914;
-            box-shadow: 0 0 0 0.2rem rgba(229, 9, 20, 0.25);
-            color: #fff;
-        }
-
-        .input-group-text {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff;
-        }
-
-        .btn {
-            width: 100%;
-            margin: 10px 0;
-            padding: 12px;
-            border-radius: 4px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary {
-            background-color: #e50914;
-            border-color: #e50914;
-            color: #fff;
-        }
-
-        .btn-primary:hover {
-            background-color: #ff0000;
-            border-color: #ff0000;
-            transform: translateY(-1px);
-        }
-
-        .btn-outline-primary {
-            background-color: transparent;
-            border-color: #e50914;
-            color: #e50914;
-        }
-
-        .btn-outline-primary:hover {
-            background-color: rgba(229, 9, 20, 0.1);
-            color: #fff;
-        }
-
-        .filter-sidebar::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .filter-sidebar::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 4px;
-        }
-
-        .filter-sidebar::-webkit-scrollbar-thumb {
-            background: #e50914;
-            border-radius: 4px;
-        }
-
-        .filter-sidebar::-webkit-scrollbar-thumb:hover {
-            background: #ff0000;
-        }
-
-        /* Adjust main content for filter sidebar */
-        .main-content {
-            position: relative;
-            padding-right: 320px; /* Filter width + padding */
-            min-height: 100vh;
-        }
-
-        /* Mobile styles */
-        @media (max-width: 768px) {
-            .filter-sidebar {
-                display: none;
-            }
-
-            .main-content {
-                padding-right: 0;
-            }
-        }
+    }
 </style>
 </head>
 <body>
-
+    <!-- Header/Navbar -->
+    <div id="header-container"></div>
 
     <main class="main-content">
-        <!-- Filter Sidebar -->
-        <aside class="filter-sidebar">
-            <h3>Filtreleme</h3>
-            
-            <div class="filter-group">
-                <h4>Kategori</h4>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="action" value="Aksiyon">
-                    <label class="form-check-label" for="action">Aksiyon</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="comedy" value="Komedi">
-                    <label class="form-check-label" for="comedy">Komedi</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="animation" value="Animasyon">
-                    <label class="form-check-label" for="animation">Animasyon</label>
-                </div>
-            </div>
-
-            <div class="filter-group">
-                <h4>Yıl Aralığı</h4>
-                <div class="input-group mb-3">
-                    <input type="number" class="form-control" id="yearFrom" placeholder="Başlangıç Yılı">
-                    <span class="input-group-text">-</span>
-                    <input type="number" class="form-control" id="yearTo" placeholder="Bitiş Yılı">
-                </div>
-            </div>
-
-            <div class="filter-group">
-                <h4>IMDb Puanı</h4>
-                <input type="range" class="form-range" min="0" max="10" step="0.1" id="ratingRange">
-                <div class="rating-display">
-                    <i class="fas fa-star"></i>
-                    <span class="rating-value" id="ratingValue">7.0</span>
-                </div>
-            </div>
-
-            <button class="btn btn-primary">Filtrele</button>
-            <button class="btn btn-outline-primary">Temizle</button>
-        </aside>
-        
-        <!-- Content Area -->
-        <div class="content-area">
+        <section>
             <div class="section-header">
-                <h2><i class="fas fa-fire"></i> Filmler Kategorisi</h2>
+                <h2><i class="fas fa-film"></i> Filmler</h2>
             </div>
-            
-            <div class="movie-grid">
-                <!-- Movie items will be dynamically loaded here -->
+            <div id="moviesGrid" class="movie-grid">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <div>Filmler yükleniyor...</div>
+                </div>
             </div>
-        </div>
+        </section>
     </main>
 
-    <script>
-        // Content data will be loaded from JSON
-        let contentData = [];
-
-        // Function to generate movie HTML
-        function createMovieElement(movie) {
-            return `
-                <div class="box">
-                    <a href="${movie.link}">
-                        <img loading="lazy" src="${movie.image}" alt="${movie.title}">
-                        <div class="info-panel">
-                            <h3>${movie.title}</h3>
-                            <div class="movie-meta">
-                                <span class="year">${movie.year}</span>
-                                <span class="genre">${Array.isArray(movie.genre) ? movie.genre.join(', ') : movie.genre}</span>
-                                <span class="rating">
-                                    <i class="fas fa-star"></i> ${movie.rating}
-                                </span>
-                            </div>
-                        </div>
-                    </a>
-                    <button class="favorite-btn" aria-label="Favorilere Ekle">
-                        <i class="far fa-heart"></i>
-                    </button>
+    <!-- Detail Modal -->
+    <div id="mediaModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content" style="background: linear-gradient(135deg, #1a1a1a 0%, #141414 100%); border: 1px solid rgba(229,9,20,0.3); border-radius: 12px;">
+                <div class="modal-header" style="border-bottom: 2px solid rgba(229,9,20,0.2); padding: 18px 20px;">
+                    <h5 id="modalTitle" class="modal-title" style="font-weight: 700; color: #fff;"></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" style="filter: brightness(1.2);"></button>
                 </div>
-            `;
-        }
+                <div id="modalBody" class="modal-body" style="color: #fff; padding: 25px;"></div>
+            </div>
+        </div>
+    </div>
 
-        // Function to load content data
-        async function loadContentData() {
-            try {
-                const response = await fetch('data/movies.json');
-                const data = await response.json();
-                contentData = data.content;
-                populateMovies();
-            } catch (error) {
-                console.error('Error loading content data:', error);
-            }
-        }
+    <!-- Player Modal -->
+    <div id="playerModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content" style="background: linear-gradient(135deg, #1a1a1a 0%, #141414 100%); border: 1px solid rgba(229,9,20,0.3); border-radius: 12px;">
+                <div class="modal-header" style="border-bottom: 2px solid rgba(229,9,20,0.2); padding: 18px 20px;">
+                    <h5 id="playerTitle" class="modal-title" style="font-weight: 700; color: #fff;"></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" style="filter: brightness(1.2);"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <iframe id="playerIframe" 
+                            width="100%" 
+                            height="500" 
+                            style="border: none;" 
+                            allow="autoplay; encrypted-media; picture-in-picture"
+                            allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        // Function to populate the movies grid
-        function populateMovies() {
-            const movieGrid = document.querySelector('.movie-grid');
-            if (movieGrid) {
-                movieGrid.innerHTML = contentData.map(movie => createMovieElement(movie)).join('');
-            }
-        }
-
-        // Function to filter movies
-        function filterMovies() {
-            const genreFilters = Array.from(document.querySelectorAll('.filter-sidebar input[type="checkbox"]:checked'))
-                .map(checkbox => checkbox.value);
-            
-            const yearFrom = document.getElementById('yearFrom').value || 0;
-            const yearTo = document.getElementById('yearTo').value || 9999;
-            
-            const rating = document.getElementById('ratingRange').value;
-
-            const filteredMovies = contentData.filter(movie => {
-                    // Convert movie.genre to array if it's a string
-                    const movieGenres = Array.isArray(movie.genre) ? 
-                        movie.genre.map(g => g.trim().toLowerCase()) : 
-                        [String(movie.genre || '').trim().toLowerCase()];
-                    
-                    // Check if any of the selected genres match any of the movie's genres
-                    const matchesGenre = genreFilters.length === 0 || 
-                        genreFilters.some(selectedGenre => 
-                            movieGenres.some(movieGenre => 
-                                movieGenre.includes(selectedGenre.toLowerCase()) || 
-                                selectedGenre.toLowerCase().includes(movieGenre)
-                            )
-                        );
-                    
-                    const matchesYear = movie.year >= parseInt(yearFrom) && movie.year <= parseInt(yearTo);
-                    const matchesRating = movie.rating >= parseFloat(rating);
-                    
-                    return matchesGenre && matchesYear && matchesRating;
-                });
-
-            const movieGrid = document.querySelector('.movie-grid');
-            if (movieGrid) {
-                movieGrid.innerHTML = filteredMovies.map(movie => createMovieElement(movie)).join('');
-            }
-        }
-
-        // Initialize page
-        document.addEventListener('DOMContentLoaded', () => {
-            // Load content data
-            loadContentData();
-
-            // Add click event for favorite buttons
-            document.querySelectorAll('.favorite-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    btn.classList.toggle('active');
-                    btn.querySelector('i').classList.toggle('far');
-                    btn.querySelector('i').classList.toggle('fas');
-                });
-            });
-
-            // Add filter event listeners
-            document.getElementById('yearFrom').addEventListener('input', filterMovies);
-            document.getElementById('yearTo').addEventListener('input', filterMovies);
-            document.getElementById('ratingRange').addEventListener('input', filterMovies);
-            document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(checkbox => {
-                checkbox.addEventListener('change', filterMovies);
-            });
-        });
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/header.js"></script>
+    <script src="data/app.js"></script>
 </body>
 </html>

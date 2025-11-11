@@ -1,616 +1,117 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arama Sonuçları - Dizicom</title>
+    <title>Arama - Dizicom</title>
     <link rel="shortcut icon" href="img/logos.png" type="image/x-icon">
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preload" as="style" href="css/movie-grid.css" onload="this.onload=null;this.rel='stylesheet'">
-<link rel="preload" as="style" href="css/story-slider.css" onload="this.onload=null;this.rel='stylesheet'">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" media="print" onload="this.media='all'">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-<noscript>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-</noscript>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/movie-grid.css">
     <style>
-        .search-results {
-            padding: 1rem 0;
-            background-color: #141414;
-            min-height: 100vh;
-            color: white;
-        }
-        
-        .search-container {
-            position: relative;
-            margin-bottom: 1.5rem;
-            color: white;
-        }
-        
-        .search-filters {
-            background: #1f1f1f;
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-            color: white;
-        }
-        
-        .filter-section {
-            margin-bottom: 1rem;
-            color: white;
-        }
-        
-        .filter-section h6 {
-            color: #e50914;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .genre-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-            color: white;
-        }
-        
-        .genre-tags .badge {
-            cursor: pointer;
-            padding: 0.35em 0.65em;
-            font-size: 0.85em;
-            border-radius: 4px;
-            transition: all 0.2s;
-            color: white;
-        }
-        
-        .search-actions {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 1rem;
-            color: white;
-        }
-        
-        .result-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        .result-card {
-            background: #1f1f1f;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.2s, box-shadow 0.2s;
-            color: white;
-        }
-        
-        .result-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-            color: white;
-        }
-        
-        .result-poster {
-            width: 100%;
-            padding-top: 150%;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .result-poster img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s;
-        }
-        
-        .result-card:hover .result-poster img {
-            transform: scale(1.05);
-        }
-        
-        .result-info {
-            padding: 0.75rem;
-        }
-        
-        .result-title {
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            line-clamp: 2;
-            max-height: 2.8em;
-            line-height: 1.4em;
-        }
-        
-        .result-meta {
-            font-size: 0.8rem;
-            color: #999;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .result-rating {
-            color: #e6b91e;
-            font-weight: 600;
-        }
-        
-        @media (max-width: 768px) {
-            .search-header {
-                margin-bottom: 1.5rem;
-                padding: 0 10px;
-            }
-            
-            .search-header h2 {
-                font-size: 1.5rem;
-                margin-bottom: 0.5rem;
-            }
-            
-            .result-grid {
-                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-                gap: 1rem;
-                padding: 0 10px;
-            }
-            
-            .result-title {
-                font-size: 0.9rem;
-                -webkit-line-clamp: 1;
-                line-clamp: 1;
-                max-height: 1.4em;
-            }
-            
-            .result-meta {
-                font-size: 0.75rem;
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.25rem;
-            }
-            
-            .result-rating {
-                font-size: 0.8rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .result-grid {
-                grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-                gap: 0.6rem;
-            }
-            
-            .search-filters {
-                padding: 0.75rem;
-                margin: 0 10px 1rem;
-                border-radius: 6px;
-            }
-            
-            .filter-section h6 {
-                font-size: 0.85rem;
-                margin-bottom: 0.4rem;
-            }
-            
-            .genre-tags {
-                gap: 0.4rem;
-            }
-            
-            .genre-tags .badge {
-                font-size: 0.75rem;
-                padding: 0.2em 0.5em;
-            }
-            
-            .search-actions {
-                margin-top: 0.75rem;
-            }
-            
-            .search-actions .btn {
-                padding: 0.25rem 0.75rem;
-                font-size: 0.8rem;
-            }
-        }
-        
-        .search-header {
-            margin-bottom: 30px;
-            padding: 0 15px;
-        }
-        
-        .search-query {
-            color: #e50914;
-            font-weight: bold;
-        }
-        
-        .movie-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-            padding: 0 15px;
-        }
-        
-        .box {
-            position: relative;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            background: #1a1a1a;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        
-        .box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
-        }
-        
-        .box img {
-            width: 100%;
-            height: 280px;
-            object-fit: cover;
-            display: block;
-        }
-        
-        .info-panel {
-            padding: 15px;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            color: #fff;
-        }
-        
-        .info-panel h3 {
-            font-size: 1rem;
-            margin: 0 0 8px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .movie-meta {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            color: #aaa;
-        }
-        
-        .rating {
-            color: #ffd700;
-        }
-        
-        .favorite-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(0, 0, 0, 0.7);
-            border: none;
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            color: #fff;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-        }
-        
-        .favorite-btn:hover {
-            background: #e50914;
-            transform: scale(1.1);
-        }
-        
-        .no-results {
-            color: #fff;
-            text-align: center;
-            padding: 50px 0;
-            grid-column: 1 / -1;
-        }
+        body{background:#141414;color:#fff;font-family:Poppins,sans-serif}
+        .main-content{min-height:100vh;padding:20px}
+        .search-header{background:linear-gradient(135deg, #1f1f1f 0%, #141414 100%);padding:50px 20px;margin-bottom:40px;border-bottom:2px solid #e50914;box-shadow:0 4px 20px rgba(229,9,20,0.2)}
+        .search-title{font-size:2rem;font-weight:700;margin-bottom:15px;letter-spacing:0.5px}
+        .search-query{color:#e50914;font-weight:bold;text-shadow:0 0 10px rgba(229,9,20,0.3)}
+        .result-count{color:#b0b0b0;font-size:1rem;margin-top:10px}
+        .filter-chips{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap}
+        .filter-chip{background:#2a2a2a;color:#fff;border-radius:25px;padding:10px 20px;border:2px solid #3a3a3a;cursor:pointer;font-weight:500;transition:all 0.3s ease;font-size:0.95rem}
+        .filter-chip:hover{border-color:#e50914;background:#2a2a2a;transform:translateY(-2px)}
+        .filter-chip.active{background:#e50914;border-color:#e50914;box-shadow:0 0 15px rgba(229,9,20,0.5)}
+        .movie-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:25px;margin:40px 0;padding:20px 0}
+        .no-results{text-align:center;padding:80px 20px;color:#999;grid-column:1/-1;font-size:1.1rem}
+        .loading-spinner{text-align:center;padding:40px 20px;grid-column:1/-1}
     </style>
 </head>
 <body>
-    <!-- Header will be inserted by header.js -->
-    
-    <main class="search-results">
+    <div id="header-container"></div>
+    <div class="search-header">
         <div class="container">
-            <div class="search-header">
-                <h2 class="text-white mb-3">Arama Sonuçları: <span class="search-query" id="searchQuery"></span></h2>
-                <p class="text-muted" id="resultCount"></p>
-            </div>
-            
-            <div class="movie-grid" id="searchResults">
-                <!-- Results will be inserted here by JavaScript -->
+            <h2 class="search-title">Arama: <span id="sq" class="search-query"></span></h2>
+            <p id="rc" class="result-count"></p>
+            <div class="filter-chips">
+                <button class="filter-chip active" data-type="all">Tümü</button>
+                <button class="filter-chip" data-type="movie">Filmler</button>
+                <button class="filter-chip" data-type="tv">Diziler</button>
             </div>
         </div>
+    </div>
+    <main class="main-content">
+        <div class="container">
+            <div id="sr" class="movie-grid"><div class="no-results">Aranıyor...</div></div>
+        </div>
     </main>
-
+    <div id="mediaModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content" style="background:linear-gradient(135deg, #1a1a1a 0%, #141414 100%);border:1px solid rgba(229,9,20,0.3);border-radius:12px">
+                <div class="modal-header" style="border-bottom:2px solid rgba(229,9,20,0.2);padding:18px 20px">
+                    <h5 id="modalTitle" class="modal-title" style="font-weight:700;color:#fff"></h5>
+                    <button class="btn-close btn-close-white" data-bs-dismiss="modal" style="filter:brightness(1.2)"></button>
+                </div>
+                <div id="modalBody" class="modal-body" style="color:#fff;padding:25px"></div>
+            </div>
+        </div>
+    </div>
+    <div id="playerModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content" style="background:linear-gradient(135deg, #1a1a1a 0%, #141414 100%);border:1px solid rgba(229,9,20,0.3);border-radius:12px">
+                <div class="modal-header" style="border-bottom:2px solid rgba(229,9,20,0.2);padding:18px 20px">
+                    <h5 id="playerTitle" class="modal-title" style="font-weight:700;color:#fff"></h5>
+                    <button class="btn-close btn-close-white" data-bs-dismiss="modal" style="filter:brightness(1.2)"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <iframe id="playerIframe" width="100%" height="500" style="border:none;display:block" allow="autoplay;encrypted-media;picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/header.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="data/app.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const searchTerm = urlParams.get('q') || '';
-            const typeFilter = urlParams.get('type') || '';
-            const genreFilter = urlParams.get('genre') ? 
-                urlParams.get('genre').split(',').map(g => g.trim().toLowerCase()) : [];
-            
-            // Arama başlığını güncelle
-            const searchQueryElement = document.getElementById('searchQuery');
-            if (searchQueryElement) {
-                searchQueryElement.textContent = searchTerm ? `"${searchTerm}"` : 'Tüm içerikler';
-            }
-            
-            if (!searchTerm) {
-                const resultCount = document.getElementById('resultCount');
-                if (resultCount) {
-                    resultCount.textContent = 'Lütfen geçerli bir arama terimi girin.';
-                }
-                return;
-            }
-            
-            // Arama için film ve dizileri yükle
-            Promise.all([
-                fetch('data/movies.json').then(res => {
-                    if (!res.ok) throw new Error('Filmler yüklenemedi');
-                    return res.json();
-                }),
-                fetch('data/series.json').then(res => {
-                    if (!res.ok) throw new Error('Diziler yüklenemedi');
-                    return res.json();
-                })
-            ]).then(([moviesData, seriesData]) => {
-                const results = [];
-                
-                // Veri yapılarından içerikleri çıkar
-                let movies = moviesData.content || [];
-                let series = seriesData.series || [];
-                
-                console.log('Arama parametreleri:', { searchTerm, typeFilter, genreFilter });
-                
-                // Gelişmiş arama fonksiyonu
-                const isMatch = (text, search) => {
-                    if (!text || !search) return 0;
-                    
-                    // Türkçe karakterleri normalize et ve küçük harfe çevir
-                    const normalizeText = (str) => 
-                        str.toString().toLowerCase()
-                           .normalize('NFD')
-                           .replace(/[\u0300-\u036f]/g, '')
-                           .replace(/[^a-z0-9\s]/g, '');
-                    
-                    const normalizedText = normalizeText(text);
-                    const normalizedSearch = normalizeText(search);
-                    
-                    // Arama terimlerini ayır
-                    const searchTerms = normalizedSearch.split(/\s+/).filter(term => term.length > 0);
-                    
-                    // Eğer arama terimi yoksa eşleşme yok
-                    if (searchTerms.length === 0) return 0;
-                    
-                    // Her bir arama terimi için puan hesapla
-                    let totalScore = 0;
-                    
-                    for (const term of searchTerms) {
-                        // 1. Tam eşleşme (en yüksek öncelik)
-                        if (normalizedText === term) {
-                            totalScore += 100;
-                            continue;
-                        }
-                        
-                        // 2. Kelime başlangıçlarında eşleşme
-                        const startsWithTerm = normalizedText.split(/\s+/).some(word => word.startsWith(term));
-                        if (startsWithTerm) {
-                            totalScore += 50;
-                            continue;
-                        }
-                        
-                        // 3. İçinde geçiyorsa
-                        if (normalizedText.includes(term)) {
-                            totalScore += 20;
-                            continue;
-                        }
-                        
-                        // 4. Levenshtein mesafesi ile benzerlik kontrolü
-                        const similarity = calculateSimilarity(normalizedText, term);
-                        if (similarity > 0.7) {
-                            totalScore += Math.floor(similarity * 10);
-                        }
-                    }
-                    
-                    // Eğer tüm terimler eşleştiyse ekstra puan ver
-                    const allTermsMatch = searchTerms.every(term => 
-                        normalizedText.includes(term) ||
-                        normalizedText.split(/\s+/).some(word => word.startsWith(term))
-                    );
-                    
-                    if (allTermsMatch) {
-                        totalScore += 30;
-                    }
-                    
-                    return totalScore;
-                };
-                
-                // İki metin arasındaki benzerliği hesapla (Levenshtein mesafesi)
-                function calculateSimilarity(s1, s2) {
-                    const longer = s1.length > s2.length ? s1 : s2;
-                    const shorter = s1.length > s2.length ? s2 : s1;
-                    
-                    if (longer.length === 0) return 1.0;
-                    
-                    const distance = calculateLevenshteinDistance(longer, shorter);
-                    return (longer.length - distance) / parseFloat(longer.length);
-                }
-                
-                function calculateLevenshteinDistance(s1, s2) {
-                    const m = s1.length;
-                    const n = s2.length;
-                    const dp = Array(m + 1).fill().map(() => Array(n + 1).fill(0));
-                    
-                    for (let i = 0; i <= m; i++) dp[i][0] = i;
-                    for (let j = 0; j <= n; j++) dp[0][j] = j;
-                    
-                    for (let i = 1; i <= m; i++) {
-                        for (let j = 1; j <= n; j++) {
-                            const cost = s1[i - 1] === s2[j - 1] ? 0 : 1;
-                            dp[i][j] = Math.min(
-                                dp[i - 1][j] + 1,     // Silme
-                                dp[i][j - 1] + 1,     // Ekleme
-                                dp[i - 1][j - 1] + cost // Değiştirme
-                            );
-                        }
-                    }
-                    
-                    return dp[m][n];
-                }
-                
-                // Filtreleme ve arama fonksiyonu
-                const filterAndSearch = (items, type) => {
-                    return items
-                        .filter(item => {
-                            // Tip filtresi
-                            if (typeFilter && type !== typeFilter) return false;
-                            
-                            // Tür filtresi
-                            if (genreFilter.length > 0) {
-                                const itemGenres = Array.isArray(item.genre) ? 
-                                    item.genre.map(g => g.trim().toLowerCase()) : [];
-                                const hasMatchingGenre = genreFilter.some(selectedGenre => 
-                                    itemGenres.some(itemGenre => 
-                                        itemGenre.includes(selectedGenre) || selectedGenre.includes(itemGenre)
-                                    )
-                                );
-                                if (!hasMatchingGenre) return false;
-                            }
-                            
-                            // Arama terimi yoksa tüm sonuçları döndür
-                            if (!searchTerm) return true;
-                            
-                            // Başlıkta ara
-                            if (isMatch(item.title, searchTerm)) return true;
-                            
-                            // Türlerde ara (case-insensitive)
-                            if (Array.isArray(item.genre) && 
-                                item.genre.some(g => {
-                                    const normalizedGenre = g.toLowerCase();
-                                    const normalizedSearch = searchTerm.toLowerCase();
-                                    return normalizedGenre.includes(normalizedSearch) || 
-                                           normalizedSearch.includes(normalizedGenre);
-                                })) return true;
-                            
-                            // Yönetmende ara
-                            if (item.director && isMatch(item.director, searchTerm)) return true;
-                            
-                            return false;
-                        })
-                        .map(item => ({
-                            ...item,
-                            type: type,
-                            link: item.link || '#',
-                            poster: item.image || 'img/poster-placeholder.jpg',
-                            genre: Array.isArray(item.genre) ? item.genre : [],
-                            score: calculateRelevanceScore(item, searchTerm)
-                        }));
-                };
-                
-                // İlgililik puanını hesapla
-                function calculateRelevanceScore(item, term) {
-                    if (!term) return 1; // Arama yoksa tüm sonuçlar eşit öncelikte
-                    
-                    let score = 0;
-                    
-                    // Başlıkta tam eşleşme
-                    if (item.title.toLowerCase() === term) score += 100;
-                    
-                    // Başlıkta başlangıç
-                    if (item.title.toLowerCase().startsWith(term)) score += 50;
-                    
-                    // Başlıkta içerme
-                    if (item.title.toLowerCase().includes(term)) score += 20;
-                    
-                    // Türlerde eşleşme
-                    if (Array.isArray(item.genre)) {
-                        const genreMatch = item.genre.some(g => 
-                            g.toLowerCase().includes(term)
-                        );
-                        if (genreMatch) score += 15;
-                    }
-                    
-                    // Yönetmen eşleşmesi
-                    if (item.director && item.director.toLowerCase().includes(term)) {
-                        score += 10;
-                    }
-                    
-                    return score;
-                }
-                
-                // Filmleri ve dizileri filtrele
-                const filteredMovies = filterAndSearch(movies, 'film');
-                const filteredSeries = filterAndSearch(series, 'dizi');
-                
-                // Tüm sonuçları birleştir ve puanına göre sırala
-                const allResults = [...filteredMovies, ...filteredSeries]
-                    .sort((a, b) => b.score - a.score);
-                
-                // Sonuçları ekle
-                results.push(...allResults);
-                
-                console.log('Total results:', results.length);
-                displayResults(results);
-            }).catch(error => {
-                console.error('Arama sırasında hata oluştu:', error);
-                document.getElementById('resultCount').textContent = 'Arama yapılırken bir hata oluştu. Lütfen daha sonra tekrar deneyin.';
-            });
-            
-            function displayResults(results) {
-                const resultsContainer = document.getElementById('searchResults');
-                const resultCount = document.getElementById('resultCount');
-                
-                resultCount.textContent = `${results.length} sonuç bulundu`;
-                
-                if (results.length === 0) {
-                    resultsContainer.innerHTML = `
-                        <div class="col-12">
-                            <div class="no-results">
-                                <i class="fas fa-search fa-3x mb-3"></i>
-                                <h3>Sonuç bulunamadı</h3>
-                                <p class="text-muted">Aradığınız kriterlere uygun içerik bulunamadı.</p>
-                            </div>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                resultsContainer.innerHTML = results.map(item => `
-                    <div class="box">
-                        <a href="${item.link || '#'}">
-                            <img loading="lazy" src="${item.poster}" alt="${item.title}">
-                            <div class="info-panel">
-                                <h3>${item.title}</h3>
-                                <div class="movie-meta">
-                                    <span class="year">${item.year || ''}</span>
-                                    <span class="genre">${Array.isArray(item.genre) ? item.genre[0] : ''}</span>
-                                    ${item.rating ? `<span class="rating">
-                                        <i class="fas fa-star"></i> ${item.rating}
-                                    </span>` : ''}
-                                </div>
-                            </div>
-                        </a>
-                        <button class="favorite-btn" aria-label="Favorilere Ekle">
-                            <i class="far fa-heart"></i>
-                        </button>
-                    </div>
-                `).join('');
-            }
-        });
+const API='999a2c8d29cd1833fa98446f909f19eb',B='https://api.themoviedb.org/3',I='https://image.tmdb.org/t/p/w342';
+const q=new URLSearchParams(window.location.search).get('q')||'';
+let f='all',r=[];
+document.getElementById('sq').textContent=q?`"${q}"`:' ';
+document.querySelectorAll('.filter-chip').forEach(e=>e.onclick=()=>{
+document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+e.classList.add('active');f=e.dataset.type;render();
+});
+async function search(){
+if(!q){document.getElementById('sr').innerHTML='<div class="no-results">Terimi girin</div>';return}
+document.getElementById('sr').innerHTML='<div style="text-align:center;padding:40px;color:#aaa">Aranıyor...</div>';
+try{
+const[m,t]=await Promise.all([
+fetch(`${B}/search/movie?api_key=${API}&query=${encodeURIComponent(q)}`),
+fetch(`${B}/search/tv?api_key=${API}&query=${encodeURIComponent(q)}`)
+]);
+const movies=(await m.json()).results.map(x=>({...x,media_type:'movie'}));
+const tv=(await t.json()).results.map(x=>({...x,media_type:'tv'}));
+r=[...movies,...tv].sort((a,b)=>(b.popularity||0)-(a.popularity||0));
+render();
+}catch(e){document.getElementById('sr').innerHTML='<div class="no-results">Hata</div>'}
+}
+function render(){
+let l=f==='all'?r:r.filter(i=>i.media_type===f);
+if(!l.length){document.getElementById('sr').innerHTML='<div class="no-results">Yok</div>';document.getElementById('rc').textContent='0';return}
+document.getElementById('rc').textContent=`${l.length} sonuç`;
+document.getElementById('sr').innerHTML=l.map(i=>`
+<div class="movie-card" onclick="showMediaDetails(${i.id},'${i.media_type}')">
+<div class="media-poster-container">
+<img src="${i.poster_path?I+i.poster_path:'/placeholder.svg?height=450&width=300'}" alt="${i.title||i.name}" class="media-poster" loading="lazy">
+<div class="media-overlay"><i class="fas fa-play play-icon"></i></div>
+</div>
+<div class="media-info">
+<h3 class="media-title">${i.title||i.name}</h3>
+<div class="media-rating"><div class="rating-stars"><i class="fas fa-star"></i><span>${i.vote_average?.toFixed(1)||'N/A'}</span></div></div>
+</div>
+</div>
+`).join('');
+}
+search();
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
