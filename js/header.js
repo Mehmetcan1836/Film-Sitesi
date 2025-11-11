@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const headerHTML = `
     <style>
       .main-header {
-        background: linear-gradient(180deg, #141414 0%, #0a0a0a 100%);
+
         border-bottom: 1px solid #222;
         position: relative;
         z-index: 1000;
@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
         top: 0;
         left: 0;
         z-index: 1100;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        box-shadow: 0 2px 10px rgba(255, 255, 255, 0.3);
       }
       
       .mobile-search.active {
@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
         padding: 0.6rem 1.2rem;
         padding-right: 45px;
         border-radius: 30px;
-        border: 1px solid #333;
+        border: 1px solid #ffffffff;
         background: rgba(255, 255, 255, 0.05);
         color: #fff;
         font-size: 0.95rem;
@@ -103,7 +103,6 @@ document.addEventListener("DOMContentLoaded", function () {
         outline: none;
         border-color: #e50914;
         box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.2);
-        background: rgba(255, 255, 255, 0.08);
       }
       .search-btn {
         position: absolute;
@@ -146,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       .btn-outline {
         background: transparent;
-        border: 1px solid #444;
+        border: 1px solid #ffffffff;
         color: #e5e5e5 !important;
       }
       .btn-outline:hover {
@@ -245,45 +244,6 @@ document.addEventListener("DOMContentLoaded", function () {
                   <i class="fas fa-search"></i>
                 </button>
               </form>
-              <div class="search-dropdown" id="searchDropdown" style="display: none;">
-                <div class="search-filters p-3">
-                  <div class="filter-section">
-                    <h6>Kategori</h6>
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="type" id="allType" value="" checked>
-                      <label class="form-check-label" for="allType">
-                        Tümü
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="type" id="movieType" value="film">
-                      <label class="form-check-label" for="movieType">
-                        Filmler
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="type" id="seriesType" value="dizi">
-                      <label class="form-check-label" for="seriesType">
-                        Diziler
-                      </label>
-                    </div>
-                  </div>
-                  <div class="filter-section mt-3">
-                    <h6>Tür</h6>
-                    <div class="genre-tags">
-                      <span class="badge bg-secondary me-1 mb-1">Aksiyon</span>
-                      <span class="badge bg-secondary me-1 mb-1">Komedi</span>
-                      <span class="badge bg-secondary me-1 mb-1">Dram</span>
-                      <span class="badge bg-secondary me-1 mb-1">Bilim Kurgu</span>
-                      <span class="badge bg-secondary me-1 mb-1">Korku</span>
-                      <span class="badge bg-secondary me-1 mb-1">Gerilim</span>
-                    </div>
-                  </div>
-                  <div class="search-actions mt-3 d-flex justify-content-between">
-                    <button type="button" class="btn btn-sm btn-outline-secondary" id="clearFilters">Temizle</button>
-                    <button type="button" class="btn btn-sm btn-danger" id="applySearch">Ara</button>
-                  </div>
-                </div>
               </div>
             </div>
 
@@ -298,9 +258,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 top: 100%;
                 right: 0;
                 width: 300px;
-                background: #1a1a1a;
+                background: #ffffffff;
                 border-radius: 8px;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
                 margin-top: 5px;
                 z-index: 1000;
                 border: 1px solid #333;
@@ -327,9 +287,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 cursor: pointer;
                 transition: all 0.2s;
               }
-              .badge:hover {
-                opacity: 0.8;
-              }
               .badge.bg-danger {
                 background-color: #e50914 !important;
               }
@@ -350,7 +307,14 @@ document.addEventListener("DOMContentLoaded", function () {
       </nav>
     </header>
     `;
-    document.body.insertAdjacentHTML("afterbegin", headerHTML);
+    
+    // Insert header into header-container or body
+    const headerContainer = document.getElementById('header-container');
+    if (headerContainer) {
+      headerContainer.innerHTML = headerHTML;
+    } else {
+      document.body.insertAdjacentHTML("afterbegin", headerHTML);
+    }
     
     // Search functionality
     const searchInput = document.getElementById('searchInput');
