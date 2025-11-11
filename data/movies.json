@@ -1,12 +1,42 @@
 {
   "content": [
     {
+"title": "Harry Potter and the Sorcerer's Stone",
+"year": 2001,
+"director": "Chris Columbus",
+"genre": ["Adventure", "Family", "Fantasy"],
+"rating": 8.5,
+"image": "https://tr.web.img4.acsta.net/c_310_420/pictures/bzp/01/29276.jpg",
+"link": "Filmler/HarryPotter1.html",
+"imdb": "6.7/10"
+},
+{
+"title": "Harry Potter and the Chamber of Secrets",
+"year": 2002,
+"director": "Chris Columbus",
+"genre": ["Adventure", "Family", "Fantasy"],
+"rating": 8.5,
+"image": "https://tr.web.img2.acsta.net/r_1920_1080/medias/nmedia/00/02/53/35/affiche0.jpg",
+"link": "Filmler/HarryPotter2.html",
+"imdb": "6.7/10"
+},
+{
+"title": "Harry Potter and the Prisoner of Azkaban",
+"year": 2004,
+"director": "Alfonso Cuarón",
+"genre": ["Adventure", "Family", "Fantasy"],
+"rating": 8.5,
+"image": "https://tr.web.img3.acsta.net/c_310_420/pictures/bzp/01/46865.jpg",
+"link": "Filmler/HarryPotter3.html",
+"imdb": "6.7/10"
+},
+    {
       "title": "Harry Potter and the Goblet of Fire",
       "year": 2005,
       "director": "Mike Newell",
       "genre": ["Adventure", "Family", "Fantasy"],
       "rating": 8.5,
-      "image": "https://upload.wikimedia.org/wikipedia/en/c/c9/Harry_Potter_and_the_Goblet_of_Fire_Poster.jpg",
+      "image": "https://tr.web.img4.acsta.net/c_310_420/pictures/bzp/01/53756.jpg",
       "link": "Filmler/HarryPotter4.html",
       "imdb": "6.7/10"
     },
@@ -28,6 +58,16 @@
       "rating": 8.5,
       "image": "https://upload.wikimedia.org/wikipedia/en/3/3f/Harry_Potter_and_the_Half-Blood_Prince_poster.jpg",
       "link": "Filmler/HarryPotter6.html",
+      "imdb": "6.7/10"
+    },
+    {
+      "title": "Harry Potter and the Deathly Hallows: Part 1",
+      "year": 2010,
+      "director": "David Yates",
+      "genre": ["Adventure", "Family", "Fantasy"],
+      "rating": 8.5,
+      "image": "https://tr.web.img2.acsta.net/c_310_420/medias/nmedia/18/81/53/38/19560804.jpg",
+      "link": "Filmler/HarryPotter7.html",
       "imdb": "6.7/10"
     },
     {
@@ -60,46 +100,8 @@
       "director": "Andy Muschietti",
       "imdb": "6.7/10"
     },
-    {
-"title": "Harry Potter and the Sorcerer's Stone",
-"year": 2001,
-"director": "Chris Columbus",
-"genre": ["Adventure", "Family", "Fantasy"],
-"rating": 8.5,
-"image": "img/HarryPoter.webp",
-"link": "Filmler/HarryPotter1.html",
-"imdb": "6.7/10"
-},
-{
-"title": "Harry Potter and the Chamber of Secrets",
-"year": 2002,
-"director": "Chris Columbus",
-"genre": ["Adventure", "Family", "Fantasy"],
-"rating": 8.5,
-"image": "img/HarryPotter2.jpg",
-"link": "Filmler/HarryPotter2.html",
-"imdb": "6.7/10"
-},
-{
-"title": "Harry Potter and the Prisoner of Azkaban",
-"year": 2004,
-"director": "Alfonso Cuarón",
-"genre": ["Adventure", "Family", "Fantasy"],
-"rating": 8.5,
-"image": "img/HarryPotter3.jpg",
-"link": "Filmler/HarryPotter3.html",
-"imdb": "6.7/10"
-},
-{
-"title": "Harry Potter and the Deathly Hallows: Part 1",
-"year": 2010,
-"director": "David Yates",
-"genre": ["Adventure", "Family", "Fantasy"],
-"rating": 8.5,
-"image": "img/HarryPotter7.jpg",
-"link": "Filmler/HarryPotter7.html",
-"imdb": "6.7/10"
-},
+
+
 {
 "title": "Dune: Part Two",
 "year": 2024,

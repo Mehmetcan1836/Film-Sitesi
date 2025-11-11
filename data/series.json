@@ -5,7 +5,7 @@
       "year": 2005,
       "genre": ["Animasyon", "Aksiyon", "Macera"],
       "rating": 8.1,
-      "image": "img/869.jpg",
+      "image": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/eogRp6oAPK0SEvQmCrQ78LTlSdp.jpg",
       "link": "Diziler/Ben10 Classic/ben10.html",
       "director": "Duncan Rouleau",
       "type": "dizi"
@@ -15,7 +15,7 @@
       "year": 2011,
       "genre": ["Dram"],
       "rating": 7.7,
-      "image": "img/Kuzey Güney.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/tr/b/bc/Kuzey_Güney_afişi.jpg",
       "link": "Diziler/Kuzey Güney/Kuzey Güney.html",
       "director": "Mehmet Ada Öztekin",
       "type": "dizi"
@@ -25,7 +25,7 @@
       "year": 2012,
       "genre": ["Animasyon", "Gizem", "Komedi"],
       "rating": 8.9,
-      "image": "img/esrarengizkasaba.jpg",
+      "image": "https://images.justwatch.com/poster/304523615/s166/esrarengiz-kasaba.avif",
       "link": "Diziler/Esrarengiz Kasaba/EsrarengizKasaba.html",
       "director": "Alex Hirsch",
       "type": "dizi"
@@ -35,7 +35,7 @@
       "year": 2010,
       "genre": ["Animasyon", "Komedi", "Macera"],
       "rating": 8.5,
-      "image": "img/regularshows1.jpg",
+      "image": "https://m.media-amazon.com/images/I/71ovdMw2+BL._SL1153_.jpg",
       "link": "Diziler/RegularShow/regularshow.html",
       "director": "J.G. Quintel",
       "type": "dizi"
@@ -45,7 +45,7 @@
       "year": 2018,
       "genre": ["Dram", "Aksiyon"],
       "rating": 7.2,
-      "image": "img/Çarpışma.jpg",
+      "image": "https://upload.wikimedia.org/wikipedia/tr/f/f5/Çarpışma_dizisi_afiş.jpg",
       "link": "Diziler/Çarpışma/Çarpışma.html",
       "director": "Uluç Bayraktar",
       "type": "dizi"

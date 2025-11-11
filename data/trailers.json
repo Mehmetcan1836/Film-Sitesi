@@ -6,7 +6,12 @@
             "thumbnail": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg",
             "videoUrl": "https://www.youtube.com/embed/Way9Dexny3w",
             "releaseDate": "15 Mart 2024",
-            "type": "Film"
+            "type": "Film",
+            "cast": ["Timothée Chalamet", "Zendaya", "Rebecca Ferguson", "Josh Brolin"],
+            "director": "Denis Villeneuve",
+            "description": "Paul Atreides birleşik gezegenler arasında bir güç mücadelesine dahil olur.",
+            "genres": ["Aksiyon", "Macera", "Bilim Kurgu"],
+            "watchLink": "Filmler/dunepartstwo.html"
         },
         {
             "id": 71914,
@@ -14,7 +19,12 @@
             "thumbnail": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/7vjaCdMw15FEbXyLQTVa04URsPm.jpg",
             "videoUrl": "https://www.youtube.com/embed/2XWzDZwJz0Y",
             "releaseDate": "29 Aralık 2023",
-            "type": "Dizi"
+            "type": "Dizi",
+            "cast": ["Henry Cavill", "Anya Chalotra", "Freya Allan", "Joey Batey"],
+            "director": "Lauren Schmidt Hissrich",
+            "description": "Geralt of Rivia'nın canavar avcılığı maceraları devam ediyor.",
+            "genres": ["Aksiyon", "Macera", "Fantastik"],
+            "watchLink": "Diziler/thewitcher4.html"
         },
         {
             "id": 83095,
@@ -22,15 +32,26 @@
             "thumbnail": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/qzMYKnT4MG1d0gnhwytr4cKhUvS.jpg",
             "videoUrl": "https://www.youtube.com/embed/d9MyW72ELq0",
             "releaseDate": "19 Aralık 2025",
-            "type": "Film"
+            "type": "Film",
+            "cast": ["Sam Worthington", "Zoe Saldana", "Sigourney Weaver", "Stephen Lang"],
+            "director": "James Cameron",
+            "description": "Pandora gezegenindeki maceralar devam ediyor.",
+            "genres": ["Aksiyon", "Macera", "Bilim Kurgu"],
+            "watchLink": "Filmler/avatar3.html"
+            
         },
         {
             "id": 66732,
             "title": "Stranger Things Sezon 5",
-            "thumbnail": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/49WJfeN0moxb9IPfGn8AIqMGskD.jpg",
+            "thumbnail": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9URpkzaMMLK5bdJ1a5HBafzYEWj.jpg",
             "videoUrl": "https://www.youtube.com/embed/4uRZQ8Tn6YI",
             "releaseDate": "2024",
-            "type": "Dizi"
+            "type": "Dizi",
+            "cast": ["Millie Bobby Brown", "Finn Wolfhard", "Gaten Matarazzo", "Caleb McLaughlin"],
+            "director": "The Duffer Brothers",
+            "description": "Hawkins kasabasındaki doğaüstü olaylar devam ediyor.",
+            "genres": ["Bilim Kurgu", "Korku", "Dram"],
+            "watchLink": "Diziler/strangerthings5.html"
         },
         {
             "id": 948713,
@@ -38,7 +59,12 @@
             "thumbnail": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/wAkpPm3zXhn29pqgvqtZuNHxL8k.jpg",
             "videoUrl": "https://www.youtube.com/embed/d9MyW72ELq0",
             "releaseDate": "2023",
-            "type": "Film"
+            "type": "Film",
+            "cast": ["Tyler Posey", "Dylan O'Brien", "Holland Roden", "Shelley Hennig"],
+            "director": "Russell Mulcahy",
+            "description": "Scott McCall'un maceraları devam ediyor.",
+            "genres": ["Aksiyon", "Macera", "Fantastik"],
+            "watchLink": "Filmler/teenwolfthemovie.html"
         },
         {
             "id": 526896,
@@ -46,7 +72,12 @@
             "thumbnail": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/2nyhlvXMqR9Xgj3liMEJqvAFVyy.jpg",
             "videoUrl": "https://www.youtube.com/embed/mqqft2x_Aa4",
             "releaseDate": "3 Ekim 2025",
-            "type": "Film"
+            "type": "Film",
+            "cast": ["Robert Pattinson", "Zoë Kravitz", "Paul Dano", "Jeffrey Wright"],
+            "director": "Matt Reeves",
+            "description": "Gotham'ı korumaya devam eden Batman'in yeni maceraları.",
+            "genres": ["Aksiyon", "Suç", "Dram"],
+            "watchLink": "Filmler/thebatmanpart2.html"
         },
         {
             "id": 94997,
@@ -54,7 +85,12 @@
             "thumbnail": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/xiB0hsxMpgxpJehYxUDhiUkg2w.jpg",
             "videoUrl": "https://www.youtube.com/embed/kNx-JS92The",
             "releaseDate": "16 Haziran 2024",
-            "type": "Dizi"
+            "type": "Dizi",
+            "cast": ["Paddy Considine", "Emma D'Arcy", "Matt Smith", "Olivia Cooke"],
+            "director": "Miguel Sapochnik",
+            "description": "Targaryen hanedanının hikayesi devam ediyor.",
+            "genres": ["Dram", "Fantastik"],
+            "watchLink": "Diziler/houseofthedragon2.html"
         },
         {
             "id": 533535,
@@ -62,7 +98,12 @@
             "thumbnail": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/zHKHh5zH7kZL5lFhJ7ZRPWNrrf5.jpg",
             "videoUrl": "https://www.youtube.com/embed/Y_JUZxT1bhI",
             "releaseDate": "26 Temmuz 2024",
-            "type": "Film"
+            "type": "Film",
+            "cast": ["Ryan Reynolds", "Morena Baccarin", "T.J. Miller", "Brianna Hildebrand"],
+            "director": "Shawn Levy",
+            "description": "Anti-kahraman Deadpool'un yeni maceraları.",
+            "genres": ["Aksiyon", "Komedi", "Macera"],
+            "watchLink": "Filmler/deadpool3.html"
         },
         {
             "id": 119051,
@@ -70,7 +111,12 @@
             "thumbnail": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9PFonBhy4cQy7Jz20NpMygczOkv.jpg",
             "videoUrl": "https://www.youtube.com/embed/Di310WS8zLk",
             "releaseDate": "2024",
-            "type": "Dizi"
+            "type": "Dizi",
+            "cast": ["Jenna Ortega", "Catherine Zeta-Jones", "Luis Guzmán", "Gwendoline Christie"],
+            "director": "Tim Burton",
+            "description": "Wednesday Addams'ın Nevermore Akademisi'ndeki maceraları devam ediyor.",
+            "genres": ["Komedi", "Korku", "Gizem"],
+            "watchLink": "Diziler/wednesday2.html"
         },
         {
             "id": 68507,
@@ -78,7 +124,12 @@
             "thumbnail": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/ApwXS5kPqT3anWdwWv5RTkP8hDy.jpg",
             "videoUrl": "https://www.youtube.com/embed/7eQT85cBF24",
             "releaseDate": "2024",
-            "type": "Dizi"
+            "type": "Dizi",
+            "cast": ["Ju Ji-hoon", "Bae Doona", "Ryu Seung-ryong", "Kim Sung-kyu"],
+            "director": "Kim Seong-hun",
+            "description": "Zombi salgını sonrası Joseon döneminde hayatta kalma mücadelesi.",
+            "genres": ["Dram", "Korku", "Tarih"],
+            "watchLink": "Diziler/kingdom3.html"
         }
     ]
 }

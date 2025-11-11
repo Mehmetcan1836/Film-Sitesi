@@ -85,6 +85,89 @@
       transform: translateY(-3px);
     }
 
+    /* Trailer slider interaction styles */
+    .trailer-container { overflow: hidden; }
+    .trailer-slider {
+        display: flex;
+        gap: 16px;
+        transition: transform 0.3s ease;
+        touch-action: pan-y; /* allow vertical page scroll while handling horizontal drags */
+        cursor: grab;
+        user-select: none;
+    }
+    .trailer-slider.dragging {
+        cursor: grabbing;
+        transition: none; /* remove transition while dragging for smooth follow */
+    }
+
+    /* Detail modal styles */
+    .detail-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.85);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1100;
+        padding: 20px;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+    }
+    .detail-modal.show { opacity: 1; }
+    .detail-content {
+        background: #111;
+        width: 100%;
+        max-width: 1100px;
+        max-height: 90vh;
+        overflow: auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        padding: 18px;
+        border-radius: 8px;
+        color: #fff;
+    }
+    .detail-left { padding-right: 10px; }
+    .detail-right { padding-left: 10px; display:flex; align-items:center; justify-content:center; }
+    .detail-poster {
+        width: 100%;
+        max-width: 320px;
+        border-radius: 6px;
+        overflow: hidden;
+        margin-bottom: 12px;
+    }
+    .watch-card {
+        display:block;
+        background:#222;
+        border-radius:6px;
+        width: 30%;
+        padding:8px;
+        text-decoration:none;
+        color:#fff;
+        margin-top:10px;
+        transition:transform .15s ease, box-shadow .15s ease;
+    }
+    .watch-card img { width:100%; height:auto; display:block; border-radius:4px; }
+    .watch-card .watch-cta { display:flex; justify-content:space-between; align-items:center; margin-top:8px; }
+    .watch-card:hover { transform:translateY(-4px); box-shadow:0 6px 20px rgba(0,0,0,0.6); }
+    .detail-meta { font-size:14px; color:#cfcfcf; margin-bottom:8px; }
+    .detail-title { font-size:20px; margin-bottom:6px; }
+    .detail-section { margin-bottom:12px; }
+    .detail-section h4 { margin-bottom:6px; font-size:15px; }
+    .close-detail {
+        position:absolute;
+        right:calc(50% - 540px + 10px);
+        top:calc(50% - 45vh);
+        background:none;
+        border:none;
+        color:#fff;
+        font-size:28px;
+        cursor:pointer;
+    }
+    @media (max-width: 900px) {
+        .detail-content { grid-template-columns: 1fr; }
+        .close-detail { right: 20px; top: 20px; }
+    }
     </style>
 </head>
 <body>
@@ -195,35 +278,45 @@
                     trailerItem.innerHTML = `
                         <div class="trailer-thumbnail">
                             <img src="${trailer.thumbnail}" alt="${trailer.title}" onerror="this.onerror=null; this.src='https://via.placeholder.com/500x750/1a1a1a/ffffff?text=Image+Not+Found'">
-                            <div class="play-button" data-video="${trailer.videoUrl}">
+                            <div class="play-button" role="button" tabindex="0">
                                 <i class="fas fa-play"></i>
                             </div>
                         </div>
                         <div class="trailer-info">
                             <h3>${trailer.title}</h3>
                             <div class="trailer-meta">
-                                <span>${trailer.type}</span>
-                                <span>${trailer.releaseDate}</span>
+                                <span>${trailer.type || ''}</span>
+                                <span>${trailer.releaseDate || ''}</span>
                             </div>
                         </div>
                     `;
                     
                     slider.appendChild(trailerItem);
-                });
-                
-                // Handle play button clicks
-                document.querySelectorAll('.play-button').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        const videoUrl = btn.getAttribute('data-video');
-                        if (videoUrl) {
-                            openTrailerModal(videoUrl);
-                        }
-                    });
+
+                    // Attach click handler directly using the trailer object
+                    const playBtn = trailerItem.querySelector('.play-button');
+                    if (playBtn) {
+                        playBtn.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            // Open detail modal with trailer data (left: info, right: trailer)
+                            openDetailModal(trailer);
+                        });
+                        // also allow keyboard activation
+                        playBtn.addEventListener('keydown', (ev) => {
+                            if (ev.key === 'Enter' || ev.key === ' ') {
+                                ev.preventDefault();
+                                openDetailModal(trailer);
+                            }
+                        });
+                    }
                 });
                 
                 // Handle slider navigation
                 function updateSlider() {
+                    // Ensure smooth animation when not dragging
+                    if (!slider.classList.contains('dragging')) {
+                        slider.style.transition = 'transform 0.3s ease';
+                    }
                     slider.style.transform = `translateX(${currentPosition}px)`;
                     const maxScroll = -((trailers.length - 3) * itemWidth);
                     
@@ -249,6 +342,68 @@
                     });
                 }
                 
+                // --- Drag / Swipe support (pointer events) ---
+                let isDragging = false;
+                let startX = 0;
+                let prevPosition = 0; // position at drag start
+                let currentTranslate = 0;
+
+                // Pointer down (mouse or touch)
+                slider.addEventListener('pointerdown', (e) => {
+                    // If the user clicked on an interactive control, do not start dragging.
+                    // This allows clicks on .play-button / links / buttons to work.
+                    if (e.target.closest('.play-button, a, button, .watch-card, input, label')) {
+                        return;
+                    }
+                    isDragging = true;
+                    startX = e.clientX;
+                    prevPosition = currentPosition;
+                    currentTranslate = prevPosition;
+                    slider.classList.add('dragging');
+                    // capture the pointer to continue receiving events (safe-guard)
+                    try { slider.setPointerCapture(e.pointerId); } catch (err) {}
+                    // don't call e.preventDefault() here so clicks on child controls aren't blocked
+                });
+
+                // Pointer move
+                slider.addEventListener('pointermove', (e) => {
+                    if (!isDragging) return;
+                    const delta = e.clientX - startX;
+                    currentTranslate = prevPosition + delta;
+                    // optionally limit small overscroll (soft bounds)
+                    const maxScroll = -((trailers.length - 3) * itemWidth);
+                    const overscroll = 100;
+                    if (currentTranslate > overscroll) currentTranslate = overscroll;
+                    if (currentTranslate < maxScroll - overscroll) currentTranslate = maxScroll - overscroll;
+                    slider.style.transform = `translateX(${currentTranslate}px)`;
+                });
+
+                // Pointer up / cancel
+                function endDrag(e) {
+                    if (!isDragging) return;
+                    isDragging = false;
+                    slider.classList.remove('dragging');
+                    // release pointer capture
+                    try { slider.releasePointerCapture(e.pointerId); } catch (err) {}
+                    // Snap to nearest item width
+                    const maxScroll = -((trailers.length - 3) * itemWidth);
+                    // Round to nearest itemWidth
+                    let snapped = Math.round(currentTranslate / itemWidth) * itemWidth;
+                    // Clamp
+                    if (snapped > 0) snapped = 0;
+                    if (snapped < maxScroll) snapped = maxScroll;
+                    currentPosition = snapped;
+                    updateSlider();
+                }
+
+                slider.addEventListener('pointerup', endDrag);
+                slider.addEventListener('pointercancel', endDrag);
+                slider.addEventListener('pointerleave', (e) => {
+                    // If pointer leaves while dragging, end drag
+                    if (isDragging) endDrag(e);
+                });
+                // --- End drag support ---
+
                 // Initial update
                 updateSlider();
                 
@@ -257,7 +412,106 @@
                 slider.innerHTML = '<div class="error">Fragmanlar yüklenirken bir hata oluştu</div>';
             }
         }
-        
+
+        // New: Open detail modal showing info (left) + trailer (right)
+        function openDetailModal(trailer) {
+            // Close existing detail modal if any
+            closeDetailModal();
+
+            const modal = document.createElement('div');
+            modal.className = 'detail-modal';
+            modal.id = 'detailModal';
+
+            const content = document.createElement('div');
+            content.className = 'detail-content';
+
+            // Left column: info + poster + watch-card
+            const left = document.createElement('div');
+            left.className = 'detail-left';
+            left.innerHTML = `
+                <div class="detail-poster">
+                    <img src="${trailer.thumbnail}" alt="${trailer.title}" style="width:100%;display:block;">
+                </div>
+                <div class="detail-section">
+                    <div class="detail-title">${trailer.title || ''}</div>
+                    <div class="detail-meta">${trailer.type || ''} • ${trailer.releaseDate || ''}</div>
+                    <div class="detail-description">${(trailer.description || trailer.overview || 'Açıklama yok.')}</div>
+                </div>
+                <div class="detail-section">
+                    <h4>Oyuncular</h4>
+                    <div class="detail-cast">${(Array.isArray(trailer.cast) ? trailer.cast.join(', ') : (trailer.cast || 'Bilgi yok.'))}</div>
+                </div>
+                <div class="detail-section">
+                    <h4>Türler</h4>
+                    <div class="detail-genres">${(Array.isArray(trailer.genres) ? trailer.genres.join(', ') : (trailer.genres || 'Bilgi yok.'))}</div>
+                </div>
+                <a class="watch-card" href="${trailer.watchLink || trailer.link || '#'}" target="_self" title="İzle">
+                    <img src="${trailer.thumbnail}" alt="İzle">
+                    <div class="watch-cta">
+                        <strong>Sayfaya Git</strong>
+                        <span style="background:#e50914;padding:6px 10px;border-radius:4px;color:#fff;font-weight:600;">İZLE</span>
+                    </div>
+                </a>
+            `;
+
+            // Right column: embedded trailer
+            const right = document.createElement('div');
+            right.className = 'detail-right';
+            const iframe = document.createElement('iframe');
+            iframe.src = (trailer.videoUrl || '') + '?autoplay=1&rel=0&modestbranding=1';
+            iframe.width = '100%';
+            iframe.height = '100%';
+            iframe.style.minHeight = '320px';
+            iframe.style.border = 'none';
+            iframe.allow = 'autoplay; encrypted-media; picture-in-picture';
+            right.appendChild(iframe);
+
+            content.appendChild(left);
+            content.appendChild(right);
+
+            // Close button
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'close-detail';
+            closeBtn.title = 'Kapat';
+            closeBtn.innerHTML = '&times;';
+            closeBtn.addEventListener('click', closeDetailModal);
+
+            modal.appendChild(content);
+            modal.appendChild(closeBtn);
+            document.body.appendChild(modal);
+
+            // show
+            setTimeout(() => modal.classList.add('show'), 10);
+            document.body.style.overflow = 'hidden';
+
+            // close on background click
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeDetailModal();
+            });
+            // close on ESC
+            function escHandler(ev) {
+                if (ev.key === 'Escape') closeDetailModal();
+            }
+            document.addEventListener('keydown', escHandler);
+
+            // store handler for removal
+            modal._escHandler = escHandler;
+        }
+
+        function closeDetailModal() {
+            const modal = document.getElementById('detailModal');
+            if (!modal) return;
+            // stop iframe
+            const iframe = modal.querySelector('iframe');
+            if (iframe) iframe.src = '';
+            modal.classList.remove('show');
+            setTimeout(() => {
+                if (modal && modal.parentNode) modal.parentNode.removeChild(modal);
+                document.body.style.overflow = '';
+            }, 200);
+            if (modal._escHandler) document.removeEventListener('keydown', modal._escHandler);
+        }
+
         // Function to open trailer in modal
         function openTrailerModal(videoUrl) {
             // Create modal if it doesn't exist

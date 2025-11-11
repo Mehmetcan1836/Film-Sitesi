@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Harry Potter ve Ölüm Yadigârları: Bölüm 2 İzle - Dizicom</title>
+  <title>Harry Potter ve Ölüm Yadigârları: Bölüm 2 (2011) - Dizicom</title>
   <link rel="shortcut icon" href="img/logos.png" type="image/x-icon">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -410,9 +410,9 @@
     <div class="movie-container">
       <div class="movie-backdrop">
         <div class="movie-poster">
-          <img src="../img/HarryPotter8.jpg" alt="Harry Potter ve Ölüm Yadigârları: Bölüm 2">
+          <img src="../img/HarryPotter8.jpg" alt="Harry Potter ve Ölüm Yadigârları: Bölüm 2 (2011)">
           <div class="movie-rating">
-            <i class="fas fa-star"></i> 8.5
+            <i class="fas fa-star"></i> 8.1
           </div>
         </div>
         
@@ -438,33 +438,29 @@
           </div>
           
           <div class="movie-description">
-            <p>Harry Potter ve Ölüm Yadigârları: Bölüm 2, 2024 yılında yayınlanan bir bilim kurgu filmidir.</p>
+            <p>Serinin finalinde Harry ve dostları Voldemort'u durdurmak için son savaşa girer. Birçok sır çözülür ve serinin epik sona ulaşması sağlanır.</p>
           </div>
           
           <div class="movie-details">
             <div class="detail">
               <div class="label">Tür</div>
-              <div class="value">Aksiyon, Macera, Bilim Kurgu</div>
+              <div class="value">Macera, Dram, Fantastik</div>
             </div>
             <div class="detail">
               <div class="label">Yönetmen</div>
-              <div class="value">Andy Muschietti</div>
+              <div class="value">David Yates</div>
             </div>
             <div class="detail">
               <div class="label">Oyuncular</div>
-              <div class="value">Ezra Miller, Sasha Calle, Michael Keaton, Ben Affleck</div>
+              <div class="value">Daniel Radcliffe, Emma Watson, Rupert Grint, Ralph Fiennes</div>
             </div>
             <div class="detail">
-              <div class="label">Ülke</div>
-              <div class="value">ABD</div>
-            </div>
-            <div class="detail">
-              <div class="label">Dil</div>
-              <div class="value">Türkçe Dublaj, Türkçe Altyazı</div>
+              <div class="label">Süre</div>
+              <div class="value">130 dk</div>
             </div>
             <div class="detail">
               <div class="label">IMDb</div>
-              <div class="value">6.7/10</div>
+              <div class="value">8.1/10</div>
             </div>
           </div>
         </div>
@@ -563,55 +559,49 @@
             try {
                 const response = await fetch('../data/movies.json');
                 const data = await response.json();
-                const currentMovie = data.content.find(movie => movie.link === 'Filmler/HarryPotter8.html');
+                const currentMovie = (data.content || []).find(movie => movie.link === 'Filmler/HarryPotter4.html');
 
                 if (currentMovie) {
-                    // Display movie details
+                    const genreText = Array.isArray(currentMovie.genre) ? currentMovie.genre.join(', ') : (currentMovie.genre || '');
+
                     document.getElementById('movie-details').innerHTML = `
-                        <p>${currentMovie.title}, ${currentMovie.year} yılında yayınlanan bir ${currentMovie.genre.toLowerCase()} filmidir. IMDb puanı: ${currentMovie.rating}</p>
+                        <p><strong>${currentMovie.title}</strong> (${currentMovie.year}) — Tür: ${genreText}. Yönetmen: ${currentMovie.director || 'Bilgi yok'}. IMDb: ${currentMovie.rating || 'N/A'}</p>
                     `;
 
-                    // Find similar movies (same genre)
-                    const similarMovies = data.content
-                        .filter(movie => 
-                            movie.genre === currentMovie.genre && 
-                            movie.link !== currentMovie.link
-                        )
-                        .sort((a, b) => b.rating - a.rating)
-                        .slice(0, 6);
+                    const currentGenres = Array.isArray(currentMovie.genre) ? currentMovie.genre.map(g => g.toLowerCase()) : [String(currentMovie.genre || '').toLowerCase()];
 
-                    // If not enough movies found, add movies from other genres
+                    let similarMovies = (data.content || []).filter(movie => {
+                        if (!movie || movie.link === currentMovie.link) return false;
+                        const movieGenres = Array.isArray(movie.genre) ? movie.genre.map(g => g.toLowerCase()) : [String(movie.genre || '').toLowerCase()];
+                        return movieGenres.some(g => currentGenres.includes(g));
+                    }).sort((a,b) => (b.rating || 0) - (a.rating || 0)).slice(0,6);
+
                     if (similarMovies.length < 6) {
-                        const additionalMovies = data.content
-                            .filter(movie => 
-                                movie.link !== currentMovie.link &&
-                                movie.genre !== currentMovie.genre &&
-                                !similarMovies.some(sm => sm.link === movie.link)
-                            )
-                            .sort((a, b) => b.rating - a.rating)
+                        const additional = (data.content || []).filter(m => m.link !== currentMovie.link && !similarMovies.some(sm => sm.link === m.link))
+                            .sort((a,b) => (b.rating || 0) - (a.rating || 0))
                             .slice(0, 6 - similarMovies.length);
-                        
-                        similarMovies.push(...additionalMovies);
+                        similarMovies = similarMovies.concat(additional);
                     }
 
-                    // Display similar movies
-                    const similarMoviesHtml = similarMovies.map(movie => `
-                        <div class="similar-movie">
-                            <a href="../${movie.link}" class="movie-link">
-                                <img src="../${movie.image}" alt="${movie.title}">
-                                <div class="movie-info">
-                                    <h4>${movie.title}</h4>
-                                    <div class="movie-meta">
-                                        <span class="year">${movie.year}</span>
-                                        <span class="genre">${movie.genre}</span>
-                                        <span class="rating">
-                                            <i class="fas fa-star"></i> ${movie.rating}
-                                        </span>
+                    const similarMoviesHtml = similarMovies.map(movie => {
+                        const poster = movie.image ? movie.image : 'https://via.placeholder.com/300x450?text=No+Image';
+                        const genreFirst = Array.isArray(movie.genre) ? movie.genre[0] : (movie.genre || '');
+                        return `
+                            <div class="similar-movie">
+                                <a href="../${movie.link}" class="movie-link">
+                                    <img src="${poster}" alt="${movie.title}">
+                                    <div class="movie-info">
+                                        <h4>${movie.title}</h4>
+                                        <div class="movie-meta">
+                                            <span class="year">${movie.year || ''}</span>
+                                            <span class="genre">${genreFirst}</span>
+                                            <span class="rating"><i class="fas fa-star"></i> ${movie.rating || ''}</span>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
-                        </div>
-                    `).join('');
+                                </a>
+                            </div>
+                        `;
+                    }).join('');
 
                     document.getElementById('similar-movies').innerHTML = similarMoviesHtml;
                 }
@@ -620,11 +610,8 @@
             }
         }
 
-        // Load movie details when the page loads
         document.addEventListener('DOMContentLoaded', loadMovieDetails);
       </script>
-            <p>Buraya benzer filmler eklenecek</p>
-          </div>
         </div>
       </div>
     </div>
