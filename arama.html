@@ -25,6 +25,7 @@
         .no-results{text-align:center;padding:80px 20px;color:#999;grid-column:1/-1;font-size:1.1rem}
         .loading-spinner{text-align:center;padding:40px 20px;grid-column:1/-1}
     </style>
+        <link rel="stylesheet" href="css/header.css">
 </head>
 <body>
     <div id="header-container"></div>
@@ -73,9 +74,12 @@
     <script src="data/app.js"></script>
     <script>
 const API='999a2c8d29cd1833fa98446f909f19eb',B='https://api.themoviedb.org/3',I='https://image.tmdb.org/t/p/w342';
-const q=new URLSearchParams(window.location.search).get('q')||'';
+const params = new URLSearchParams(window.location.search);
+const q = params.get('q') || '';
+const genreParam = params.get('genre') || '';
+const genreNameParam = params.get('genreName') || '';
 let f='all',r=[];
-document.getElementById('sq').textContent=q?`"${q}"`:' ';
+document.getElementById('sq').textContent = q ? `"${q}"` : (genreNameParam ? genreNameParam : ' ');
 document.querySelectorAll('.filter-chip').forEach(e=>e.onclick=()=>{
 document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
 e.classList.add('active');f=e.dataset.type;render();
@@ -111,7 +115,30 @@ document.getElementById('sr').innerHTML=l.map(i=>`
 </div>
 `).join('');
 }
-search();
+// If a genre parameter is present, load by genre; otherwise perform normal search
+if (genreParam) {
+    // Update UI
+    document.getElementById('sq').textContent = genreNameParam ? genreNameParam : `Tür ${genreParam}`;
+    // Fetch movies and TV by genre
+    (async function searchByGenre() {
+        document.getElementById('sr').innerHTML = '<div style="text-align:center;padding:40px;color:#aaa">Yükleniyor...</div>';
+        try {
+            const [movieRes, tvRes] = await Promise.all([
+                fetch(`${B}/discover/movie?api_key=${API}&with_genres=${encodeURIComponent(genreParam)}&language=tr-TR`),
+                fetch(`${B}/discover/tv?api_key=${API}&with_genres=${encodeURIComponent(genreParam)}&language=tr-TR`)
+            ]);
+            const movies = (await movieRes.json()).results.map(x => ({...x, media_type: 'movie'}));
+            const tv = (await tvRes.json()).results.map(x => ({...x, media_type: 'tv'}));
+            r = [...movies, ...tv].sort((a,b)=>(b.popularity||0)-(a.popularity||0));
+            render();
+        } catch (err) {
+            document.getElementById('sr').innerHTML = '<div class="no-results">Yüklenemedi</div>';
+            console.error('Genre search failed', err);
+        }
+    })();
+} else {
+    search();
+}
     </script>
 </body>
 </html>

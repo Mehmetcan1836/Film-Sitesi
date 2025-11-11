@@ -274,6 +274,62 @@ function setupEventListeners() {
       }
     })
   }
+
+  // Load More buttons (manual load more)
+  const moviesLoadMoreBtn = document.getElementById('moviesLoadMoreBtn')
+  if (moviesLoadMoreBtn) {
+    moviesLoadMoreBtn.addEventListener('click', async (e) => {
+      e.preventDefault()
+      if (isLoading || !hasMorePages.moviesSection) return
+      moviesLoadMoreBtn.disabled = true
+      const spinner = document.getElementById('moviesLoadMoreSpinner')
+      if (spinner) spinner.style.display = 'inline-block'
+      try {
+        await loadMoreMoviesSection()
+      } catch (err) {
+        console.error('Error loading more movies via button:', err)
+      } finally {
+        if (spinner) spinner.style.display = 'none'
+        if (!hasMorePages.moviesSection) {
+          moviesLoadMoreBtn.style.display = 'none'
+        } else {
+          moviesLoadMoreBtn.disabled = false
+        }
+      }
+    })
+  }
+
+  const tvLoadMoreBtn = document.getElementById('tvLoadMoreBtn')
+  if (tvLoadMoreBtn) {
+    tvLoadMoreBtn.addEventListener('click', async (e) => {
+      e.preventDefault()
+      if (isLoading || !hasMorePages.tvSection) return
+      tvLoadMoreBtn.disabled = true
+      const spinner = document.getElementById('tvLoadMoreSpinner')
+      if (spinner) spinner.style.display = 'inline-block'
+      try {
+        await loadMoreTVSection()
+      } catch (err) {
+        console.error('Error loading more TV via button:', err)
+      } finally {
+        if (spinner) spinner.style.display = 'none'
+        if (!hasMorePages.tvSection) {
+          tvLoadMoreBtn.style.display = 'none'
+        } else {
+          tvLoadMoreBtn.disabled = false
+        }
+      }
+    })
+  }
+}
+
+// Update visibility/state of load more buttons based on pagination
+function updateLoadMoreButtons() {
+  const moviesBtn = document.getElementById('moviesLoadMoreBtn')
+  if (moviesBtn) moviesBtn.style.display = hasMorePages.moviesSection ? 'inline-block' : 'none'
+
+  const tvBtn = document.getElementById('tvLoadMoreBtn')
+  if (tvBtn) tvBtn.style.display = hasMorePages.tvSection ? 'inline-block' : 'none'
 }
 
 // Setup Movie Request Form
@@ -714,6 +770,8 @@ async function loadMoviesSection() {
     displayMedia(data.results, container, "movie")
     hasMorePages.moviesSection = currentPages.moviesSection < data.total_pages
     console.log("✅ Movies section loaded")
+    // Update load-more button visibility (if present)
+    try { updateLoadMoreButtons() } catch (e) { /* ignore */ }
   } catch (error) {
     console.error("❌ Error loading movies section:", error)
     container.innerHTML = '<div class="col-12 text-center"><p>Error loading movies.</p></div>'
@@ -741,6 +799,7 @@ async function loadMoreMoviesSection() {
     const data = await response.json()
     appendMedia(data.results, document.getElementById("moviesGrid"), "movie")
     hasMorePages.moviesSection = currentPages.moviesSection < data.total_pages
+    try { updateLoadMoreButtons() } catch (e) { }
   } catch (error) {
     console.error("❌ Error loading more movies:", error)
     currentPages.moviesSection--
@@ -773,6 +832,7 @@ async function loadTVSection() {
     displayMedia(data.results, container, "tv")
     hasMorePages.tvSection = currentPages.tvSection < data.total_pages
     console.log("✅ TV section loaded")
+    try { updateLoadMoreButtons() } catch (e) { }
   } catch (error) {
     console.error("❌ Error loading TV section:", error)
     container.innerHTML = '<div class="col-12 text-center"><p>Error loading TV shows.</p></div>'
@@ -800,6 +860,7 @@ async function loadMoreTVSection() {
     const data = await response.json()
     appendMedia(data.results, document.getElementById("tvGrid"), "tv")
     hasMorePages.tvSection = currentPages.tvSection < data.total_pages
+    try { updateLoadMoreButtons() } catch (e) { }
   } catch (error) {
     console.error("❌ Error loading more TV shows:", error)
     currentPages.tvSection--

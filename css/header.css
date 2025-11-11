@@ -10,6 +10,12 @@
     box-shadow: 0 8px 25px rgba(229, 9, 20, 0.1), 0 4px 12px rgba(0, 0, 0, 0.4);
     border-bottom: 1px solid rgba(229, 9, 20, 0.2);
     backdrop-filter: blur(10px);
+    width: 100%;
+}
+
+/* Ensure body has top margin to account for fixed header */
+body {
+    margin-top: 80px;
 }
 
 .main-header .container {
@@ -140,6 +146,10 @@
 
 /* Responsive Styles */
 @media (max-width: 992px) {
+    body {
+        margin-top: 100px;
+    }
+    
     .search-box {
         order: 3;
         flex: 0 0 100%;
@@ -157,6 +167,10 @@
 }
 
 @media (max-width: 576px) {
+    body {
+        margin-top: 90px;
+    }
+    
     .user-actions {
         display: none;
     }
@@ -165,3 +179,73 @@
         font-size: 1.5rem;
     }
 }
+
+/* Additional scoped rules to ensure header is consistent when header markup
+   is injected dynamically (matches classes used in js/header.js). These
+   selectors are intentionally namespaced under .main-header to avoid
+   colliding with other site CSS. */
+.main-header .navbar-brand h1 {
+    margin: 0;
+    font-size: 1.9rem;
+    line-height: 1;
+    font-weight: 800;
+    color: var(--primary, #e50914);
+}
+
+.main-header .navbar-brand h1 span {
+    color: #fff;
+    font-weight: 700;
+}
+
+.main-header .nav-link {
+    color: #cfcfcf;
+    font-weight: 500;
+    padding: 10px 12px;
+    border-radius: 6px;
+    transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+}
+.main-header .nav-link:hover {
+    color: var(--primary, #e50914);
+    background: rgba(229,9,20,0.06);
+    transform: translateY(-2px);
+}
+.main-header .nav-link.active {
+    color: var(--primary, #e50914);
+    background: rgba(229,9,20,0.12);
+}
+
+.main-header .search-btn, .main-header .search-btn i {
+    color: #fff;
+}
+
+.main-header .mobile-search {
+    display: none; /* desktop by default; toggled by JS */
+}
+
+.main-header .dropdown-menu {
+    background: rgba(20,20,20,0.95);
+    border: 1px solid rgba(255,255,255,0.04);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    padding: 6px 0;
+}
+
+.main-header .dropdown-item {
+    color: #e5e5e5;
+    background: transparent;
+    padding: 8px 14px;
+    border: none;
+    text-align: left;
+}
+.main-header .dropdown-item:hover {
+    background: rgba(229,9,20,0.06);
+    color: #fff;
+}
+
+/* Ensure navbar toggler is visible but styled to match theme */
+.main-header .navbar-toggler {
+    border: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.02);
+}
+
+/* Small utility: make sure header elements don't overflow */
+.main-header .container { overflow: visible; }

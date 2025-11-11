@@ -1,192 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     const headerHTML = `
-    <style>
-      .main-header {
-
-        border-bottom: 1px solid #222;
-        position: relative;
-        z-index: 1000;
-      }
-      
-      /* Mobile search styles */
-      .mobile-search {
-        display: none;
-        width: 100%;
-        padding: 10px 15px;
-        background: #1a1a1a;
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 1100;
-        box-shadow: 0 2px 10px rgba(255, 255, 255, 0.3);
-      }
-      
-      .mobile-search.active {
-        display: block;
-      }
-      
-      .mobile-search-close {
-        position: absolute;
-        right: 20px;
-        top: 50%;
-        transform: translateY(-50%);
-        background: none;
-        border: none;
-        color: #fff;
-        font-size: 1.2rem;
-        cursor: pointer;
-      }
-      .navbar {
-        padding: 0.6rem 0;
-      }
-      .navbar-brand {
-        font-size: 1.8rem;
-        font-weight: 700;
-        color: #e50914 !important;
-        padding: 0;
-        margin-right: 3rem;
-        position: relative;
-      }
-      .navbar-brand img {
-        height: 36px;
-        width: auto;
-        transition: transform 0.3s ease;
-      }
-      .navbar-brand:hover img {
-        transform: scale(1.05);
-      }
-      .nav-link {
-        color: #e5e5e5 !important;
-        font-weight: 500;
-        padding: 0.7rem 1.2rem !important;
-        margin: 0 0.1rem;
-        position: relative;
-        font-size: 0.95rem;
-        letter-spacing: 0.3px;
-      }
-      .nav-link::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        width: 0;
-        height: 2px;
-        background: #e50914;
-        transition: all 0.3s ease;
-        transform: translateX(-50%);
-      }
-      .nav-link:hover::after, .nav-link.active::after {
-        width: 60%;
-      }
-      .nav-link.active {
-        color: #e50914 !important;
-        font-weight: 600;
-      }
-      .search-box {
-        position: relative;
-        flex: 1;
-        max-width: 500px;
-        margin: 0 2.5rem;
-      }
-      .search-input {
-        width: 100%;
-        padding: 0.6rem 1.2rem;
-        padding-right: 45px;
-        border-radius: 30px;
-        border: 1px solid #ffffffff;
-        background: rgba(255, 255, 255, 0.05);
-        color: #fff;
-        font-size: 0.95rem;
-        transition: all 0.3s ease;
-      }
-      .search-input:focus {
-        outline: none;
-        border-color: #e50914;
-        box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.2);
-      }
-      .search-btn {
-        position: absolute;
-        right: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        background: none;
-        border: none;
-        color: #999;
-        cursor: pointer;
-        transition: color 0.2s ease;
-      }
-      .search-btn:hover {
-        color: #e50914;
-      }
-      .user-actions {
-        display: flex;
-        gap: 0.8rem;
-        align-items: center;
-      }
-      .btn-primary, .btn-outline {
-        padding: 0.6rem 1.2rem;
-        border-radius: 4px;
-        font-weight: 500;
-        font-size: 0.9rem;
-        transition: all 0.25s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-      .btn-primary {
-        background-color: #e50914;
-        color: white !important;
-        border: none;
-      }
-      .btn-primary:hover {
-        background-color: #f40612;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(229, 9, 20, 0.3);
-      }
-      .btn-outline {
-        background: transparent;
-        border: 1px solid #ffffffff;
-        color: #e5e5e5 !important;
-      }
-      .btn-outline:hover {
-        border-color: #e50914;
-        color: #fff !important;
-        background: rgba(229, 9, 20, 0.1);
-      }
-      @media (max-width: 991px) {
-        .search-box {
-          width: 100%;
-          margin: 1rem 0;
-          max-width: 100%;
-        }
-        .user-actions {
-          margin-top: 1rem;
-          width: 100%;
-          justify-content: flex-start;
-          gap: 0.8rem;
-        }
-        .navbar-brand h1{
-          color: #fff;
-          font-size: 1.8rem;
-          font-weight: 700;
-          text-decoration: none;
-          letter-spacing: -0.5px;
-        }
-        .nav-link {
-          padding: 0.8rem 0 !important;
-          margin: 0;
-        }
-        .nav-link::after {
-          left: 0;
-          transform: none;
-          width: 0;
-        }
-        .nav-link:hover::after, .nav-link.active::after {
-          width: 30px;
-        }
-       
-      }
-    </style>
+    
 
     <header class="main-header">
       <nav class="navbar navbar-expand-lg">
@@ -219,6 +33,15 @@ document.addEventListener("DOMContentLoaded", function () {
                   <span>Filmler</span>
                 </a>
               </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link" href="#" id="genresToggle" role="button" aria-expanded="false">
+                  <i class="fas fa-tags d-lg-none d-inline-block"></i>
+                  <span>Türler <i class="fas fa-caret-down ms-1"></i></span>
+                </a>
+                <div class="dropdown-menu" id="genresMenu" style="min-width:220px; background:#1a1a1a; border:1px solid #222;">
+                  <div style="padding:8px 12px; color:#bbb; font-size:0.9rem;">Yükleniyor...</div>
+                </div>
+              </li>
             </ul>
 
             <!-- Mobile Search Toggle Button -->
@@ -246,51 +69,6 @@ document.addEventListener("DOMContentLoaded", function () {
               </form>
               </div>
             </div>
-
-            <style>
-              .search-box {
-                position: relative;
-                width: 300px;
-                margin-right: 15px;
-              }
-              .search-dropdown {
-                position: absolute;
-                top: 100%;
-                right: 0;
-                width: 300px;
-                background: #ffffffff;
-                border-radius: 8px;
-                box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
-                margin-top: 5px;
-                z-index: 1000;
-                border: 1px solid #333;
-              }
-              .search-filters {
-                color: #fff;
-              }
-              .filter-section h6 {
-                color: #e50914;
-                font-size: 0.9rem;
-                margin-bottom: 10px;
-              }
-              .form-check {
-                margin-bottom: 5px;
-              }
-              .form-check-label {
-                cursor: pointer;
-              }
-              .genre-tags {
-                display: flex;
-                flex-wrap: wrap;
-              }
-              .badge {
-                cursor: pointer;
-                transition: all 0.2s;
-              }
-              .badge.bg-danger {
-                background-color: #e50914 !important;
-              }
-            </style>
 
             <div class="user-actions">
               <a href="https://mehmetcan1836.github.io/dizicomdownloader/" target="_blank" class="btn btn-primary">
@@ -383,6 +161,77 @@ document.addEventListener("DOMContentLoaded", function () {
         });
       });
     }
+
+    // Populate Genres dropdown (TMDB)
+    (async function loadGenres(){
+      const menu = document.getElementById('genresMenu');
+      if (!menu) return;
+      const API = '999a2c8d29cd1833fa98446f909f19eb';
+      try {
+        // Fetch movie genres (covers common genres). We'll merge with TV genres if needed.
+        const res = await fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${API}&language=tr-TR`);
+        const data = await res.json();
+        const genres = data.genres || [];
+        if (!genres.length) throw new Error('No genres');
+        menu.innerHTML = '';
+        genres.forEach(g => {
+          const item = document.createElement('button');
+          item.className = 'dropdown-item';
+          item.style.color = '#e5e5e5';
+          item.style.background = 'transparent';
+          item.style.border = 'none';
+          item.style.textAlign = 'left';
+          item.style.padding = '8px 12px';
+          item.type = 'button';
+          item.textContent = g.name;
+          item.addEventListener('click', (e) => {
+            e.preventDefault();
+            // Navigate to search page with genre filter
+            const params = new URLSearchParams();
+            params.set('genre', g.id);
+            params.set('genreName', g.name);
+            window.location.href = '/arama.html?' + params.toString();
+          });
+          menu.appendChild(item);
+        });
+        // Add a separator and a 'Tümü' option
+        const sep = document.createElement('div');
+        sep.style.height = '1px';
+        sep.style.background = '#222';
+        sep.style.margin = '6px 0';
+        menu.appendChild(sep);
+        const allBtn = document.createElement('button');
+        allBtn.className = 'dropdown-item';
+        allBtn.type = 'button';
+        allBtn.style.color = '#e5e5e5';
+        allBtn.textContent = 'Tüm Türler';
+        allBtn.addEventListener('click', () => { window.location.href = '/arama.html'; });
+        menu.appendChild(allBtn);
+      } catch (err) {
+        menu.innerHTML = '<div style="padding:8px 12px;color:#bbb">Türler yüklenemedi</div>';
+        console.error('Genres load failed', err);
+      }
+    })();
+
+    // Toggle genres menu when clicking the toggle and close on outside click
+    (function attachGenresToggle(){
+      const toggle = document.getElementById('genresToggle');
+      const menu = document.getElementById('genresMenu');
+      if (!toggle || !menu) return;
+      toggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const isOpen = menu.style.display === 'block';
+        menu.style.display = isOpen ? 'none' : 'block';
+        if (!isOpen) menu.style.zIndex = 1200;
+      });
+      // close when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('#genresMenu') && !e.target.closest('#genresToggle')) {
+          if (menu.style.display === 'block') menu.style.display = 'none';
+        }
+      });
+    })();
     
     // Clear filters
     if (clearFilters) {

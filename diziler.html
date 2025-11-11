@@ -14,7 +14,6 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/movie-grid.css">
-    <link rel="stylesheet" href="css/header.css">
     <style>
         /* Global Styles */
         * {
@@ -92,6 +91,7 @@
             }
         }
     </style>
+        <link rel="stylesheet" href="css/header.css">
 </head>
 <body>
     <!-- Header/Navbar -->
@@ -107,6 +107,15 @@
                     <div class="spinner"></div>
                     <div>Diziler yükleniyor...</div>
                 </div>
+            </div>
+            <!-- Load More Button -->
+            <div class="text-center" style="margin-bottom:40px;">
+                <button id="tvLoadMoreBtn" class="btn btn-primary" style="padding:10px 18px;">
+                    Daha Fazla Göster
+                </button>
+                <span id="tvLoadMoreSpinner" style="display:none; width:24px; height:24px; vertical-align:middle; margin-left:10px;">
+                    <span class="spinner" style="width:24px; height:24px; border:3px solid #333; border-top-color:#e50914; border-radius:50%; display:inline-block; animation:spin 1s linear infinite;"></span>
+                </span>
             </div>
         </section>
     </main>
