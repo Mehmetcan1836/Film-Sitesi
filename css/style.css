@@ -239,38 +239,14 @@ body {
     z-index: 0;
 }
 .watch-btn {
-    color: var(--light);
-    font-size: 2.5rem;
+    padding: 12px 30px;
+    border-radius: 30px;
+    background: linear-gradient(135deg, #e50914 0%, #c40811 100%);
+    color: white;
+    font-weight: 700;
     text-decoration: none;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    margin-bottom: 15px;
-    background: linear-gradient(135deg, rgba(229, 9, 20, 0.8), rgba(229, 9, 20, 0.6));
-    width: 50%;
-    height: auto;
-    border-radius: 10%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(8px);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 8px 20px rgba(229, 9, 20, 0.4);
-    line-height: 1;
-}
-.movie-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 2;
-    padding: 20px;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(20, 20, 20, 0.9) 100%);
+    box-shadow: 0 6px 15px rgba(229, 9, 20, 0.3);
+    transition: var(--transition);
 }
 
 .movie-card:hover .movie-overlay {
@@ -599,4 +575,33 @@ body {
     border-radius: 6px;
     border: 1px solid rgba(229, 9, 20, 0.1);
     transition: all 0.2s ease;
+}
+.genre-badge {
+    display: inline-block;
+    background: rgba(229, 9, 20, 0.1);
+    color: #e50914;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-right: 6px;
+    margin-bottom: 6px;
+}
+.season-selector{
+    margin-top: 15px;
+    padding: 8px;
+    border-radius: 6px;
+    background: var(--dark-light);
+    border: 1px solid rgba(229, 9, 20, 0.2);
+    color: #e5e5e5;
+}
+.form-select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background: #1a1a1a;
+    color: #fff;
+    font-size: 1rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
