@@ -32,6 +32,8 @@ const playerModal = new bootstrap.Modal(playerModalElement)
 // Global variables
 let currentMedia = null
 let currentSeasons = []
+let currentSeason = null
+let currentEpisode = null
 const currentSection = "home"
 let isLoading = false
 let scrollTimeout = null
@@ -1174,7 +1176,7 @@ async function showMediaDetails(mediaId, mediaType) {
 
     const endpoint = mediaType === "movie" ? "movie" : "tv"
     const response = await fetch(
-      `${BASE_URL}/${endpoint}/${mediaId}?api_key=${API_KEY}&language=en-US&append_to_response=credits`,
+      `${BASE_URL}/${endpoint}/${mediaId}?api_key=${API_KEY}&language=en-US&append_to_response=credits,recommendations`,
     )
 
     if (!response.ok) {
@@ -1208,10 +1210,11 @@ async function showMediaDetails(mediaId, mediaType) {
 
     let watchButton = ""
     let seasonSelector = ""
+    let recommendationsHTML = ""
 
     if (mediaType === "movie") {
       watchButton = `<button class="watch-btn" onclick="playMedia(${mediaId}, 'movie')">
-                <i class="fas fa-play"></i>Watch Movie
+                <i class="fas fa-play"></i>İzle
             </button>`
     } else {
       currentSeasons = media.seasons || []
@@ -1219,13 +1222,13 @@ async function showMediaDetails(mediaId, mediaType) {
         const firstSeason = currentSeasons.find((s) => s.season_number > 0) || currentSeasons[0]
         seasonSelector = `
                     <div class="season-selector mb-3">
-                        <label for="seasonSelect" class="form-label"><strong>Select Season:</strong></label>
+                        <label for="seasonSelect" class="form-label"><strong>Sezon Seçin:</strong></label>
                         <select class="form-select" id="seasonSelect" onchange="loadEpisodes(${mediaId}, this.value)">
                             ${currentSeasons
                               .map(
                                 (season) =>
                                   `<option value="${season.season_number}" ${season.season_number === firstSeason.season_number ? "selected" : ""}>
-                                    Season ${season.season_number} (${season.episode_count} episodes)
+                                    Sezon ${season.season_number} (${season.episode_count} bölüm)
                                 </option>`,
                               )
                               .join("")}
@@ -1234,6 +1237,28 @@ async function showMediaDetails(mediaId, mediaType) {
                     <div id="episodesList"></div>
                 `
       }
+    }
+
+    // Önerilen içerikler
+    if (media.recommendations && media.recommendations.results && media.recommendations.results.length > 0) {
+      const recommendations = media.recommendations.results.slice(0, 6)
+      recommendationsHTML = `
+                <div class="recommendations-section mt-4">
+                    <h5><i class="fas fa-thumbs-up me-2"></i>Önerilen ${mediaType === "movie" ? "Filmler" : "Diziler"}</h5>
+                    <div class="recommendations-grid">
+                        ${recommendations.map(rec => {
+                          const recPoster = rec.poster_path ? `${IMAGE_BASE_URL}${rec.poster_path}` : "/placeholder.svg?height=200&width=150"
+                          const recTitle = rec.title || rec.name
+                          return `
+                            <div class="recommendation-item" onclick="showMediaDetails(${rec.id}, '${mediaType}')">
+                                <img src="${recPoster}" alt="${recTitle}" onerror="this.src='/placeholder.svg?height=200&width=150'">
+                                <div class="rec-title">${recTitle}</div>
+                            </div>
+                          `
+                        }).join("")}
+                    </div>
+                </div>
+            `
     }
 
     const modalContent = `
@@ -1246,16 +1271,17 @@ async function showMediaDetails(mediaId, mediaType) {
                         <span>${media.vote_average ? media.vote_average.toFixed(1) : "N/A"}/10</span>
                     </div>
                     <span class="me-3"><i class="fas fa-calendar me-1"></i>${year}</span>
-                    ${media.runtime ? `<span class="me-3"><i class="fas fa-clock me-1"></i>${media.runtime} min</span>` : ""}
-                    ${media.number_of_seasons ? `<span class="me-3"><i class="fas fa-list me-1"></i>${media.number_of_seasons} seasons</span>` : ""}
+                    ${media.runtime ? `<span class="me-3"><i class="fas fa-clock me-1"></i>${media.runtime} dk</span>` : ""}
+                    ${media.number_of_seasons ? `<span class="me-3"><i class="fas fa-list me-1"></i>${media.number_of_seasons} sezon</span>` : ""}
                 </div>
                 <div class="mb-3">${genres}</div>
                 ${watchButton}
             </div>
-            <p><strong>Overview:</strong> ${media.overview || "No overview available."}</p>
-            ${director ? `<p><strong>Director:</strong> ${director.name}</p>` : ""}
-            ${cast ? `<p><strong>Cast:</strong> ${cast}</p>` : ""}
+            <p><strong>Özet:</strong> ${media.overview || "Özet bulunamadı."}</p>
+            ${director ? `<p><strong>Yönetmen:</strong> ${director.name}</p>` : ""}
+            ${cast ? `<p><strong>Oyuncular:</strong> ${cast}</p>` : ""}
             ${seasonSelector}
+            ${recommendationsHTML}
         `
 
     const modalTitle = document.getElementById("modalTitle")
@@ -1274,7 +1300,7 @@ async function showMediaDetails(mediaId, mediaType) {
     console.log("✅ Media details loaded successfully")
   } catch (error) {
     console.error("❌ Error loading media details:", error)
-    alert("Error loading details. Please try again.")
+    alert("Detaylar yüklenirken hata oluştu. Tekrar deneyin.")
   }
 }
 
@@ -1333,24 +1359,95 @@ function playMedia(mediaId, mediaType, season = null, episode = null) {
   let playerTitle = ""
 
   if (mediaType === "movie") {
-    vidsrcUrl = `${VIDSRC_BASE_URL}/v2/embed/movie/${mediaId}?autoPlay=true`
+    vidsrcUrl = `${VIDSRC_BASE_URL}/v2/embed/movie/${mediaId}`
     playerTitle = `Playing: ${currentMedia.title || "Movie"}`
+    currentSeason = null
+    currentEpisode = null
   } else if (mediaType === "tv" && season !== null && episode !== null) {
-    vidsrcUrl = `${VIDSRC_BASE_URL}/v2/embed/tv/${mediaId}/${season}/${episode}?autoPlay=true`
+    vidsrcUrl = `${VIDSRC_BASE_URL}/v2/embed/tv/${mediaId}/${season}/${episode}`
     playerTitle = `Playing: ${currentMedia.name || "TV Show"} - S${season}E${episode}`
+    currentSeason = season
+    currentEpisode = episode
   }
 
   if (vidsrcUrl) {
-    const playerIframe = document.getElementById("playerIframe")
     const playerTitleElement = document.getElementById("playerTitle")
+    const playerContent = document.getElementById("playerContent")
+    const nextEpisodeBtn = document.getElementById("nextEpisodeBtn")
 
-    if (playerIframe) playerIframe.src = vidsrcUrl
+    // Show loading state
+    if (playerContent) {
+      playerContent.innerHTML = `
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; color: #fff; height: 100%;">
+          <div style="width: 50px; height: 50px; border: 4px solid #333; border-top: 4px solid #e50914; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+          <span>Video yükleniyor...</span>
+        </div>
+      `
+    }
+
+    // Create iframe dynamically
+    const playerIframe = document.createElement("iframe")
+    playerIframe.id = "playerIframe"
+    playerIframe.src = vidsrcUrl
+    playerIframe.style.width = "100%"
+    playerIframe.style.height = "100%"
+    playerIframe.style.border = "none"
+    playerIframe.allowFullscreen = true
+    playerIframe.allow = "autoplay; encrypted-media"
+
+    // Append iframe immediately without waiting for load
+    if (playerContent) {
+      playerContent.innerHTML = ""
+      playerContent.appendChild(playerIframe)
+    }
+
     if (playerTitleElement) playerTitleElement.textContent = playerTitle
+
+    // Show/hide next episode button for TV shows
+    if (nextEpisodeBtn) {
+      if (mediaType === "tv" && season !== null && episode !== null) {
+        nextEpisodeBtn.style.display = "inline-flex"
+      } else {
+        nextEpisodeBtn.style.display = "none"
+      }
+    }
 
     mediaModal.hide()
     playerModal.show()
 
     console.log("▶️ Playing media:", playerTitle)
+  }
+}
+
+// Go back from player to media details
+function goBack() {
+  playerModal.hide()
+  setTimeout(() => {
+    mediaModal.show()
+  }, 300) // Small delay to ensure smooth transition
+}
+
+// Play next episode for TV shows
+function nextEpisode() {
+  if (!currentMedia || currentMedia.media_type !== "tv" || !currentSeason || !currentEpisode) return
+
+  // Get next episode info
+  const nextEpisodeNum = currentEpisode + 1
+  let nextSeasonNum = currentSeason
+
+  // Check if we need to go to next season
+  const currentSeasonData = currentSeasons.find(s => s.season_number === currentSeason)
+  if (currentSeasonData && nextEpisodeNum > currentSeasonData.episode_count) {
+    nextSeasonNum = currentSeason + 1
+    // Check if next season exists
+    const nextSeasonData = currentSeasons.find(s => s.season_number === nextSeasonNum)
+    if (!nextSeasonData) {
+      alert("Son bölüm oynatılıyor")
+      return
+    }
+    playMedia(currentMedia.id, "tv", nextSeasonNum, 1)
+  } else {
+    playMedia(currentMedia.id, "tv", nextSeasonNum, nextEpisodeNum)
   }
 }
 
