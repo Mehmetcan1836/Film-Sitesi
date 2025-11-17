@@ -1403,12 +1403,15 @@ function playMedia(mediaId, mediaType, season = null, episode = null) {
 
     if (playerTitleElement) playerTitleElement.textContent = playerTitle
 
-    // Show/hide next episode button for TV shows
+    // Show/hide episode navigation buttons for TV shows
+    const previousEpisodeBtn = document.getElementById("previousEpisodeBtn")
     if (nextEpisodeBtn) {
       if (mediaType === "tv" && season !== null && episode !== null) {
         nextEpisodeBtn.style.display = "inline-flex"
+        if (previousEpisodeBtn) previousEpisodeBtn.style.display = "inline-flex"
       } else {
         nextEpisodeBtn.style.display = "none"
+        if (previousEpisodeBtn) previousEpisodeBtn.style.display = "none"
       }
     }
 
@@ -1425,6 +1428,30 @@ function goBack() {
   setTimeout(() => {
     mediaModal.show()
   }, 300) // Small delay to ensure smooth transition
+}
+
+// Play previous episode for TV shows
+function previousEpisode() {
+  if (!currentMedia || currentMedia.media_type !== "tv" || !currentSeason || !currentEpisode) return
+
+  // Get previous episode info
+  const prevEpisodeNum = currentEpisode - 1
+  let prevSeasonNum = currentSeason
+
+  // Check if we need to go to previous season
+  if (prevEpisodeNum < 1) {
+    prevSeasonNum = currentSeason - 1
+    // Check if previous season exists
+    const prevSeasonData = currentSeasons.find(s => s.season_number === prevSeasonNum)
+    if (!prevSeasonData) {
+      alert("İlk bölüm oynatılıyor")
+      return
+    }
+    // Go to last episode of previous season
+    playMedia(currentMedia.id, "tv", prevSeasonNum, prevSeasonData.episode_count)
+  } else {
+    playMedia(currentMedia.id, "tv", prevSeasonNum, prevEpisodeNum)
+  }
 }
 
 // Play next episode for TV shows

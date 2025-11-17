@@ -1,87 +1,428 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Dizicom - İletişim</title>
-    <link rel="shortcut icon" href="img/logos.png" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İletişim - Dizicom</title>
+    
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preload" as="style" href="css/movie-grid.css" onload="this.onload=null;this.rel='stylesheet'">
-<link rel="preload" as="style" href="css/story-slider.css" onload="this.onload=null;this.rel='stylesheet'">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" media="print" onload="this.media='all'">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="css/iletisim.css">
-<noscript>
-    <link rel="stylesheet" href="css/movie-grid.css">
-    <link rel="stylesheet" href="css/story-slider.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-</noscript>
-    <style>
-        
-    </style>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/header.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #141414;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        .main-content {
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .contact-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #e50914;
+            margin-bottom: 15px;
+        }
+
+        .contact-header p {
+            font-size: 1.1rem;
+            color: #ccc;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            margin-bottom: 60px;
+        }
+
+        .contact-info {
+            background: #1a1a1a;
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid #333;
+        }
+
+        .contact-info h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: #e50914;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #141414;
+            border-radius: 8px;
+            border: 1px solid #333;
+        }
+
+        .info-item i {
+            font-size: 1.5rem;
+            color: #e50914;
+            margin-right: 20px;
+            width: 30px;
+        }
+
+        .info-item h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .info-item p {
+            color: #ccc;
+            margin: 0;
+        }
+
+        .contact-form {
+            background: #1a1a1a;
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid #333;
+        }
+
+        .contact-form h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: #e50914;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            background: #141414;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #e50914;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .submit-btn {
+            background: #e50914;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background: #ff0000;
+        }
+
+        .social-links {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .social-links h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #e50914;
+        }
+
+        .social-links .links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: #e50914;
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .contact-header h1 {
+                font-size: 2rem;
+            }
+
+            .contact-info,
+            .contact-form {
+                padding: 30px;
+            }
+
+            .social-links .links {
+                gap: 15px;
+            }
+        }
+        footer {
+            background: #0f0f0f;
+            padding: 40px 0;
+            text-align: center;
+            margin-top: 60px;
+            border-top: 1px solid #222;
+        }
+
+        footer p {
+            color: #999;
+            margin-bottom: 15px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        footer a {
+            color: #e5e5e5;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.2s ease;
+        }
+
+        footer a:hover {
+            color: #e50914;
+        }
+
+        .social-links {
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            margin: 0 5px;
+            transition: all 0.2s ease;
+        }
+
+        .social-links a:hover {
+            background: #e50914;
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 768px) {
+            .movie-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 15px;
+                padding: 0 10px;
+            }
+
+            .section-header {
+                padding: 0 10px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <main>
-        <div class="contact-container">
-            <h1 class="contact-title">İletişim</h1>
+    <!-- Header/Navbar (loaded by header.js) -->
+    <div id="header-container"></div>
 
-            <div class="contact-section">
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="contact-container">
+            <div class="contact-header">
+                <h1><i class="fas fa-envelope"></i> İletişim</h1>
+                <p>Bizimle iletişime geçmek için aşağıdaki formu doldurabilir veya iletişim bilgilerini kullanabilirsiniz.</p>
+            </div>
+
+            <div class="contact-grid">
+                <!-- Contact Information -->
                 <div class="contact-info">
-                    <div class="contact-item">
+                    <h2>İletişim Bilgileri</h2>
+                    
+                    <div class="info-item">
                         <i class="fas fa-envelope"></i>
-                        <h3>E-posta</h3>
-                        <p>matypower18000@gmail.com</p>
+                        <div>
+                            <h3>E-posta</h3>
+                            <p>matypower18000@gmail.com</p>
+                        </div>
                     </div>
-                    <div class="contact-item">
-                        <i class="fas fa-phone"></i>
-                        <h3>Telefon</h3>
-                        <p>05** 8** 3* 2*</p>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <h3>Adres</h3>
-                        <p>İstanbul, Türkiye</p>
-                    </div>
-                    <div class="contact-item">
+
+                    <div class="info-item">
                         <i class="fas fa-clock"></i>
-                        <h3>Çalışma Saatleri</h3>
-                        <p>24/7</p>
+                        <div>
+                            <h3>Çalışma Saatleri</h3>
+                            <p>Hafta içi: 09:00 - 18:00<br>Hafta sonu: Kapalı</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <i class="fas fa-info-circle"></i>
+                        <div>
+                            <h3>Bilgilendirme</h3>
+                            <p>Telif hakkı ihlali durumunda lütfen bizimle iletişime geçin. İçerik 3 iş günü içerisinde kaldırılacaktır.</p>
+                        </div>
                     </div>
                 </div>
 
+                <!-- Contact Form -->
                 <div class="contact-form">
-                    <form action="#" method="POST">
+                    <h2>Mesaj Gönder</h2>
+                    
+                    <form id="contactForm">
                         <div class="form-group">
-                            <label for="name">Adınız</label>
+                            <label for="name">Ad Soyad *</label>
                             <input type="text" id="name" name="name" required>
                         </div>
+
                         <div class="form-group">
-                            <label for="email">E-posta</label>
+                            <label for="email">E-posta Adresi *</label>
                             <input type="email" id="email" name="email" required>
                         </div>
+
                         <div class="form-group">
-                            <label for="subject">Konu</label>
-                            <input type="text" id="subject" name="subject" required>
+                            <label for="title">Konu *</label>
+                            <input type="text" id="title" name="title" required>
                         </div>
+
                         <div class="form-group">
-                            <label for="message">Mesajınız</label>
+                            <label for="message">Mesajınız *</label>
                             <textarea id="message" name="message" required></textarea>
                         </div>
-                        <button type="submit" class="submit-btn">Mesaj Gönder</button>
+
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i> Gönder
+                        </button>
                     </form>
                 </div>
-            </div>
+            </div> 
         </div>
     </main>
 
-    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>Sitemize eklenen tüm dizi bölümlerinin videoları video barındırma sitelerinden alınarak eklenmektedir. Telif hakkı size ait olan eserlerin linkleri ile beraber <strong>matypower18000@gmail.com</strong> e-posta adresinden bizimle irtibat kurduğunuz takdirde ilgili eser 3 iş günü içerisinde sitemizden kaldırılacaktır.</p>
+            
+            <p>
+                <a href="#">Yabancı Diziler</a>
+                <a href="#">Yerli Diziler</a>
+                <a href="#">Asya Dizileri</a>
+                <a href="#">Animasyonlar</a>
+                <a href="#">Gizlilik Politikası</a>
+            </p>
+            
+            <p style="margin-bottom: 0; color: #666;">© 2024 Dizicom. Tüm Hakları Saklıdır.</p>
+            
+            <div class="social-links">
+                <a href="#" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="mailto:matypower18000@gmail.com" title="E-posta"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/header.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+    <script>
+        // Initialize EmailJS
+        emailjs.init("OiZut7OHlMHqUcGaZ");
+
+        // Contact form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Get form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+
+            console.log('Form data being sent:', data);
+
+            // Send email using EmailJS
+            emailjs.send("service_gmpkd7t", "template_4zilnkm", data)
+                .then(function(response) {
+                    console.log('EmailJS success:', response);
+                    alert('Mesajınız başarıyla gönderildi! En kısa sürede size geri döneceğiz.');
+                    // Reset form
+                    document.getElementById('contactForm').reset();
+                }, function(error) {
+                    console.error('EmailJS error details:', error);
+                    alert('Mesaj gönderilirken bir hata oluştu. Lütfen EmailJS şablon ayarlarınızı kontrol edin.');
+                });
+        });
+    </script>
 </body>
 </html>

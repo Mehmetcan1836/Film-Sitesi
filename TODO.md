@@ -1,7 +1,8 @@
 # TODO List for Video Player Enhancements
 
 ## Series (TV Shows) Enhancements
-- [ ] Add next episode navigation button
+- [x] Add next episode navigation button
+- [x] Add previous episode navigation button
 - [ ] Display episode descriptions in episode selector
 - [ ] Remove max-height limit on episodes grid to show all episodes
 - [ ] Update episode loading to include descriptions
