@@ -8,11 +8,16 @@ document.addEventListener("DOMContentLoaded", function () {
           <a class="navbar-brand" href="/">
               <h1>Dizi<span>com</span></h1>
           </a>
-          
+
+          <!-- Mobile Search Toggle Button (outside collapse) -->
+          <button class="btn btn-link d-lg-none ms-2" id="mobileSearchToggle" style="color: #fff;">
+            <i class="fas fa-search"></i>
+          </button>
+
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          
+
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
               <li class="nav-item">
@@ -20,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   <i class="fas fa-home d-lg-none d-inline-block"></i>
                   <span>Anasayfa</span>
                 </a>
-              </li> 
+              </li>
               <li class="nav-item">
                 <a class="nav-link ${window.location.pathname === '/diziler.html' ? 'active' : ''}" href="/diziler.html">
                   <i class="fas fa-tv d-lg-none d-inline-block"></i>
@@ -44,21 +49,6 @@ document.addEventListener("DOMContentLoaded", function () {
               </li>
             </ul>
 
-            <!-- Mobile Search Toggle Button -->
-            <button class="btn btn-link d-lg-none ms-2" id="mobileSearchToggle" style="color: #fff;">
-              <i class="fas fa-search"></i>
-            </button>
-            
-            <!-- Mobile Search Bar -->
-            <div class="mobile-search" id="mobileSearchBar">
-              <form id="mobileSearchForm" class="d-flex position-relative">
-                <input class="form-control search-input" type="text" id="mobileSearchInput" placeholder="Dizi, film, oyuncu ara..." aria-label="Search" autocomplete="off">
-                <button type="button" class="mobile-search-close" id="mobileSearchClose">
-                  <i class="fas fa-times"></i>
-                </button>
-              </form>
-            </div>
-            
             <!-- Desktop Search Box -->
             <div class="search-box position-relative d-none d-lg-block">
               <form id="searchForm" class="d-flex">
@@ -67,10 +57,10 @@ document.addEventListener("DOMContentLoaded", function () {
                   <i class="fas fa-search"></i>
                 </button>
               </form>
-              </div>
             </div>
 
-            <div class="user-actions">
+            <!-- User Actions (inside collapse for mobile menu) -->
+            <div class="user-actions d-lg-flex d-none">
               <a href="https://mehmetcan1836.github.io/dizicomdownloader/" target="_blank" class="btn btn-primary">
                 <i class="fas fa-mobile-alt me-1"></i>
                 <span class="d-none d-md-inline">Uygulama</span>
@@ -80,6 +70,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 <span class="d-none d-md-inline">İletişim</span>
               </a>
             </div>
+          </div>
+
+          <!-- Mobile Search Bar (outside collapse) -->
+          <div class="mobile-search" id="mobileSearchBar">
+            <form id="mobileSearchForm" class="d-flex position-relative">
+              <input class="form-control search-input" type="text" id="mobileSearchInput" placeholder="Dizi, film, oyuncu ara..." aria-label="Search" autocomplete="off">
+              <button type="button" class="mobile-search-close" id="mobileSearchClose">
+                <i class="fas fa-times"></i>
+              </button>
+            </form>
           </div>
         </div>
       </nav>

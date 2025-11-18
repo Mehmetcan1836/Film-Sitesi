@@ -166,15 +166,17 @@ body {
     }
 }
 
+@media (max-width: 992px) {
+    .user-actions {
+        display: flex !important;
+    }
+}
+
 @media (max-width: 576px) {
     body {
         margin-top: 90px;
     }
-    
-    .user-actions {
-        display: none;
-    }
-    
+
     .logo a {
         font-size: 1.5rem;
     }
@@ -220,6 +222,10 @@ body {
 
 .main-header .mobile-search {
     display: none; /* desktop by default; toggled by JS */
+}
+
+.main-header .mobile-search.active {
+    display: block;
 }
 
 .main-header .dropdown-menu {

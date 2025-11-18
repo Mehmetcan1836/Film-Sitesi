@@ -249,19 +249,21 @@ const params = new URLSearchParams(window.location.search);
 const q = params.get('q') || '';
 const genreParam = params.get('genre') || '';
 const genreNameParam = params.get('genreName') || '';
-let f='all',r=[];
+let f='all',r=[],currentPage=1,totalPages=1,hasMoreResults=false;
+
 document.getElementById('sq').textContent = q ? `"${q}"` : (genreNameParam ? genreNameParam : ' ');
 document.querySelectorAll('.filter-chip').forEach(e=>e.onclick=()=>{
 document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
-e.classList.add('active');f=e.dataset.type;render();
+e.classList.add('active');f=e.dataset.type;currentPage=1;render();
 });
+
 async function search(){
 if(!q){document.getElementById('sr').innerHTML='<div class="no-results">Terimi girin</div>';return}
 document.getElementById('sr').innerHTML='<div style="text-align:center;padding:40px;color:#aaa">Aranıyor...</div>';
 try{
 const[m,t]=await Promise.all([
-fetch(`${B}/search/movie?api_key=${API}&query=${encodeURIComponent(q)}`),
-fetch(`${B}/search/tv?api_key=${API}&query=${encodeURIComponent(q)}`)
+fetch(`${B}/search/movie?api_key=${API}&query=${encodeURIComponent(q)}&page=${currentPage}`),
+fetch(`${B}/search/tv?api_key=${API}&query=${encodeURIComponent(q)}&page=${currentPage}`)
 ]);
 const movies=(await m.json()).results.map(x=>({...x,media_type:'movie'}));
 const tv=(await t.json()).results.map(x=>({...x,media_type:'tv'}));
@@ -269,11 +271,12 @@ r=[...movies,...tv].sort((a,b)=>(b.popularity||0)-(a.popularity||0));
 render();
 }catch(e){document.getElementById('sr').innerHTML='<div class="no-results">Hata</div>'}
 }
+
 function render(){
 let l=f==='all'?r:r.filter(i=>i.media_type===f);
 if(!l.length){document.getElementById('sr').innerHTML='<div class="no-results">Yok</div>';document.getElementById('rc').textContent='0';return}
 document.getElementById('rc').textContent=`${l.length} sonuç`;
-document.getElementById('sr').innerHTML=l.map(i=>`
+let html=l.map(i=>`
 <div class="movie-card" onclick="showMediaDetails(${i.id},'${i.media_type}')">
 <div class="media-poster-container">
 <img src="${i.poster_path?I+i.poster_path:'/placeholder.svg?height=450&width=300'}" alt="${i.title||i.name}" class="media-poster" loading="lazy">
@@ -285,7 +288,34 @@ document.getElementById('sr').innerHTML=l.map(i=>`
 </div>
 </div>
 `).join('');
+if(hasMoreResults){
+html+=`<div class="load-more-container" style="grid-column:1/-1;text-align:center;padding:20px"><button id="loadMoreBtn" class="btn btn-danger" style="padding:12px 30px;font-weight:600;border-radius:25px">Daha Fazla Göster</button></div>`;
 }
+document.getElementById('sr').innerHTML=html;
+document.getElementById('loadMoreBtn')?.addEventListener('click',loadMore);
+}
+
+async function loadMore(){
+currentPage++;
+document.getElementById('loadMoreBtn').innerHTML='<i class="fas fa-spinner fa-spin"></i> Yükleniyor...';
+document.getElementById('loadMoreBtn').disabled=true;
+try{
+const[m,t]=await Promise.all([
+fetch(`${B}/search/movie?api_key=${API}&query=${encodeURIComponent(q)}&page=${currentPage}`),
+fetch(`${B}/search/tv?api_key=${API}&query=${encodeURIComponent(q)}&page=${currentPage}`)
+]);
+const movies=(await m.json()).results.map(x=>({...x,media_type:'movie'}));
+const tv=(await t.json()).results.map(x=>({...x,media_type:'tv'}));
+const newResults=[...movies,...tv].sort((a,b)=>(b.popularity||0)-(a.popularity||0));
+r=[...r,...newResults];
+hasMoreResults=newResults.length>=20;
+render();
+}catch(e){
+document.getElementById('loadMoreBtn').innerHTML='Daha Fazla Göster';
+document.getElementById('loadMoreBtn').disabled=false;
+}
+}
+
 // If a genre parameter is present, load by genre; otherwise perform normal search
 if (genreParam) {
     // Update UI
@@ -295,12 +325,16 @@ if (genreParam) {
         document.getElementById('sr').innerHTML = '<div style="text-align:center;padding:40px;color:#aaa">Yükleniyor...</div>';
         try {
             const [movieRes, tvRes] = await Promise.all([
-                fetch(`${B}/discover/movie?api_key=${API}&with_genres=${encodeURIComponent(genreParam)}&language=tr-TR`),
-                fetch(`${B}/discover/tv?api_key=${API}&with_genres=${encodeURIComponent(genreParam)}&language=tr-TR`)
+                fetch(`${B}/discover/movie?api_key=${API}&with_genres=${encodeURIComponent(genreParam)}&language=tr-TR&page=${currentPage}`),
+                fetch(`${B}/discover/tv?api_key=${API}&with_genres=${encodeURIComponent(genreParam)}&language=tr-TR&page=${currentPage}`)
             ]);
-            const movies = (await movieRes.json()).results.map(x => ({...x, media_type: 'movie'}));
-            const tv = (await tvRes.json()).results.map(x => ({...x, media_type: 'tv'}));
+            const movieData = await movieRes.json();
+            const tvData = await tvRes.json();
+            const movies = movieData.results.map(x => ({...x, media_type: 'movie'}));
+            const tv = tvData.results.map(x => ({...x, media_type: 'tv'}));
             r = [...movies, ...tv].sort((a,b)=>(b.popularity||0)-(a.popularity||0));
+            totalPages = Math.max(movieData.total_pages || 1, tvData.total_pages || 1);
+            hasMoreResults = currentPage < totalPages && r.length >= 40;
             render();
         } catch (err) {
             document.getElementById('sr').innerHTML = '<div class="no-results">Yüklenemedi</div>';
