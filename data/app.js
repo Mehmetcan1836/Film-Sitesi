@@ -514,11 +514,11 @@ async function loadTrendingMovies() {
     `
 
     const endpoints = [
-      { url: `${BASE_URL}/trending/movie/week?api_key=${API_KEY}&language=en-US&page=1`, name: "trending weekly" },
-      { url: `${BASE_URL}/trending/movie/day?api_key=${API_KEY}&language=en-US&page=1`, name: "trending daily" },
-      { url: `${BASE_URL}/movie/popular?api_key=${API_KEY}&language=en-US&page=1`, name: "popular movies" },
-      { url: `${BASE_URL}/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1`, name: "now playing" },
-      { url: `${BASE_URL}/movie/top_rated?api_key=${API_KEY}&language=en-US&page=1`, name: "top rated" },
+      { url: `${BASE_URL}/trending/movie/week?api_key=${API_KEY}&language=tr-TR&page=1`, name: "trending weekly" },
+      { url: `${BASE_URL}/trending/movie/day?api_key=${API_KEY}&language=tr-TR&page=1`, name: "trending daily" },
+      { url: `${BASE_URL}/movie/popular?api_key=${API_KEY}&language=tr-TR&page=1`, name: "popular movies" },
+      { url: `${BASE_URL}/movie/now_playing?api_key=${API_KEY}&language=tr-TR&page=1`, name: "now playing" },
+      { url: `${BASE_URL}/movie/top_rated?api_key=${API_KEY}&language=tr-TR&page=1`, name: "top rated" },
     ]
 
     let data = null
@@ -576,7 +576,7 @@ async function loadFallbackMovies() {
   for (const movieId of popularMovieIds) {
     try {
       const response = await requestQueue.add(() =>
-        fetchWithRetry(`${BASE_URL}/movie/${movieId}?api_key=${API_KEY}&language=en-US`),
+        fetchWithRetry(`${BASE_URL}/movie/${movieId}?api_key=${API_KEY}&language=tr-TR`),
       )
 
       if (response.ok) {
@@ -651,7 +651,7 @@ async function loadPopularMovies() {
     console.log("🔥 Loading popular movies...")
 
     const response = await requestQueue.add(() =>
-      fetchWithRetry(`${BASE_URL}/movie/popular?api_key=${API_KEY}&language=en-US&page=${currentPages.popularMovies}`),
+      fetchWithRetry(`${BASE_URL}/movie/popular?api_key=${API_KEY}&language=tr-TR&page=${currentPages.popularMovies}`),
     )
 
     const data = await response.json()
@@ -675,7 +675,7 @@ async function loadMorePopularMovies() {
   try {
     currentPages.popularMovies++
     const response = await fetch(
-      `${BASE_URL}/movie/popular?api_key=${API_KEY}&language=en-US&page=${currentPages.popularMovies}`,
+      `${BASE_URL}/movie/popular?api_key=${API_KEY}&language=tr-TR&page=${currentPages.popularMovies}`,
     )
 
     if (!response.ok) {
@@ -902,10 +902,10 @@ async function performSearch() {
     // Use Promise.allSettled for better error handling
     const [movieResult, tvResult] = await Promise.allSettled([
       fetch(
-        `${BASE_URL}/search/movie?api_key=${API_KEY}&language=en-US&query=${encodeURIComponent(query)}&page=${currentPages.search}`,
+        `${BASE_URL}/search/movie?api_key=${API_KEY}&language=tr-TR&query=${encodeURIComponent(query)}&page=${currentPages.search}`,
       ),
       fetch(
-        `${BASE_URL}/search/tv?api_key=${API_KEY}&language=en-US&query=${encodeURIComponent(query)}&page=${currentPages.search}`,
+        `${BASE_URL}/search/tv?api_key=${API_KEY}&language=tr-TR&query=${encodeURIComponent(query)}&page=${currentPages.search}`,
       ),
     ])
 
@@ -959,10 +959,10 @@ async function loadMoreSearchResults() {
     currentPages.search++
     const [movieResponse, tvResponse] = await Promise.all([
       fetch(
-        `${BASE_URL}/search/movie?api_key=${API_KEY}&language=en-US&query=${encodeURIComponent(currentSearchQuery)}&page=${currentPages.search}`,
+        `${BASE_URL}/search/movie?api_key=${API_KEY}&language=tr-TR&query=${encodeURIComponent(currentSearchQuery)}&page=${currentPages.search}`,
       ),
       fetch(
-        `${BASE_URL}/search/tv?api_key=${API_KEY}&language=en-US&query=${encodeURIComponent(currentSearchQuery)}&page=${currentPages.search}`,
+        `${BASE_URL}/search/tv?api_key=${API_KEY}&language=tr-TR&query=${encodeURIComponent(currentSearchQuery)}&page=${currentPages.search}`,
       ),
     ])
 
@@ -1176,7 +1176,7 @@ async function showMediaDetails(mediaId, mediaType) {
 
     const endpoint = mediaType === "movie" ? "movie" : "tv"
     const response = await fetch(
-      `${BASE_URL}/${endpoint}/${mediaId}?api_key=${API_KEY}&language=en-US&append_to_response=credits,recommendations`,
+      `${BASE_URL}/${endpoint}/${mediaId}?api_key=${API_KEY}&language=tr-TR&append_to_response=credits,recommendations`,
     )
 
     if (!response.ok) {
@@ -1196,13 +1196,31 @@ async function showMediaDetails(mediaId, mediaType) {
 
     const director =
       media.credits && media.credits.crew ? media.credits.crew.find((person) => person.job === "Director") : null
-    const cast =
-      media.credits && media.credits.cast
-        ? media.credits.cast
-            .slice(0, 5)
-            .map((actor) => actor.name)
-            .join(", ")
-        : ""
+    // Create actors section with circular images
+    let actorsSection = ""
+    if (media.credits && media.credits.cast && media.credits.cast.length > 0) {
+      const actors = media.credits.cast.slice(0, 10) // Show up to 10 actors
+      actorsSection = `
+        <div class="actors-section mt-4">
+          <h5><i class="fas fa-users me-2"></i>Oyuncular</h5>
+          <div class="actors-grid">
+            ${actors.map(actor => {
+              const profileUrl = actor.profile_path
+                ? `${IMAGE_BASE_URL}${actor.profile_path}`
+                : "/placeholder.svg?height=100&width=100"
+              return `
+                <div class="actor-item" onclick="showActorDetails(${actor.id})">
+                  <div class="actor-image-container">
+                    <img src="${profileUrl}" alt="${actor.name}" class="actor-image" onerror="this.src='/placeholder.svg?height=100&width=100'">
+                  </div>
+                  <div class="actor-name">${actor.name}</div>
+                </div>
+              `
+            }).join("")}
+          </div>
+        </div>
+      `
+    }
 
     const title = media.title || media.name
     const releaseDate = media.release_date || media.first_air_date
@@ -1279,7 +1297,7 @@ async function showMediaDetails(mediaId, mediaType) {
             </div>
             <p><strong>Özet:</strong> ${media.overview || "Özet bulunamadı."}</p>
             ${director ? `<p><strong>Yönetmen:</strong> ${director.name}</p>` : ""}
-            ${cast ? `<p><strong>Oyuncular:</strong> ${cast}</p>` : ""}
+            ${actorsSection}
             ${seasonSelector}
             ${recommendationsHTML}
         `
@@ -1309,7 +1327,7 @@ async function loadEpisodes(tvId, seasonNumber) {
   try {
     console.log(`📺 Loading episodes for TV ${tvId}, Season ${seasonNumber}`)
 
-    const response = await fetch(`${BASE_URL}/tv/${tvId}/season/${seasonNumber}?api_key=${API_KEY}&language=en-US`)
+    const response = await fetch(`${BASE_URL}/tv/${tvId}/season/${seasonNumber}?api_key=${API_KEY}&language=tr-TR`)
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
@@ -1475,6 +1493,128 @@ function nextEpisode() {
     playMedia(currentMedia.id, "tv", nextSeasonNum, 1)
   } else {
     playMedia(currentMedia.id, "tv", nextSeasonNum, nextEpisodeNum)
+  }
+}
+
+// Show Actor Details
+async function showActorDetails(actorId) {
+  try {
+    console.log(`🎭 Loading details for actor ID: ${actorId}`)
+
+    // Fetch actor details and credits
+    const [actorResponse, creditsResponse] = await Promise.all([
+      fetch(`${BASE_URL}/person/${actorId}?api_key=${API_KEY}&language=tr-TR`),
+      fetch(`${BASE_URL}/person/${actorId}/combined_credits?api_key=${API_KEY}&language=tr-TR`)
+    ])
+
+    if (!actorResponse.ok || !creditsResponse.ok) {
+      throw new Error(`HTTP error! status: ${actorResponse.status} or ${creditsResponse.status}`)
+    }
+
+    const actor = await actorResponse.json()
+    const credits = await creditsResponse.json()
+
+    // Separate movies and TV shows
+    const movies = credits.cast.filter(item => item.media_type === 'movie').slice(0, 10)
+    const tvShows = credits.cast.filter(item => item.media_type === 'tv').slice(0, 10)
+
+    const profileUrl = actor.profile_path
+      ? `${IMAGE_BASE_URL}${actor.profile_path}`
+      : "/placeholder.svg?height=300&width=200"
+
+    const birthDate = actor.birthday ? new Date(actor.birthday).toLocaleDateString('tr-TR') : 'Bilinmiyor'
+    const deathDate = actor.deathday ? new Date(actor.deathday).toLocaleDateString('tr-TR') : null
+    const age = actor.birthday ? (deathDate ? 
+      Math.floor((new Date(actor.deathday) - new Date(actor.birthday)) / (365.25 * 24 * 60 * 60 * 1000)) :
+      Math.floor((new Date() - new Date(actor.birthday)) / (365.25 * 24 * 60 * 60 * 1000))) : 'Bilinmiyor'
+
+    let moviesSection = ""
+    if (movies.length > 0) {
+      moviesSection = `
+        <div class="actors-section mt-4">
+          <h5><i class="fas fa-film me-2"></i>Oynadığı Filmler</h5>
+          <div class="actors-grid">
+            ${movies.map(movie => {
+              const posterUrl = movie.poster_path
+                ? `${IMAGE_BASE_URL}${movie.poster_path}`
+                : "/placeholder.svg?height=200&width=150"
+              const year = movie.release_date ? new Date(movie.release_date).getFullYear() : 'Bilinmiyor'
+              return `
+                <div class="actor-item" onclick="showMediaDetails(${movie.id}, 'movie')">
+                  <div class="actor-image-container">
+                    <img src="${posterUrl}" alt="${movie.title}" class="actor-image" onerror="this.src='/placeholder.svg?height=200&width=150'">
+                  </div>
+                  <div class="actor-name">${movie.title}</div>
+                  <div class="small text-muted">${year}</div>
+                </div>
+              `
+            }).join("")}
+          </div>
+        </div>
+      `
+    }
+
+    let tvShowsSection = ""
+    if (tvShows.length > 0) {
+      tvShowsSection = `
+        <div class="actors-section mt-4">
+          <h5><i class="fas fa-tv me-2"></i>Oynadığı Diziler</h5>
+          <div class="actors-grid">
+            ${tvShows.map(show => {
+              const posterUrl = show.poster_path
+                ? `${IMAGE_BASE_URL}${show.poster_path}`
+                : "/placeholder.svg?height=200&width=150"
+              const year = show.first_air_date ? new Date(show.first_air_date).getFullYear() : 'Bilinmiyor'
+              return `
+                <div class="actor-item" onclick="showMediaDetails(${show.id}, 'tv')">
+                  <div class="actor-image-container">
+                    <img src="${posterUrl}" alt="${show.name}" class="actor-image" onerror="this.src='/placeholder.svg?height=200&width=150'">
+                  </div>
+                  <div class="actor-name">${show.name}</div>
+                  <div class="small text-muted">${year}</div>
+                </div>
+              `
+            }).join("")}
+          </div>
+        </div>
+      `
+    }
+
+    const modalContent = `
+      <button class="btn btn-secondary mb-3" onclick="showMediaDetails(${currentMedia.id}, '${currentMedia.media_type}')">
+        <i class="fas fa-arrow-left me-2"></i>Geri
+      </button>
+      <div class="row">
+        <div class="col-md-4">
+          <img src="${profileUrl}" alt="${actor.name}" class="img-fluid rounded" style="max-width: 100%; height: auto;" onerror="this.src='/placeholder.svg?height=300&width=200'">
+        </div>
+        <div class="col-md-8">
+          <h4>${actor.name}</h4>
+          <div class="mb-3">
+            <p><strong>Doğum Tarihi:</strong> ${birthDate}</p>
+            ${deathDate ? `<p><strong>Ölüm Tarihi:</strong> ${deathDate}</p>` : ''}
+            <p><strong>Yaş:</strong> ${age}</p>
+            ${actor.place_of_birth ? `<p><strong>Doğum Yeri:</strong> ${actor.place_of_birth}</p>` : ''}
+          </div>
+          ${actor.biography ? `<p><strong>Biyografi:</strong> ${actor.biography}</p>` : '<p>Biyografi bulunamadı.</p>'}
+        </div>
+      </div>
+      ${moviesSection}
+      ${tvShowsSection}
+    `
+
+    const modalTitle = document.getElementById("modalTitle")
+    const modalBody = document.getElementById("modalBody")
+
+    if (modalTitle) modalTitle.textContent = actor.name
+    if (modalBody) modalBody.innerHTML = modalContent
+
+    mediaModal.show()
+
+    console.log("✅ Actor details loaded successfully")
+  } catch (error) {
+    console.error("❌ Error loading actor details:", error)
+    alert("Aktör detayları yüklenirken hata oluştu. Tekrar deneyin.")
   }
 }
 

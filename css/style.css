@@ -667,3 +667,82 @@ body {
     background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.6) 100%);
     margin: 0;
 }
+
+/* Actors Section */
+.actors-section {
+    margin-top: 20px;
+    padding: 15px;
+    background: var(--dark-light);
+    border-radius: 8px;
+    border: 1px solid rgba(229, 9, 20, 0.1);
+}
+
+.actors-section h5 {
+    color: var(--primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.actors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 15px;
+}
+
+.actor-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 10px;
+    border-radius: 8px;
+    background: var(--dark);
+    border: 1px solid rgba(229, 9, 20, 0.1);
+}
+
+.actor-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(229, 9, 20, 0.2);
+    border-color: var(--primary);
+}
+
+.actor-image-container {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 8px;
+    border: 2px solid rgba(229, 9, 20, 0.3);
+    transition: all 0.3s ease;
+}
+
+.actor-item:hover .actor-image-container {
+    border-color: var(--primary);
+    transform: scale(1.1);
+}
+
+.actor-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.actor-item:hover .actor-image {
+    transform: scale(1.1);
+}
+
+.actor-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
