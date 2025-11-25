@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dizicom - İzleme Geçmişi</title>
+    <link rel="shortcut icon" href="img/logos.png" type="image/x-icon">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Poppins Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/movie-grid.css">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #141414 0%, #0f0f0f 50%, #1a1a1a 100%);
+            color: #fff;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .main-content {
+            min-height: 100vh;
+            padding-top: 30px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="%23e50914" opacity="0.03"/><circle cx="75" cy="75" r="1" fill="%23e50914" opacity="0.03"/><circle cx="50" cy="10" r="0.5" fill="%23e50914" opacity="0.02"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 50px 0 40px 0;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .section-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .reset-btn {
+            background: rgba(229, 9, 20, 0.1);
+            border: 1px solid rgba(229, 9, 20, 0.3);
+            color: #e50914;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .reset-btn:hover {
+            background: rgba(229, 9, 20, 0.2);
+            border-color: rgba(229, 9, 20, 0.5);
+            transform: translateY(-1px);
+        }
+
+        .reset-btn:active {
+            transform: translateY(0);
+        }
+
+        .section-header::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: -10px;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #e50914, #ff6b6b);
+            border-radius: 2px;
+        }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin: 0;
+            background: linear-gradient(135deg, #fff 0%, #e50914 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: -0.5px;
+        }
+
+        .section-header h2 i {
+            margin-right: 15px;
+            color: #e50914;
+            filter: drop-shadow(0 2px 4px rgba(229, 9, 20, 0.3));
+        }
+
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+            padding: 0 20px;
+            margin-bottom: 40px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 1.1rem;
+            color: #aaa;
+            grid-column: 1 / -1;
+        }
+
+        .loading .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #333;
+            border-top: 4px solid #e50914;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* TV Shows Tree Structure */
+        .tv-shows-section {
+            padding: 0 20px;
+            margin-bottom: 40px;
+        }
+
+        .tv-show-item {
+            background: linear-gradient(135deg, #1a1a1a 0%, #252525 100%);
+            border-radius: 16px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            border: 1px solid rgba(229, 9, 20, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .tv-show-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #e50914, #ff6b6b, #e50914);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .tv-show-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(229, 9, 20, 0.15);
+            border-color: rgba(229, 9, 20, 0.4);
+        }
+
+        .tv-show-item:hover::before {
+            opacity: 1;
+        }
+
+        .tv-show-header {
+            display: flex;
+            align-items: center;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tv-show-header:hover {
+            background: linear-gradient(135deg, rgba(229, 9, 20, 0.08) 0%, rgba(229, 9, 20, 0.05) 100%);
+        }
+
+        .tv-show-header-content {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            position: relative;
+        }
+
+        .tv-show-poster {
+            width: 90px;
+            height: 135px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-right: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .tv-show-header:hover .tv-show-poster {
+            transform: scale(1.05);
+            box-shadow: 0 12px 35px rgba(229, 9, 20, 0.2);
+            border-color: rgba(229, 9, 20, 0.3);
+        }
+
+        .tv-show-info {
+            flex: 1;
+        }
+
+        .tv-show-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff 0%, #e50914 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.3px;
+        }
+
+        .tv-show-meta {
+            color: #ccc;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .recent-episode {
+            color: #e50914;
+            font-weight: 700;
+            margin-bottom: 4px;
+            font-size: 1rem;
+            text-shadow: 0 1px 2px rgba(229, 9, 20, 0.3);
+        }
+
+        .episode-name {
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .play-indicator {
+            color: #e50914;
+            font-size: 1.4rem;
+            margin-left: 20px;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 2px 4px rgba(229, 9, 20, 0.3));
+        }
+
+        .episode-clickable {
+            cursor: pointer;
+            border-radius: 12px;
+            padding: 10px;
+            margin: -10px;
+            transition: all 0.3s ease;
+        }
+
+        .episode-clickable:hover {
+            background: rgba(229, 9, 20, 0.1);
+        }
+
+        .episode-clickable:hover .play-indicator {
+            color: #ff6b6b;
+            transform: scale(1.2);
+        }
+
+        .tv-show-toggle {
+            color: #e50914;
+            font-size: 1.3rem;
+            transition: all 0.4s ease;
+            padding: 10px;
+            border-radius: 50%;
+            background: rgba(229, 9, 20, 0.1);
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tv-show-toggle.expanded {
+            transform: rotate(90deg);
+            background: rgba(229, 9, 20, 0.2);
+        }
+
+        .tv-show-toggle:hover {
+            background: rgba(229, 9, 20, 0.15);
+            transform: scale(1.1);
+        }
+
+        .tv-show-toggle.expanded:hover {
+            transform: rotate(90deg) scale(1.1);
+        }
+
+        .tv-show-seasons {
+            padding: 0 25px 25px 25px;
+            border-top: 1px solid rgba(229, 9, 20, 0.2);
+            display: none;
+            background: linear-gradient(135deg, #1f1f1f 0%, #2a2a2a 100%);
+        }
+
+        .season-item {
+            background: linear-gradient(135deg, #2a2a2a 0%, #333 100%);
+            border-radius: 12px;
+            padding: 18px;
+            margin-top: 18px;
+            border: 1px solid rgba(229, 9, 20, 0.15);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .season-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #e50914, #ff6b6b);
+            opacity: 0.7;
+        }
+
+        .season-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(229, 9, 20, 0.1);
+            border-color: rgba(229, 9, 20, 0.3);
+        }
+
+        .season-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .season-title {
+            font-weight: 600;
+            color: #e50914;
+        }
+
+        .season-episode {
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        .episode-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .episode-poster {
+            width: 60px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .episode-details {
+            flex: 1;
+        }
+
+        .episode-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .episode-meta {
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+
+        .no-history {
+            text-align: center;
+            padding: 60px 20px;
+            color: #aaa;
+        }
+
+        .no-history i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .movie-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 15px;
+                padding: 0 10px;
+            }
+
+            .section-header {
+                padding: 0 10px;
+            }
+
+            .tv-shows-section {
+                padding: 0 10px;
+            }
+
+            .tv-show-header {
+                padding: 15px;
+            }
+
+            .tv-show-poster {
+                width: 60px;
+                height: 90px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="css/header.css">
+</head>
+<body>
+    <!-- Header/Navbar -->
+    <div id="header-container"></div>
+
+    <main class="main-content">
+        <!-- Movies Section -->
+        <section id="moviesSection">
+            <div class="section-header">
+                <h2><i class="fas fa-film"></i> İzlenen Filmler</h2>
+                <div class="section-actions">
+                    <button class="reset-btn" onclick="resetMovieHistory()" title="Film geçmişini temizle">
+                        <i class="fas fa-trash-alt"></i>
+                        <span>Sıfırla</span>
+                    </button>
+                </div>
+            </div>
+            <div id="watchedMoviesGrid" class="movie-grid">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <div>Yükleniyor...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TV Shows Section -->
+        <section id="tvShowsSection">
+            <div class="section-header">
+                <h2><i class="fas fa-tv"></i> İzlenen Diziler</h2>
+                <div class="section-actions">
+                    <button class="reset-btn" onclick="resetTVShowHistory()" title="Dizi geçmişini temizle">
+                        <i class="fas fa-trash-alt"></i>
+                        <span>Sıfırla</span>
+                    </button>
+                </div>
+            </div>
+            <div id="watchedTVShows" class="tv-shows-section">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <div>Yükleniyor...</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Detail Modal -->
+    <div id="mediaModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content" style="background: linear-gradient(135deg, #1a1a1a 0%, #141414 100%); border: 1px solid rgba(229,9,20,0.3); border-radius: 12px;">
+                <div class="modal-header" style="border-bottom: 2px solid rgba(229,9,20,0.2); padding: 18px 20px;">
+                    <h5 id="modalTitle" class="modal-title" style="font-weight: 700; color: #fff;"></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" style="filter: brightness(1.2);"></button>
+                </div>
+                <div id="modalBody" class="modal-body" style="color: #fff; padding: 25px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Player Modal -->
+    <div id="playerModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content" style="background: #000; border: 1px solid rgba(229,9,20,0.3); border-radius: 12px; max-height: 90vh; overflow: hidden;">
+                <!-- Header -->
+                <div class="modal-header" style="background: #141414; border-bottom: 1px solid #333; padding: 15px 20px;">
+                    <div style="display: flex; align-items: center; gap: 15px; flex: 1;">
+                        <button class="btn btn-outline-danger btn-sm" onclick="goBack()" style="display: flex; align-items: center; gap: 5px;">
+                            <i class="fas fa-arrow-left"></i>
+                            <span>Geri</span>
+                        </button>
+                        <h5 id="playerTitle" class="modal-title mb-0" style="font-weight: 700; color: #fff; font-size: 1.2rem;"></h5>
+                    </div>
+                    <button class="btn btn-outline-danger btn-sm" id="previousEpisodeBtn" onclick="previousEpisode()" style="display: none; margin-right: 10px;">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Önceki Bölüm</span>
+                    </button>
+                    <button class="btn btn-outline-danger btn-sm" id="nextEpisodeBtn" onclick="nextEpisode()" style="display: none; margin-right: 10px;">
+                        <span>Sonraki Bölüm</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" style="filter: brightness(1.2);"></button>
+                </div>
+
+                <!-- Player -->
+                <div class="modal-body" style="padding: 0; background: #000;">
+                    <div id="playerContent" style="height: 500px; display: flex; align-items: center; justify-content: center; background: #000;">
+                        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; color: #fff;">
+                            <div style="width: 50px; height: 50px; border: 4px solid #333; border-top: 4px solid #e50914; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                            <span>Video yükleniyor...</span>
+                        </div>
+                    </div>
+
+                    <!-- Episode Selector (for TV shows) -->
+                    <div id="episodeSelector" style="background: #141414; padding: 20px; border-top: 1px solid #333; display: none;">
+                        <h5 style="color: #e50914; margin-bottom: 15px; font-weight: 700;"><i class="fas fa-tv"></i> Sezonları Seçin</h5>
+                        <div style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;" id="seasonsContainer"></div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; padding-right: 10px; max-height: 400px; overflow-y: auto;" id="episodesGrid"></div>
+                    </div>
+
+                    <!-- Recommendations Section -->
+                    <div id="recommendationsSection" style="background: #141414; padding: 20px; border-top: 1px solid #333; display: none;">
+                        <h5 style="color: #e50914; margin-bottom: 15px; font-weight: 700;"><i class="fas fa-thumbs-up"></i> Önerilen İçerikler</h5>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px;" id="recommendationsGrid"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .episode-btn {
+            padding: 15px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            height: 120px;
+            overflow: hidden;
+        }
+
+        .episode-poster {
+            width: 80px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .episode-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .episode-number {
+            font-weight: 700;
+            color: #e50914;
+            font-size: 1rem;
+        }
+
+        .episode-title {
+            font-weight: 600;
+            color: #fff;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .episode-info {
+            font-size: 0.8rem;
+            color: #ccc;
+            line-height: 1.2;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .episode-btn:hover, .episode-btn.active {
+            background: #e50914;
+            border-color: #e50914;
+        }
+
+        .season-btn {
+            padding: 8px 16px;
+            background: #1a1a1a;
+            border: 2px solid #333;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .season-btn.active, .season-btn:hover {
+            background: #e50914;
+            border-color: #e50914;
+            color: #fff;
+        }
+
+        .recommendation-item {
+            background: #1a1a1a;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #333;
+        }
+
+        .recommendation-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(229, 9, 20, 0.3);
+            border-color: #e50914;
+        }
+
+        .recommendation-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .rec-title {
+            padding: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #fff;
+            text-align: center;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        #episodesGrid::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #episodesGrid::-webkit-scrollbar-track {
+            background: #1a1a1a;
+            border-radius: 3px;
+        }
+
+        #episodesGrid::-webkit-scrollbar-thumb {
+            background: #e50914;
+            border-radius: 3px;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/header.js"></script>
+    <script src="data/app.js"></script>
+    <script>
+        // Watch History Page JavaScript
+        document.addEventListener("DOMContentLoaded", () => {
+            console.log("📺 Loading watch history page")
+            loadWatchHistory()
+        })
+
+        function loadWatchHistory() {
+            try {
+                const WATCH_HISTORY_KEY = "watchHistory"
+                const history = JSON.parse(localStorage.getItem(WATCH_HISTORY_KEY)) || { movies: [], tvShows: [] }
+
+                // Load watched movies
+                loadWatchedMovies(history.movies)
+
+                // Load watched TV shows
+                loadWatchedTVShows(history.tvShows)
+
+                console.log("✅ Watch history loaded successfully")
+            } catch (error) {
+                console.error("❌ Error loading watch history:", error)
+                showErrorState("İzleme geçmişi yüklenirken hata oluştu.")
+            }
+        }
+
+        function loadWatchedMovies(movies) {
+            const container = document.getElementById("watchedMoviesGrid")
+
+            if (!movies || movies.length === 0) {
+                container.innerHTML = `
+                    <div class="no-history">
+                        <i class="fas fa-film"></i>
+                        <p>Henüz hiç film izlemediniz.</p>
+                        <p class="small">Filmler sayfasından bir film izlemeye başlayın!</p>
+                    </div>
+                `
+                return
+            }
+
+            // Sort movies by watched date (newest first)
+            movies.sort((a, b) => new Date(b.watchedAt) - new Date(a.watchedAt))
+
+            const moviesHTML = movies.map(movie => createWatchedMovieHTML(movie)).join("")
+            container.innerHTML = moviesHTML
+        }
+
+        function createWatchedMovieHTML(movie) {
+            const posterUrl = movie.poster ? `${IMAGE_BASE_URL}${movie.poster}` : "/placeholder.svg?height=450&width=300"
+            const watchedDate = new Date(movie.watchedAt).toLocaleDateString('tr-TR')
+
+            return `
+                <div class="movie-card" onclick="goToDetailPage(${movie.id}, 'movie')">
+                    <div class="media-poster-container">
+                        <img src="${posterUrl}"
+                             alt="${movie.title}"
+                             class="media-poster"
+                             loading="lazy"
+                             onerror="this.src='/placeholder.svg?height=450&width=300'; this.onerror=null;">
+                        <div class="media-overlay">
+                            <i class="fas fa-play play-icon"></i>
+                        </div>
+                    </div>
+                    <div class="media-info">
+                        <h3 class="media-title">${movie.title}</h3>
+                        <div class="media-rating">
+                            <span class="media-year">${watchedDate}</span>
+                        </div>
+                    </div>
+                </div>
+            `
+        }
+
+        function loadWatchedTVShows(tvShows) {
+            const container = document.getElementById("watchedTVShows")
+
+            if (!tvShows || tvShows.length === 0) {
+                container.innerHTML = `
+                    <div class="no-history">
+                        <i class="fas fa-tv"></i>
+                        <p>Henüz hiç dizi izlemediniz.</p>
+                        <p class="small">Diziler sayfasından bir dizi izlemeye başlayın!</p>
+                    </div>
+                `
+                return
+            }
+
+            // Sort TV shows by most recent watch date
+            tvShows.sort((a, b) => {
+                const aLatest = getLatestWatchDate(a.seasons)
+                const bLatest = getLatestWatchDate(b.seasons)
+                return new Date(bLatest) - new Date(aLatest)
+            })
+
+            const tvShowsHTML = tvShows.map(show => createWatchedTVShowHTML(show)).join("")
+            container.innerHTML = tvShowsHTML
+
+            // Add click event listeners for expanding/collapsing seasons
+            document.querySelectorAll('.tv-show-header').forEach(header => {
+                header.addEventListener('click', function(e) {
+                    // Prevent event bubbling if clicked on the content area
+                    if (e.target.closest('.tv-show-header-content')) {
+                        return; // Let the content click handler work
+                    }
+
+                    const seasonsContainer = this.parentElement.querySelector('.tv-show-seasons')
+                    const toggleIcon = this.querySelector('.tv-show-toggle')
+
+                    if (seasonsContainer.style.display === 'block') {
+                        seasonsContainer.style.display = 'none'
+                        toggleIcon.classList.remove('expanded')
+                    } else {
+                        seasonsContainer.style.display = 'block'
+                        toggleIcon.classList.add('expanded')
+                    }
+                })
+            })
+        }
+
+        function getLatestWatchDate(seasons) {
+            let latestDate = null
+            Object.values(seasons).forEach(season => {
+                if (season.watchedAt && (!latestDate || new Date(season.watchedAt) > new Date(latestDate))) {
+                    latestDate = season.watchedAt
+                }
+            })
+            return latestDate
+        }
+
+        function createWatchedTVShowHTML(show) {
+            const posterUrl = show.poster ? `${IMAGE_BASE_URL}${show.poster}` : "/placeholder.svg?height=300&width=200"
+
+            // Get seasons sorted by most recent watch date
+            const seasons = Object.keys(show.seasons)
+                .map(seasonNum => ({ seasonNum: parseInt(seasonNum), ...show.seasons[seasonNum] }))
+                .sort((a, b) => new Date(b.watchedAt) - new Date(a.watchedAt)) // Most recent first
+
+            // Get the most recent episode
+            const mostRecentSeason = seasons[0]
+            const mostRecentDate = new Date(mostRecentSeason.watchedAt).toLocaleDateString('tr-TR')
+
+            const seasonsHTML = seasons.map(season => {
+                const watchedDate = new Date(season.watchedAt).toLocaleDateString('tr-TR')
+                return `
+                    <div class="season-item">
+                        <div class="season-header">
+                            <span class="season-title">Sezon ${season.seasonNum}</span>
+                            <span class="season-episode">Bölüm ${season.episode} • ${watchedDate}</span>
+                        </div>
+                        <div class="episode-info">
+                            <div class="episode-details">
+                                <div class="episode-title">${season.episodeTitle || `Bölüm ${season.episode}`}</div>
+                                <div class="episode-meta">Son izlenme: ${watchedDate}</div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            }).join('')
+
+            return `
+                <div class="tv-show-item">
+                    <div class="tv-show-header">
+                        <div class="tv-show-header-content episode-clickable" onclick="goToDetailPage(${show.id}, 'tv')">
+                            <img src="${posterUrl}" alt="${show.title}" class="tv-show-poster" onerror="this.src='/placeholder.svg?height=300&width=200'; this.onerror=null;">
+                            <div class="tv-show-info">
+                                <div class="tv-show-title">${show.title}</div>
+                                <div class="tv-show-meta">
+                                    <div class="recent-episode">Son: S${mostRecentSeason.seasonNum}E${mostRecentSeason.episode} • ${mostRecentDate}</div>
+                                    <div class="episode-name">${mostRecentSeason.episodeTitle || `Bölüm ${mostRecentSeason.episode}`}</div>
+                                </div>
+                            </div>
+                            <div class="play-indicator">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="tv-show-toggle">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <div class="tv-show-seasons">
+                        ${seasonsHTML}
+                    </div>
+                </div>
+            `
+        }
+
+        function showErrorState(message) {
+            document.getElementById("watchedMoviesGrid").innerHTML = `
+                <div class="no-history">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>${message}</p>
+                </div>
+            `
+            document.getElementById("watchedTVShows").innerHTML = ""
+        }
+
+        function playRecentEpisode(showId, seasonNum, episodeNum) {
+            console.log(`🎬 Playing recent episode: Show ${showId}, Season ${seasonNum}, Episode ${episodeNum}`)
+            // Navigate to player page with the specific episode
+            window.location.href = `player.html?id=${showId}&type=tv&season=${seasonNum}&episode=${episodeNum}`
+        }
+
+        function resetMovieHistory() {
+            if (confirm('Film izleme geçmişini temizlemek istediğinizden emin misiniz? Bu işlem geri alınamaz.')) {
+                try {
+                    const WATCH_HISTORY_KEY = "watchHistory"
+                    const history = JSON.parse(localStorage.getItem(WATCH_HISTORY_KEY)) || { movies: [], tvShows: [] }
+                    history.movies = []
+                    localStorage.setItem(WATCH_HISTORY_KEY, JSON.stringify(history))
+                    loadWatchedMovies(history.movies)
+                    console.log("✅ Movie history reset successfully")
+                } catch (error) {
+                    console.error("❌ Error resetting movie history:", error)
+                    alert("Film geçmişi temizlenirken hata oluştu.")
+                }
+            }
+        }
+
+        function resetTVShowHistory() {
+            if (confirm('Dizi izleme geçmişini temizlemek istediğinizden emin misiniz? Bu işlem geri alınamaz.')) {
+                try {
+                    const WATCH_HISTORY_KEY = "watchHistory"
+                    const history = JSON.parse(localStorage.getItem(WATCH_HISTORY_KEY)) || { movies: [], tvShows: [] }
+                    history.tvShows = []
+                    localStorage.setItem(WATCH_HISTORY_KEY, JSON.stringify(history))
+                    loadWatchedTVShows(history.tvShows)
+                    console.log("✅ TV show history reset successfully")
+                } catch (error) {
+                    console.error("❌ Error resetting TV show history:", error)
+                    alert("Dizi geçmişi temizlenirken hata oluştu.")
+                }
+            }
+        }
+    </script>
+</body>
+</html>

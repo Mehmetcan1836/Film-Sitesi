@@ -169,6 +169,80 @@ function goHome() {
   showSection("home")
 }
 
+// Navigate to detail page
+function goToDetailPage(mediaId, mediaType) {
+  window.location.href = `detail.html?id=${mediaId}&type=${mediaType}`
+}
+
+function playMovie(movieId) {
+  // Show loading spinner
+  document.getElementById('videoPlayerSection').style.display = 'block';
+  document.getElementById('videoContent').innerHTML = `
+    <div class="loading-spinner">
+      <div class="spinner"></div>
+      <span>Video yükleniyor...</span>
+    </div>
+  `;
+
+  // Scroll to player
+  document.getElementById('videoPlayerSection').scrollIntoView({ behavior: 'smooth' });
+
+  // Fetch movie details
+  fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&language=tr-TR`)
+    .then(response => response.json())
+    .then(movie => {
+      document.getElementById('playerTitle').textContent = movie.title;
+
+      // Get video sources
+      return fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${API_KEY}&language=tr-TR`);
+    })
+    .then(response => response.json())
+    .then(data => {
+      const videos = data.results;
+      let videoUrl = null;
+
+      // Try to find Turkish video first, then English
+      const turkishVideo = videos.find(v => v.site === 'YouTube' && (v.name.toLowerCase().includes('türkçe') || v.name.toLowerCase().includes('trailer')));
+      const englishVideo = videos.find(v => v.site === 'YouTube');
+
+      if (turkishVideo) {
+        videoUrl = `https://www.youtube.com/embed/${turkishVideo.key}?autoplay=1&rel=0`;
+      } else if (englishVideo) {
+        videoUrl = `https://www.youtube.com/embed/${englishVideo.key}?autoplay=1&rel=0`;
+      }
+
+      if (videoUrl) {
+        document.getElementById('videoContent').innerHTML = `
+          <iframe class="video-iframe" src="${videoUrl}" frameborder="0" allowfullscreen></iframe>
+        `;
+      } else {
+        document.getElementById('videoContent').innerHTML = `
+          <div class="loading-spinner">
+            <span>Video bulunamadı</span>
+          </div>
+        `;
+      }
+    })
+    .catch(error => {
+      console.error('Error loading movie video:', error);
+      document.getElementById('videoContent').innerHTML = `
+        <div class="loading-spinner">
+          <span>Video yüklenirken hata oluştu</span>
+        </div>
+      `;
+    });
+}
+
+function hidePlayer() {
+  document.getElementById('videoPlayerSection').style.display = 'none';
+  document.getElementById('videoContent').innerHTML = `
+    <div class="loading-spinner">
+      <div class="spinner"></div>
+      <span>Video yükleniyor...</span>
+    </div>
+  `;
+}
+
 // Initialize the app
 document.addEventListener("DOMContentLoaded", () => {
   console.log("🚀 Initializing Movie Streaming App")
@@ -1139,12 +1213,12 @@ function createMediaHTML(media, type) {
     const mediaType = media.media_type || type
 
     return `
-      <div class="movie-card" onclick="showMediaDetails(${media.id}, '${mediaType}')">
+      <div class="movie-card" onclick="goToDetailPage(${media.id}, '${mediaType}')">
         <div class="media-poster-container">
-          <img src="${posterUrl}" 
-               alt="${title}" 
-               class="media-poster" 
-               loading="lazy" 
+          <img src="${posterUrl}"
+               alt="${title}"
+               class="media-poster"
+               loading="lazy"
                onerror="this.src='/placeholder.svg?height=450&width=300'; this.onerror=null;">
           <div class="media-overlay">
             <i class="fas fa-play play-icon"></i>
@@ -1170,156 +1244,8 @@ function createMediaHTML(media, type) {
 }
 
 // Show Media Details
-async function showMediaDetails(mediaId, mediaType) {
-  try {
-    console.log(`🎬 Loading details for ${mediaType} ID: ${mediaId}`)
-
-    const endpoint = mediaType === "movie" ? "movie" : "tv"
-    const response = await fetch(
-      `${BASE_URL}/${endpoint}/${mediaId}?api_key=${API_KEY}&language=tr-TR&append_to_response=credits,recommendations`,
-    )
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
-
-    const media = await response.json()
-    currentMedia = { ...media, media_type: mediaType }
-
-    const backdropUrl = media.backdrop_path
-      ? `${BACKDROP_BASE_URL}${media.backdrop_path}`
-      : "/placeholder.svg?height=300&width=800"
-
-    const genres = media.genres
-      ? media.genres.map((genre) => `<span class="genre-badge">${genre.name}</span>`).join("")
-      : ""
-
-    const director =
-      media.credits && media.credits.crew ? media.credits.crew.find((person) => person.job === "Director") : null
-    // Create actors section with circular images
-    let actorsSection = ""
-    if (media.credits && media.credits.cast && media.credits.cast.length > 0) {
-      const actors = media.credits.cast.slice(0, 10) // Show up to 10 actors
-      actorsSection = `
-        <div class="actors-section mt-4">
-          <h5><i class="fas fa-users me-2"></i>Oyuncular</h5>
-          <div class="actors-grid">
-            ${actors.map(actor => {
-              const profileUrl = actor.profile_path
-                ? `${IMAGE_BASE_URL}${actor.profile_path}`
-                : "/placeholder.svg?height=100&width=100"
-              return `
-                <div class="actor-item" onclick="showActorDetails(${actor.id})">
-                  <div class="actor-image-container">
-                    <img src="${profileUrl}" alt="${actor.name}" class="actor-image" onerror="this.src='/placeholder.svg?height=100&width=100'">
-                  </div>
-                  <div class="actor-name">${actor.name}</div>
-                </div>
-              `
-            }).join("")}
-          </div>
-        </div>
-      `
-    }
-
-    const title = media.title || media.name
-    const releaseDate = media.release_date || media.first_air_date
-    const year = releaseDate ? new Date(releaseDate).getFullYear() : "Unknown"
-
-    let watchButton = ""
-    let seasonSelector = ""
-    let recommendationsHTML = ""
-
-    if (mediaType === "movie") {
-      watchButton = `<button class="watch-btn" onclick="playMedia(${mediaId}, 'movie')">
-                <i class="fas fa-play"></i>İzle
-            </button>`
-    } else {
-      currentSeasons = media.seasons || []
-      if (currentSeasons.length > 0) {
-        const firstSeason = currentSeasons.find((s) => s.season_number > 0) || currentSeasons[0]
-        seasonSelector = `
-                    <div class="season-selector mb-3">
-                        <label for="seasonSelect" class="form-label"><strong>Sezon Seçin:</strong></label>
-                        <select class="form-select" id="seasonSelect" onchange="loadEpisodes(${mediaId}, this.value)">
-                            ${currentSeasons
-                              .map(
-                                (season) =>
-                                  `<option value="${season.season_number}" ${season.season_number === firstSeason.season_number ? "selected" : ""}>
-                                    Sezon ${season.season_number} (${season.episode_count} bölüm)
-                                </option>`,
-                              )
-                              .join("")}
-                        </select>
-                    </div>
-                    <div id="episodesList"></div>
-                `
-      }
-    }
-
-    // Önerilen içerikler
-    if (media.recommendations && media.recommendations.results && media.recommendations.results.length > 0) {
-      const recommendations = media.recommendations.results.slice(0, 6)
-      recommendationsHTML = `
-                <div class="recommendations-section mt-4">
-                    <h5><i class="fas fa-thumbs-up me-2"></i>Önerilen ${mediaType === "movie" ? "Filmler" : "Diziler"}</h5>
-                    <div class="recommendations-grid">
-                        ${recommendations.map(rec => {
-                          const recPoster = rec.poster_path ? `${IMAGE_BASE_URL}${rec.poster_path}` : "/placeholder.svg?height=200&width=150"
-                          const recTitle = rec.title || rec.name
-                          return `
-                            <div class="recommendation-item" onclick="showMediaDetails(${rec.id}, '${mediaType}')">
-                                <img src="${recPoster}" alt="${recTitle}" onerror="this.src='/placeholder.svg?height=200&width=150'">
-                                <div class="rec-title">${recTitle}</div>
-                            </div>
-                          `
-                        }).join("")}
-                    </div>
-                </div>
-            `
-    }
-
-    const modalContent = `
-            <img src="${backdropUrl}" alt="${title}" class="media-backdrop" onerror="this.src='/placeholder.svg?height=300&width=800'">
-            <h4>${title}</h4>
-            <div class="mb-3">
-                <div class="d-flex align-items-center mb-2 flex-wrap">
-                    <div class="rating-stars me-3">
-                        <i class="fas fa-star"></i>
-                        <span>${media.vote_average ? media.vote_average.toFixed(1) : "N/A"}/10</span>
-                    </div>
-                    <span class="me-3"><i class="fas fa-calendar me-1"></i>${year}</span>
-                    ${media.runtime ? `<span class="me-3"><i class="fas fa-clock me-1"></i>${media.runtime} dk</span>` : ""}
-                    ${media.number_of_seasons ? `<span class="me-3"><i class="fas fa-list me-1"></i>${media.number_of_seasons} sezon</span>` : ""}
-                </div>
-                <div class="mb-3">${genres}</div>
-                ${watchButton}
-            </div>
-            <p><strong>Özet:</strong> ${media.overview || "Özet bulunamadı."}</p>
-            ${director ? `<p><strong>Yönetmen:</strong> ${director.name}</p>` : ""}
-            ${actorsSection}
-            ${seasonSelector}
-            ${recommendationsHTML}
-        `
-
-    const modalTitle = document.getElementById("modalTitle")
-    const modalBody = document.getElementById("modalBody")
-
-    if (modalTitle) modalTitle.textContent = title
-    if (modalBody) modalBody.innerHTML = modalContent
-
-    mediaModal.show()
-
-    if (mediaType === "tv" && currentSeasons.length > 0) {
-      const firstSeason = currentSeasons.find((s) => s.season_number > 0) || currentSeasons[0]
-      loadEpisodes(mediaId, firstSeason.season_number)
-    }
-
-    console.log("✅ Media details loaded successfully")
-  } catch (error) {
-    console.error("❌ Error loading media details:", error)
-    alert("Detaylar yüklenirken hata oluştu. Tekrar deneyin.")
-  }
+function showMediaDetails(mediaId, mediaType) {
+  goToDetailPage(mediaId, mediaType)
 }
 
 // Load Episodes for TV Show
@@ -1376,16 +1302,101 @@ function playMedia(mediaId, mediaType, season = null, episode = null) {
   let vidsrcUrl = ""
   let playerTitle = ""
 
+  // Helper function to save watch history to localStorage
+  function saveWatchHistory(entry) {
+    try {
+      const WATCH_HISTORY_KEY = "watchHistory"
+      let history = JSON.parse(localStorage.getItem(WATCH_HISTORY_KEY)) || { movies: [], tvShows: [] }
+
+      if (entry.mediaType === "movie") {
+        // Check if movie already exists in history
+        const existingIndex = history.movies.findIndex(m => m.id === entry.id)
+        if (existingIndex !== -1) {
+          // Update watchedAt if newer
+          if (new Date(entry.watchedAt) > new Date(history.movies[existingIndex].watchedAt)) {
+            history.movies[existingIndex] = entry
+          }
+        } else {
+          history.movies.push(entry)
+        }
+      } else if (entry.mediaType === "tv") {
+        // TV shows stored as array of shows with seasons and episodes
+        const showIndex = history.tvShows.findIndex(s => s.id === entry.id)
+        if (showIndex === -1) {
+          // New show entry
+          history.tvShows.push({
+            id: entry.id,
+            title: entry.title,
+            poster: entry.poster,
+            seasons: {
+              [entry.season]: {
+                episode: entry.episode,
+                episodeTitle: entry.episodeTitle,
+                watchedAt: entry.watchedAt
+              }
+            }
+          })
+        } else {
+          // Existing show, update seasons
+          const show = history.tvShows[showIndex]
+          if (!show.seasons[entry.season]) {
+            show.seasons[entry.season] = {
+              episode: entry.episode,
+              episodeTitle: entry.episodeTitle,
+              watchedAt: entry.watchedAt
+            }
+          } else {
+            // Update if this watchedAt is newer
+            if (new Date(entry.watchedAt) > new Date(show.seasons[entry.season].watchedAt)) {
+              show.seasons[entry.season] = {
+                episode: entry.episode,
+                episodeTitle: entry.episodeTitle,
+                watchedAt: entry.watchedAt
+              }
+            }
+          }
+          history.tvShows[showIndex] = show
+        }
+      }
+
+      localStorage.setItem(WATCH_HISTORY_KEY, JSON.stringify(history))
+    } catch (error) {
+      console.error("❌ Watch history save error:", error)
+    }
+  }
+
   if (mediaType === "movie") {
     vidsrcUrl = `${VIDSRC_BASE_URL}/v2/embed/movie/${mediaId}`
     playerTitle = `Playing: ${currentMedia.title || "Movie"}`
     currentSeason = null
     currentEpisode = null
+
+    // Save movie watch history
+    saveWatchHistory({
+      id: mediaId,
+      title: currentMedia.title || "",
+      poster: currentMedia.poster_path ? `${IMAGE_BASE_URL}${currentMedia.poster_path}` : "",
+      mediaType: "movie",
+      watchedAt: new Date().toISOString()
+    })
+
   } else if (mediaType === "tv" && season !== null && episode !== null) {
     vidsrcUrl = `${VIDSRC_BASE_URL}/v2/embed/tv/${mediaId}/${season}/${episode}`
     playerTitle = `Playing: ${currentMedia.name || "TV Show"} - S${season}E${episode}`
     currentSeason = season
     currentEpisode = episode
+
+    // Save TV episode watch history
+    saveWatchHistory({
+      id: mediaId,
+      title: currentMedia.name || "",
+      poster: currentMedia.poster_path ? `${IMAGE_BASE_URL}${currentMedia.poster_path}` : "",
+      season: season,
+      episode: episode,
+      episodeTitle: currentMedia.overview || "",
+      mediaType: "tv",
+      watchedAt: new Date().toISOString(),
+    })
   }
 
   if (vidsrcUrl) {
@@ -1540,7 +1551,7 @@ async function showActorDetails(actorId) {
                 : "/placeholder.svg?height=200&width=150"
               const year = movie.release_date ? new Date(movie.release_date).getFullYear() : 'Bilinmiyor'
               return `
-                <div class="actor-item" onclick="showMediaDetails(${movie.id}, 'movie')">
+                <div class="actor-item" onclick="goToDetailPage(${movie.id}, 'movie')">
                   <div class="actor-image-container">
                     <img src="${posterUrl}" alt="${movie.title}" class="actor-image" onerror="this.src='/placeholder.svg?height=200&width=150'">
                   </div>
@@ -1566,7 +1577,7 @@ async function showActorDetails(actorId) {
                 : "/placeholder.svg?height=200&width=150"
               const year = show.first_air_date ? new Date(show.first_air_date).getFullYear() : 'Bilinmiyor'
               return `
-                <div class="actor-item" onclick="showMediaDetails(${show.id}, 'tv')">
+                <div class="actor-item" onclick="goToDetailPage(${show.id}, 'tv')">
                   <div class="actor-image-container">
                     <img src="${posterUrl}" alt="${show.name}" class="actor-image" onerror="this.src='/placeholder.svg?height=200&width=150'">
                   </div>

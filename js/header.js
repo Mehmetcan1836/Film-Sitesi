@@ -32,10 +32,16 @@ document.addEventListener("DOMContentLoaded", function () {
                   <span>Diziler</span>
                 </a>
               </li>
-              <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link ${window.location.pathname === '/filmler.html' ? 'active' : ''}" href="/filmler.html">
                   <i class="fas fa-film d-lg-none d-inline-block"></i>
                   <span>Filmler</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link ${window.location.pathname === '/izleme-gecmisi.html' ? 'active' : ''}" href="/izleme-gecmisi.html">
+                  <i class="fas fa-history d-lg-none d-inline-block"></i>
+                  <span>İzleme Geçmişi</span>
                 </a>
               </li>
               <li class="nav-item dropdown">
