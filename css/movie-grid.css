@@ -10,6 +10,7 @@
   box-sizing: border-box;
 }
 
+
 /* Movie Card - New Version */
 .movie-card {
   position: relative;
@@ -32,6 +33,18 @@
 
 /* NOTE: Media Poster Container, Media Overlay, Play Icon styles are defined in style.css */
 /* Removed duplicates to avoid CSS cascade conflicts */
+
+.actor-image-container img,
+.recommendation-item img,
+.media-poster-container img,
+.actor-image,
+.episode-poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+} 
 
 /* Media Info */
 .media-info {

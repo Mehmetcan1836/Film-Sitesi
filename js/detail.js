@@ -485,10 +485,9 @@ function goToDetail(mediaId, mediaType) {
     window.location.href = `detail.html?id=${mediaId}&type=${mediaType}`
 }
 
-// Show actor details (opens in new tab for now)
 function showActorDetails(actorId) {
-    // For now, just show an alert. Could be expanded to show actor details
-    alert("Aktör detayları yakında eklenecek!")
+    // Navigate to actor detail page passing actorId 
+    window.location.href = `actor-detail.html?id=${actorId}`;
 }
 
 // Show error

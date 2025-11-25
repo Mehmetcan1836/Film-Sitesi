@@ -1,257 +1,265 @@
-/* Header Styles */
-.main-header {
-    background: linear-gradient(180deg, rgba(20, 20, 20, 0.98) 0%, rgba(15, 15, 15, 0.95) 100%);
-    padding: 15px 0;
-    position: fixed;
+/* ===========================================
+   GENEL HEADER
+   =========================================== */
+header {
+    position: sticky;
     top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    box-shadow: 0 8px 25px rgba(229, 9, 20, 0.1), 0 4px 12px rgba(0, 0, 0, 0.4);
-    border-bottom: 1px solid rgba(229, 9, 20, 0.2);
-    backdrop-filter: blur(10px);
     width: 100%;
+    z-index: 99999 !important;
+    background: rgba(10,10,10,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
-/* Ensure body has top margin to account for fixed header */
-body {
-    margin-top: 80px;
+/* NAVBAR */
+.navbar {
+    padding: 8px 0;
 }
 
-.main-header .container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 15px;
-}
 
-/* Logo */
-.logo a {
-    color: #e50914;
-    font-size: 1.9rem;
-    font-weight: 800;
-    text-decoration: none;
-    letter-spacing: -0.5px;
-    text-shadow: 0 0 20px rgba(229, 9, 20, 0.3);
-}
-
-.logo a span {
+/* LOGO */
+.navbar-brand h1 {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: 1px;
     color: #fff;
-    letter-spacing: 0.5px;
+}
+.navbar-brand h1 span {
+    color: #e50914;
 }
 
-/* Navigation */
-.main-nav ul {
-    display: flex;
-    gap: 20px;
-}
-
-.main-nav a {
-    color: #c0c0c0;
-    text-decoration: none;
-    font-size: 0.95rem;
+/* ===========================================
+   NAV LINKS
+   =========================================== */
+.nav-link {
+    color: #ccc !important;
     font-weight: 500;
-    transition: all 0.3s ease;
+    padding: 10px 14px !important;
     display: flex;
     align-items: center;
     gap: 6px;
-    padding: 10px 14px;
-    border-radius: 6px;
+    transition: .3s;
 }
 
-.main-nav a:hover {
-    color: #e50914;
-    background: rgba(229, 9, 20, 0.1);
-    transform: translateY(-2px);
+.nav-link:hover {
+    color: #fff !important;
 }
 
-.main-nav a.active {
-    color: #e50914;
-    background: rgba(229, 9, 20, 0.15);
+.nav-link.active {
+    color: #fff !important;
+    border-bottom: 2px solid #e50914;
 }
 
-.main-nav i {
-    font-size: 1.1rem;
+/* ICONS on small */
+.nav-link i {
+    font-size: 15px;
 }
 
-/* Search Box */
+/* ===========================================
+   DROPDOWN MENU OPTIMIZE
+   =========================================== */
+.dropdown-menu {
+    background: #111 !important;
+    border: 1px solid #222 !important;
+    min-width: 180px;
+    z-index: 100000 !important;
+    max-height: 300px;     /* ekranı taşmasın */
+    overflow-y: auto;      /* scroll ekler */
+    overflow-x: hidden;
+}
+
+.dropdown-item {
+    color: #ccc !important;
+    padding: 10px 12px !important;
+    transition: .2s;
+}
+
+.dropdown-item:hover {
+    background: #e50914 !important;
+    color: #fff !important;
+}
+
+/* Fix dropdown hidden under header */
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+}
+
+/* ===========================================
+   DESKTOP SEARCH
+   =========================================== */
 .search-box {
-    flex: 1;
-    max-width: 500px;
-    position: relative;
-}
-
-.search-box form {
-    display: flex;
-    width: 100%;
+    max-width: 260px;
+    z-index: 10005 !important;
 }
 
 .search-input {
-    width: 100%;
-    padding: 11px 18px;
-    border: 2px solid rgba(229, 9, 20, 0.3);
-    border-radius: 6px 0 0 6px;
-    background: rgba(42, 42, 42, 0.6);
-    color: #fff;
-    font-size: 0.9rem;
-    outline: none;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(5px);
+    background: #1b1b1b !important;
+    border: 1px solid #333 !important;
+    color: #fff !important;
 }
-
 .search-input:focus {
-    border-color: #e50914;
-    background: rgba(42, 42, 42, 0.9);
-    box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.2);
+    border-color: #e50914 !important;
+    box-shadow: 0 0 0 0.1rem rgba(229, 9, 20, 0.4);
 }
 
 .search-btn {
-    background: linear-gradient(135deg, #e50914 0%, #c40811 100%);
-    border: none;
-    color: white;
-    padding: 0 18px;
-    border-radius: 0 6px 6px 0;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    font-size: 0.95rem;
+    background: #e50914 !important;
+    border: none !important;
+    color: #fff !important;
+    padding: 0 14px;
 }
 
-.search-btn:hover {
-    background: linear-gradient(135deg, #f40612 0%, #e50914 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(229, 9, 20, 0.3);
+/* ===========================================
+   MOBILE SEARCH BAR
+   =========================================== */
+.mobile-search {
+    display: none;
+    width: 100%;
+    padding: 12px;
+    background: #0d0d0d;
+    border-top: 1px solid #222;
+    position: relative;
+    z-index: 10002 !important;
+}
+.mobile-search.active {
+    display: block;
 }
 
-/* User Actions */
-.user-actions {
+.mobile-search form {
     display: flex;
     gap: 10px;
 }
 
-/* Mobile Menu Toggle */
-.mobile-menu-toggle {
-    display: none;
+.mobile-search input {
+    flex: 1;
+    background: #1b1b1b !important;
+    border: 1px solid #333 !important;
+    color: #fff !important;
+    padding-left: 12px;
+}
+
+.mobile-search-close {
     background: none;
     border: none;
-    color: var(--text-primary);
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 5px 10px;
+    color: #ddd;
+    font-size: 22px;
 }
 
-/* Responsive Styles */
-@media (max-width: 992px) {
-    body {
-        margin-top: 100px;
+/* ===========================================
+   NAVBAR COLLAPSE MOBILE
+   =========================================== */
+.navbar-toggler {
+    border-color: #fff;
+}
+.navbar-toggler-icon {
+    filter: invert(1);
+}
+
+.navbar-collapse {
+    padding: 15px;
+    z-index: 99999 !important;
+    position: relative;
+}
+
+.navbar-nav .nav-item {
+    margin-bottom: 5px;
+}
+
+/* ===========================================
+   MOBILE BUTTONS (APP + CONTACT hidden)
+   =========================================== */
+@media (max-width: 991px) {
+    .nav-extra-buttons {
+        width: 100%;
+        padding: 10px 15px;
+        display: block !important;
     }
-    
+}
+
+/* HEADER OVER CONTENT FIX */
+body {
+    padding-top: 70px; /* Sticky header içerikle çakışmasın */
+}
+
+/* SEARCH BAR OVERLAP FIX */
+.search-box,
+#searchInput
+#searchButton,
+#mobileSearchInput,
+#mobileSearchBtn {
+    position: relative;
+    z-index: 10002 !important;
+}
+
+/* GENRES MENU FIX */
+#genresMenu {
+    position: absolute;
+    z-index: 100000 !important;
+}
+
+/* Hover açılan dropdown'ın kesilmemesi için */
+.nav-item.dropdown {
+    position: relative;
+}
+
+/* ===========================================
+   MOBILE IMPROVEMENTS
+   =========================================== */
+
+@media(max-width: 768px) {
+
+    .navbar {
+        padding: 6px 0;
+    }
+
+    .navbar-brand h1 {
+        font-size: 22px;
+    }
+
     .search-box {
-        order: 3;
-        flex: 0 0 100%;
-        max-width: 100%;
-        margin-top: 10px;
+        display: none !important;
     }
-    
-    .main-nav {
-        display: none;
-    }
-    
-    .mobile-menu-toggle {
-        display: block;
-    }
-}
 
-@media (max-width: 992px) {
-    .user-actions {
-        display: flex !important;
+    .nav-link {
+        padding: 8px 10px !important;
+        font-size: 15px;
+    }
+
+    .dropdown-menu {
+        position: relative !important;
+        width: 100%;
+        border: none !important;
+    }
+
+    .dropdown-item {
+        padding: 12px 10px !important;
     }
 }
 
-@media (max-width: 576px) {
-    body {
-        margin-top: 90px;
+/* ===========================================
+   SMALL MOBILE FIX
+   =========================================== */
+@media(max-width: 450px) {
+    .navbar-brand h1 {
+        font-size: 20px;
     }
 
-    .logo a {
-        font-size: 1.5rem;
+    .navbar-toggler {
+        padding: 0.25rem;
     }
 }
-
-/* Additional scoped rules to ensure header is consistent when header markup
-   is injected dynamically (matches classes used in js/header.js). These
-   selectors are intentionally namespaced under .main-header to avoid
-   colliding with other site CSS. */
-.main-header .navbar-brand h1 {
-    margin: 0;
-    font-size: 1.9rem;
-    line-height: 1;
-    font-weight: 800;
-    color: var(--primary, #e50914);
+/* ===========================================
+   ADDITIONAL FIXES FOR NEW PAGES
+   =========================================== */
+/* Fix header z-index or layout issues if any for new pages */
+header.main-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1050;
+  background-color: #121212;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+  transition: background-color 0.3s ease;
 }
-
-.main-header .navbar-brand h1 span {
-    color: #fff;
-    font-weight: 700;
-}
-
-.main-header .nav-link {
-    color: #cfcfcf;
-    font-weight: 500;
-    padding: 10px 12px;
-    border-radius: 6px;
-    transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
-}
-.main-header .nav-link:hover {
-    color: var(--primary, #e50914);
-    background: rgba(229,9,20,0.06);
-    transform: translateY(-2px);
-}
-.main-header .nav-link.active {
-    color: var(--primary, #e50914);
-    background: rgba(229,9,20,0.12);
-}
-
-.main-header .search-btn, .main-header .search-btn i {
-    color: #fff;
-}
-
-.main-header .mobile-search {
-    display: none; /* desktop by default; toggled by JS */
-}
-
-.main-header .mobile-search.active {
-    display: block;
-}
-
-.main-header .dropdown-menu {
-    background: rgba(20,20,20,0.95);
-    border: 1px solid rgba(255,255,255,0.04);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
-    padding: 6px 0;
-}
-
-.main-header .dropdown-item {
-    color: #e5e5e5;
-    background: transparent;
-    padding: 8px 14px;
-    border: none;
-    text-align: left;
-}
-.main-header .dropdown-item:hover {
-    background: rgba(229,9,20,0.06);
-    color: #fff;
-}
-
-/* Ensure navbar toggler is visible but styled to match theme */
-.main-header .navbar-toggler {
-    border: 1px solid rgba(255,255,255,0.06);
-    background: rgba(255,255,255,0.02);
-}
-
-/* Small utility: make sure header elements don't overflow */
-.main-header .container { overflow: visible; }

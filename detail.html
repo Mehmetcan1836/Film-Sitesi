@@ -32,6 +32,19 @@
             line-height: 1.6;
         }
 
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 40px 0 30px 0;
+            padding: 0 20px;
+        }
+
+        .section-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0;
+        }
         .detail-hero {
             position: relative;
             height: 60vh;
@@ -453,6 +466,69 @@
                 gap: 15px;
             }
 
+            .episodes-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+        }
+        @media (max-width: 480px) {
+            .detail-hero {
+                height: 40vh;
+            }
+            .detail-content .row {
+                display: block;
+            }
+            .detail-content .col-md-3,
+            .detail-content .col-md-9 {
+                width: 100%;
+                max-width: 100%;
+            }
+            .detail-poster {
+                width: 100%;
+                height: auto;
+                max-height: 300px;
+                margin-bottom: 15px;
+                border-radius: 6px;
+            }
+            .detail-info h1 {
+                font-size: 1.5rem;
+                margin-bottom: 10px;
+            }
+            .detail-meta {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .genre-tags {
+                justify-content: flex-start;
+                gap: 8px;
+            }
+            .detail-description {
+                font-size: 0.9rem;
+                max-width: 100%;
+                margin-bottom: 20px;
+            }
+            .watch-btn, .back-btn {
+                width: 100%;
+                margin-bottom: 10px;
+                padding: 10px 0;
+                font-size: 1rem;
+            }
+            .watch-btn {
+                margin-right: 0;
+            }
+            .player-header {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .player-controls {
+                width: 100%;
+                justify-content: space-between;
+                margin-top: 10px;
+            }
+            .actors-grid, .recommendations-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
             .episodes-grid {
                 grid-template-columns: 1fr;
                 gap: 15px;

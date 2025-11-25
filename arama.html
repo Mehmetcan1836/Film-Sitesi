@@ -317,32 +317,88 @@ document.getElementById('loadMoreBtn').disabled=false;
 }
 
 // If a genre parameter is present, load by genre; otherwise perform normal search
-if (genreParam) {
-    // Update UI
-    document.getElementById('sq').textContent = genreNameParam ? genreNameParam : `Tür ${genreParam}`;
-    // Fetch movies and TV by genre
-    (async function searchByGenre() {
-        document.getElementById('sr').innerHTML = '<div style="text-align:center;padding:40px;color:#aaa">Yükleniyor...</div>';
+async function fetchAllPopular(page) {
+    try {
+        const [movieRes, tvRes] = await Promise.all([
+            fetch(`${B}/movie/popular?api_key=${API}&language=tr-TR&page=${page}`),
+            fetch(`${B}/tv/popular?api_key=${API}&language=tr-TR&page=${page}`)
+        ]);
+        const movieData = await movieRes.json();
+        const tvData = await tvRes.json();
+        const movies = movieData.results.map(x => ({ ...x, media_type: 'movie' }));
+        const tv = tvData.results.map(x => ({ ...x, media_type: 'tv' }));
+        const combined = [...movies, ...tv].sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+        return { results: combined, totalPages: Math.max(movieData.total_pages || 1, tvData.total_pages || 1) };
+    } catch (err) {
+        console.error('Fetching all popular failed', err);
+        return { results: [], totalPages: 1 };
+    }
+}
+
+async function searchByGenre(genres, page) {
+    try {
+        const [movieRes, tvRes] = await Promise.all([
+            fetch(`${B}/discover/movie?api_key=${API}&with_genres=${encodeURIComponent(genres)}&language=tr-TR&page=${page}`),
+            fetch(`${B}/discover/tv?api_key=${API}&with_genres=${encodeURIComponent(genres)}&language=tr-TR&page=${page}`)
+        ]);
+        const movieData = await movieRes.json();
+        const tvData = await tvRes.json();
+        const movies = movieData.results.map(x => ({ ...x, media_type: 'movie' }));
+        const tv = tvData.results.map(x => ({ ...x, media_type: 'tv' }));
+        const combined = [...movies, ...tv].sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+        return { results: combined, totalPages: Math.max(movieData.total_pages || 1, tvData.total_pages || 1) };
+    } catch (err) {
+        console.error('Genre search failed', err);
+        return { results: [], totalPages: 1 };
+    }
+}
+
+async function loadResults() {
+    document.getElementById('sr').innerHTML = '<div style="text-align:center;padding:40px;color:#aaa">Yükleniyor...</div>';
+    if (genreParam) {
+        document.getElementById('sq').textContent = genreNameParam ? genreNameParam : `Tür ${genreParam}`;
+        const { results, totalPages: tp } = await searchByGenre(genreParam, currentPage);
+        r = [...r, ...results];
+        totalPages = tp;
+        hasMoreResults = currentPage < totalPages;
+        render();
+    } else if (q) {
+        document.getElementById('sq').textContent = `"${q}"`;
         try {
             const [movieRes, tvRes] = await Promise.all([
-                fetch(`${B}/discover/movie?api_key=${API}&with_genres=${encodeURIComponent(genreParam)}&language=tr-TR&page=${currentPage}`),
-                fetch(`${B}/discover/tv?api_key=${API}&with_genres=${encodeURIComponent(genreParam)}&language=tr-TR&page=${currentPage}`)
+                fetch(`${B}/search/movie?api_key=${API}&query=${encodeURIComponent(q)}&page=${currentPage}`),
+                fetch(`${B}/search/tv?api_key=${API}&query=${encodeURIComponent(q)}&page=${currentPage}`)
             ]);
             const movieData = await movieRes.json();
             const tvData = await tvRes.json();
-            const movies = movieData.results.map(x => ({...x, media_type: 'movie'}));
-            const tv = tvData.results.map(x => ({...x, media_type: 'tv'}));
-            r = [...movies, ...tv].sort((a,b)=>(b.popularity||0)-(a.popularity||0));
+            const movies = movieData.results.map(x => ({ ...x, media_type: 'movie' }));
+            const tv = tvData.results.map(x => ({ ...x, media_type: 'tv' }));
+            r = [...r, ...movies, ...tv].sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
             totalPages = Math.max(movieData.total_pages || 1, tvData.total_pages || 1);
-            hasMoreResults = currentPage < totalPages && r.length >= 40;
+            hasMoreResults = currentPage < totalPages;
             render();
-        } catch (err) {
-            document.getElementById('sr').innerHTML = '<div class="no-results">Yüklenemedi</div>';
-            console.error('Genre search failed', err);
+        } catch (e) {
+            document.getElementById('sr').innerHTML = '<div class="no-results">Hata</div>';
         }
-    })();
-} else {
-    search();
+    } else {
+        document.getElementById('sq').textContent = 'Popüler İçerikler';
+        const { results, totalPages: tp } = await fetchAllPopular(currentPage);
+        r = [...r, ...results];
+        totalPages = tp;
+        hasMoreResults = currentPage < totalPages;
+        render();
+    }
+}
+
+loadResults();
+
+async function loadMore() {
+    currentPage++;
+    document.getElementById('loadMoreBtn').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Yükleniyor...';
+    document.getElementById('loadMoreBtn').disabled = true;
+    await loadResults();
+    document.getElementById('loadMoreBtn').innerHTML = 'Daha Fazla Göster';
+    document.getElementById('loadMoreBtn').disabled = false;
 }
     </script>
 </body>

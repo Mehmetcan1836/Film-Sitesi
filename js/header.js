@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
           </button>
 
           <div class="collapse navbar-collapse" id="navbarNav">
+          
             <ul class="navbar-nav me-auto">
               <li class="nav-item">
                 <a class="nav-link ${window.location.pathname === '/index.html' || window.location.pathname === '/' ? 'active' : ''}" href="/index.html">
@@ -32,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   <span>Diziler</span>
                 </a>
               </li>
-            <li class="nav-item">
+              <li class="nav-item">
                 <a class="nav-link ${window.location.pathname === '/filmler.html' ? 'active' : ''}" href="/filmler.html">
                   <i class="fas fa-film d-lg-none d-inline-block"></i>
                   <span>Filmler</span>
@@ -44,6 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   <span>İzleme Geçmişi</span>
                 </a>
               </li>
+          
               <li class="nav-item dropdown">
                 <a class="nav-link" href="#" id="genresToggle" role="button" aria-expanded="false">
                   <i class="fas fa-tags d-lg-none d-inline-block"></i>
@@ -66,12 +68,12 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
 
             <!-- User Actions (inside collapse for mobile menu) -->
-            <div class="user-actions d-lg-flex d-none">
+            <div class="user-actions d-lg-flex d-block">
               <a href="https://mehmetcan1836.github.io/dizicomdownloader/" target="_blank" class="btn btn-primary">
                 <i class="fas fa-mobile-alt me-1"></i>
                 <span class="d-none d-md-inline">Uygulama</span>
               </a>
-              <a href="/iletişim.html" class="btn btn-outline">
+              <a href="/iletişim.html" class="btn btn-outline ms-lg-2">
                 <i class="fas fa-envelope me-1"></i>
                 <span class="d-none d-md-inline">İletişim</span>
               </a>
