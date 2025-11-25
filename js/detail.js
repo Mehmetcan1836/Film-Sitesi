@@ -10,6 +10,7 @@ let currentMedia = null
 let currentSeasons = []
 let currentSeason = null
 let currentEpisode = null
+let movieTrailers = []
 
 // Get URL parameters
 function getUrlParameter(name) {
@@ -157,8 +158,21 @@ function displayMediaDetails(media, mediaType) {
 
     // Setup watch button
     const watchBtn = document.getElementById("watchBtn")
+    const trailerBtn = document.getElementById("trailerBtn")
     if (mediaType === "movie") {
         watchBtn.onclick = () => playMedia(media.id, 'movie')
+        // Always show trailer button for movies, fetch trailers
+        trailerBtn.style.display = "inline-block"
+        fetchMovieTrailers(media.id).then(trailers => {
+            movieTrailers = trailers
+            if (trailers.length > 0) {
+                trailerBtn.onclick = () => playTrailer(trailers[0])
+                trailerBtn.style.opacity = "1"
+            } else {
+                trailerBtn.onclick = () => alert("Bu film için fragman bulunamadı.")
+                trailerBtn.style.opacity = "0.5"
+            }
+        })
     } else {
         watchBtn.onclick = () => showEpisodesSection()
     }
@@ -232,13 +246,20 @@ function loadSeasons(tvId) {
     document.getElementById("episodesSection").style.display = "block"
 
     const seasonButtons = document.getElementById("seasonButtons")
-    seasonButtons.innerHTML = currentSeasons
+    let buttonsHTML = currentSeasons
         .filter(season => season.season_number > 0)
         .map(season => `
             <button class="season-btn" onclick="loadEpisodes(${tvId}, ${season.season_number})">
                 Sezon ${season.season_number}
             </button>
         `).join("")
+
+    // Add Fragmanlar button
+    buttonsHTML += `<button class="season-btn" onclick="showTVTrailers(${tvId})" style="background: rgba(229,9,20,0.2); color: #e50914; border-color: rgba(229,9,20,0.3);">
+        <i class="fas fa-film"></i> Fragmanlar
+    </button>`
+
+    seasonButtons.innerHTML = buttonsHTML
 
     // Load first season by default
     const firstSeason = currentSeasons.find(s => s.season_number > 0)
@@ -509,6 +530,178 @@ function goToDetail(mediaId, mediaType) {
 function showActorDetails(actorId) {
     // Navigate to actor detail page passing actorId 
     window.location.href = `actor-detail.html?id=${actorId}`;
+}
+
+// Fetch movie trailers
+async function fetchMovieTrailers(movieId) {
+    try {
+        const response = await fetch(`${BASE_URL}/movie/${movieId}/videos?api_key=${API_KEY}`)
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
+        const data = await response.json()
+        return data.results.filter(video => (video.type === "Trailer" || video.type === "Teaser" || video.type === "Clip") && video.site === "YouTube")
+    } catch (error) {
+        console.error("Error fetching movie trailers:", error)
+        return []
+    }
+}
+
+// Fetch TV show trailers (show-level and season-specific)
+async function fetchTVTrailers(tvId) {
+    try {
+        const trailers = []
+        console.log(`Fetching trailers for TV show ID: ${tvId}`)
+
+        // Try Turkish first, then English if no results
+        const languages = ['tr-TR', 'en-US']
+
+        for (const lang of languages) {
+            const showResponse = await fetch(`${BASE_URL}/tv/${tvId}/videos?api_key=${API_KEY}&language=${lang}`)
+            if (showResponse.ok) {
+                const showData = await showResponse.json()
+                console.log(`Show trailers in ${lang}:`, showData.results.length)
+                const showTrailers = showData.results.filter(video =>
+                    (video.type === "Trailer" || video.type === "Teaser" || video.type === "Clip" ||
+                     video.type === "Featurette" || video.type === "Opening Credits" || video.type === "Behind the Scenes") &&
+                    video.site === "YouTube"
+                )
+                if (showTrailers.length > 0) {
+                    trailers.push({
+                        season: 0, // Show-level trailers
+                        videos: showTrailers
+                    })
+                    console.log(`Found ${showTrailers.length} show-level trailers in ${lang}`)
+                    break // Stop trying other languages if we found trailers
+                }
+            }
+        }
+
+        // Fetch season-specific trailers (only for recent seasons to avoid too many API calls)
+        const recentSeasons = currentSeasons
+            .filter(s => s.season_number > 0)
+            .sort((a, b) => b.season_number - a.season_number)
+            .slice(0, 3) // Only check the 3 most recent seasons
+
+        for (const season of recentSeasons) {
+            for (const lang of languages) {
+                const response = await fetch(`${BASE_URL}/tv/${tvId}/season/${season.season_number}/videos?api_key=${API_KEY}&language=${lang}`)
+                if (response.ok) {
+                    const data = await response.json()
+                    console.log(`Season ${season.season_number} trailers in ${lang}:`, data.results.length)
+                    const seasonTrailers = data.results.filter(video =>
+                        (video.type === "Trailer" || video.type === "Teaser" || video.type === "Clip" ||
+                         video.type === "Featurette" || video.type === "Opening Credits" || video.type === "Behind the Scenes") &&
+                        video.site === "YouTube"
+                    )
+                    if (seasonTrailers.length > 0) {
+                        trailers.push({
+                            season: season.season_number,
+                            videos: seasonTrailers
+                        })
+                        console.log(`Found ${seasonTrailers.length} season ${season.season_number} trailers in ${lang}`)
+                        break // Stop trying other languages for this season
+                    }
+                }
+            }
+        }
+
+        console.log(`Total trailer groups found: ${trailers.length}`)
+        return trailers
+    } catch (error) {
+        console.error("Error fetching TV trailers:", error)
+        return []
+    }
+}
+
+// Show TV trailers
+async function showTVTrailers(tvId) {
+    try {
+        // Update active season button
+        const seasonBtns = document.querySelectorAll(".season-btn")
+        seasonBtns.forEach(btn => btn.classList.remove("active"))
+        if (event && event.target) {
+            event.target.classList.add("active")
+        }
+
+        const episodesGrid = document.getElementById("episodesGrid")
+
+        // Show loading
+        episodesGrid.innerHTML = `
+            <div class="loading-spinner">
+                <div class="spinner"></div>
+                <span>Fragmanlar yükleniyor...</span>
+            </div>
+        `
+
+        const trailers = await fetchTVTrailers(tvId)
+
+        if (trailers.length === 0) {
+            episodesGrid.innerHTML = '<p class="text-muted">Bu dizi için fragman bulunamadı.</p>'
+            return
+        }
+
+        // Create a global array to store trailer data
+        window.currentTrailers = trailers
+
+        episodesGrid.innerHTML = trailers.map((trailerGroup, groupIndex) => {
+            const seasonTrailers = trailerGroup.videos.map((trailer, trailerIndex) => `
+                <div class="episode-card" onclick="playTrailerByIndex(${groupIndex}, ${trailerIndex})">
+                    <div class="episode-poster" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-play-circle" style="font-size: 3rem; color: white;"></i>
+                    </div>
+                    <div class="episode-info">
+                        <div class="episode-number">Sezon ${trailerGroup.season} Fragmanı</div>
+                        <div class="episode-title">${trailer.name || `Sezon ${trailerGroup.season} Fragmanı`}</div>
+                        <div class="episode-overview">YouTube'da izle</div>
+                    </div>
+                </div>
+            `).join("")
+
+            return seasonTrailers
+        }).join("")
+
+        console.log(`Loaded ${trailers.length} trailer groups`)
+    } catch (error) {
+        console.error("Error loading TV trailers:", error)
+        document.getElementById("episodesGrid").innerHTML = '<p class="text-muted">Fragmanlar yüklenirken hata oluştu.</p>'
+    }
+}
+
+// Play trailer by index from global trailers array
+function playTrailerByIndex(groupIndex, trailerIndex) {
+    if (!window.currentTrailers || !window.currentTrailers[groupIndex] ||
+        !window.currentTrailers[groupIndex].videos[trailerIndex]) {
+        console.error("Trailer not found at indices:", groupIndex, trailerIndex)
+        return
+    }
+
+    const trailer = window.currentTrailers[groupIndex].videos[trailerIndex]
+    playTrailer(trailer)
+}
+
+// Play trailer
+function playTrailer(trailer) {
+    if (!trailer || !trailer.key) return
+
+    const youtubeUrl = `https://www.youtube.com/embed/${trailer.key}?autoplay=1&rel=0`
+    const playerTitle = `${currentMedia.title || currentMedia.name} - Fragman`
+
+    // Show player section
+    document.getElementById("contentSections").style.display = "none"
+    document.getElementById("videoPlayerSection").style.display = "block"
+
+    // Set player title
+    document.getElementById("playerTitle").textContent = playerTitle
+
+    // Hide episode navigation
+    document.getElementById("prevEpisodeBtn").style.display = "none"
+    document.getElementById("nextEpisodeBtn").style.display = "none"
+
+    // Load trailer
+    const videoContent = document.getElementById("videoContent")
+    videoContent.innerHTML = `<iframe src="${youtubeUrl}" class="video-iframe" allowfullscreen></iframe>`
+
+    // Scroll to player
+    document.getElementById("videoPlayerSection").scrollIntoView({ behavior: "smooth" })
 }
 
 // Show error
