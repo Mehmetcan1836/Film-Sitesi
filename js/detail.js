@@ -126,7 +126,28 @@ function displayMediaDetails(media, mediaType) {
     }
 
     // Set overview
-    document.getElementById("detailOverview").textContent = media.overview || "Özet bulunamadı."
+    const overviewElement = document.getElementById("detailOverview")
+    const seeMoreBtn = document.getElementById("seeMoreBtn")
+    const overviewText = media.overview || "Özet bulunamadı."
+
+    overviewElement.textContent = overviewText
+
+    // Check if overview is long enough to need "see more" button
+    if (overviewText.length > 150) {
+        seeMoreBtn.style.display = "inline-block"
+        seeMoreBtn.textContent = "Devamını Gör"
+        seeMoreBtn.onclick = function() {
+            if (overviewElement.classList.contains("expanded")) {
+                overviewElement.classList.remove("expanded")
+                seeMoreBtn.textContent = "Devamını Gör"
+            } else {
+                overviewElement.classList.add("expanded")
+                seeMoreBtn.textContent = "Küçült"
+            }
+        }
+    } else {
+        seeMoreBtn.style.display = "none"
+    }
 
     // Load cast
     loadCast(media.credits)

@@ -47,7 +47,8 @@
         }
         .detail-hero {
             position: relative;
-            height: 60vh;
+            min-height: 60vh;
+            height: auto;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -127,8 +128,34 @@
         .detail-description {
             max-width: 800px;
             line-height: 1.7;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
             color: #ccc;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .detail-description.expanded {
+            display: block;
+            -webkit-line-clamp: unset;
+        }
+
+        .see-more-btn {
+            background: rgba(229,9,20,0.2);
+            color: #e50914;
+            border: 1px solid rgba(229,9,20,0.3);
+            padding: 5px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+        }
+
+        .see-more-btn:hover {
+            background: #e50914;
+            color: #fff;
         }
 
         .watch-btn {
@@ -572,6 +599,7 @@
                         </div>
                         <div id="genreTags" class="genre-tags"></div>
                         <p id="detailOverview" class="detail-description"></p>
+                        <button id="seeMoreBtn" class="see-more-btn" style="display: none;">Devamını Gör</button>
                         <div>
                             <button id="watchBtn" class="watch-btn">
                                 <i class="fas fa-play"></i> İzle
