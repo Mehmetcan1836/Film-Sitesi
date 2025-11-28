@@ -143,7 +143,7 @@ function loadVideo(mediaId, mediaType, season = null, episode = null) {
 
     // Load vidsrc embed
     videoContent.innerHTML = `
-        <iframe src="${vidsrcUrl}" style="width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
+        <iframe src="${vidsrcUrl}" style="width: 100%; height: 100%; border: none; object-fit: contain;" allowfullscreen></iframe>
     `
 
     // Update episode navigation
@@ -351,32 +351,7 @@ function loadComments(mediaId, mediaType) {
     if (storedComments) {
         comments = JSON.parse(storedComments)
     } else {
-        // Default comments if none stored
-        comments = [
-            {
-                id: 1,
-                author: "FilmSever123",
-                date: "2024-01-15",
-                text: "Harika bir bölüm! Kesinlikle beklediğim gibiydi.",
-                likes: 12
-            },
-            {
-                id: 2,
-                author: "DiziFan",
-                date: "2024-01-14",
-                text: "Oyuncular çok başarılı. Final sahnesi muhteşem!",
-                likes: 8
-            },
-            {
-                id: 3,
-                author: "SinemaMeraklısı",
-                date: "2024-01-13",
-                text: "Bu dizi gittikçe güzelleşiyor. Devamını merakla bekliyorum.",
-                likes: 15
-            }
-        ]
-        // Save default comments to localStorage
-        saveComments(mediaId, mediaType)
+        comments = []
     }
 
     displayComments()

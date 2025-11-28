@@ -183,6 +183,17 @@ body {
     padding-top: 70px; /* Sticky header içerikle çakışmasın */
 }
 
+/* PLAYER PAGE OVERRIDE */
+body.player-page {
+    padding-top: 0 !important;
+}
+
+body.player-page .player-container {
+    padding-top: 130px !important;
+}
+
+
+
 /* SEARCH BAR OVERLAP FIX */
 .search-box,
 #searchInput
