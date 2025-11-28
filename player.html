@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dizicom - Video Oynatıcı</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/movie-grid.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #141414;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        .player-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .video-section {
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        }
+
+        .video-header {
+            background: #141414;
+            padding: 20px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .title-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .back-btn-top {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .back-btn-top:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .video-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #fff;
+            margin: 0;
+        }
+
+        .video-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .control-btn {
+            background: rgba(229,9,20,0.2);
+            color: #e50914;
+            border: 1px solid rgba(229,9,20,0.3);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .control-btn:hover {
+            background: #e50914;
+            color: #fff;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            background: #000;
+            overflow: hidden;
+        }
+
+        .video-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            object-fit: contain;
+        }
+
+        .ad-section {
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid #333;
+        }
+
+        .ad-placeholder {
+            background: #333;
+            height: 90px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .episode-navigation {
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #333;
+        }
+
+        .episode-nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .episode-nav-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #e50914;
+            margin: 0;
+        }
+
+        .episode-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .episode-item {
+            background: #141414;
+            border-radius: 6px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid #333;
+        }
+
+        .episode-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(229,9,20,0.3);
+            border-color: #e50914;
+        }
+
+        .episode-poster {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+
+        .episode-info {
+            padding: 12px;
+        }
+
+        .episode-number {
+            color: #e50914;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .episode-title {
+            font-weight: 600;
+            color: #fff;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            line-height: 1.3;
+        }
+
+        .episode-desc {
+            color: #ccc;
+            font-size: 0.8rem;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .comments-section {
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #333;
+        }
+
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .comments-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #e50914;
+            margin: 0;
+        }
+
+        .comment-count {
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        .comment-form {
+            margin-bottom: 20px;
+        }
+
+        .comment-input {
+            width: 100%;
+            background: #141414;
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 12px;
+            color: #fff;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            resize: vertical;
+        }
+
+        .comment-input:focus {
+            outline: none;
+            border-color: #e50914;
+        }
+
+        .comment-submit {
+            background: #e50914;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+
+        .comment-submit:hover {
+            background: #ff0000;
+        }
+
+        .comment-item {
+            border-bottom: 1px solid #333;
+            padding: 15px 0;
+        }
+
+        .comment-item:last-child {
+            border-bottom: none;
+        }
+
+        .comment-author {
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .comment-date {
+            color: #666;
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+        }
+
+        .comment-text {
+            color: #ccc;
+            line-height: 1.5;
+        }
+
+        .related-section {
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #333;
+        }
+
+        .related-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #e50914;
+            margin-bottom: 20px;
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .related-item {
+            background: #141414;
+            border-radius: 6px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid #333;
+        }
+
+        .related-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(229,9,20,0.3);
+            border-color: #e50914;
+        }
+
+        .related-poster {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .related-info {
+            padding: 10px;
+        }
+
+        .related-item-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 5px;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .related-meta {
+            color: #ccc;
+            font-size: 0.8rem;
+        }
+
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 300px;
+            color: #fff;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #333;
+            border-top: 4px solid #e50914;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .player-container {
+                padding: 10px;
+            }
+
+            .video-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .video-controls {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .episode-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .related-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+        }
+    </style>
+
+    <link rel="stylesheet" href="css/header.css">
+</head>
+<body>
+    <!-- Header/Navbar -->
+    <div id="header-container"></div>
+
+    <!-- Main Content -->
+    <div class="player-container">
+
+        <!-- Video Section -->
+        <div class="video-section">
+            <div class="video-header">
+                <div class="title-section">
+                    <button onclick="history.back()" class="back-btn-top">
+                        <i class="fas fa-arrow-left"></i> Geri
+                    </button>
+                    <h1 id="videoTitle" class="video-title">Video Yükleniyor...</h1>
+                </div>
+                <div class="video-controls">
+                    <button id="prevEpisodeBtn" class="control-btn" style="display: none;">
+                        <i class="fas fa-arrow-left"></i> Önceki
+                    </button>
+                    <button id="nextEpisodeBtn" class="control-btn" style="display: none;">
+                        Sonraki <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="video-wrapper">
+                <div id="videoContent" class="loading">
+                    <div class="spinner"></div>
+                    <span>Video yükleniyor...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ad Section 1 -->
+        <div class="ad-section">
+            <div class="ad-placeholder">
+                Reklam Alanı
+            </div>
+        </div>
+
+        <!-- Episode Navigation (for TV shows) -->
+        <div id="episodeNavigation" class="episode-navigation" style="display: none;">
+            <div class="episode-nav-header">
+                <h2 class="episode-nav-title">
+                    <i class="fas fa-tv"></i> Bölümler
+                </h2>
+                <div id="seasonSelector" class="season-buttons">
+                    <!-- Season buttons will be loaded here -->
+                </div>
+            </div>
+            <div id="episodesGrid" class="episode-grid">
+                <!-- Episodes will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Ad Section 2 -->
+        <div class="ad-section">
+            <div class="ad-placeholder">
+                Reklam Alanı
+            </div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="comments-section">
+            <div class="comments-header">
+                <h2 class="comments-title">
+                    <i class="fas fa-comments"></i> Yorumlar
+                </h2>
+                <span id="commentCount" class="comment-count">0 yorum</span>
+            </div>
+
+            <form class="comment-form">
+                <textarea
+                    class="comment-input"
+                    placeholder="Yorumunuzu yazın..."
+                    rows="3"
+                ></textarea>
+                <button type="submit" class="comment-submit">Yorum Yap</button>
+            </form>
+
+            <div id="commentsList">
+                <!-- Comments will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Ad Section 3 -->
+        <div class="ad-section">
+            <div class="ad-placeholder">
+                Reklam Alanı
+            </div>
+        </div>
+
+        <!-- Related Content -->
+        <div class="related-section">
+            <h2 class="related-title">
+                <i class="fas fa-thumbs-up"></i> Benzer İçerikler
+            </h2>
+            <div id="relatedGrid" class="related-grid">
+                <!-- Related content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="background: #0f0f0f; padding: 40px 0; text-align: center; margin-top: 60px; border-top: 1px solid #222;">
+        <div class="container">
+            <p style="color: #999; margin-bottom: 15px; max-width: 900px; margin-left: auto; margin-right: auto; line-height: 1.6;">
+                Sitemize eklenen tüm dizi bölümlerinin videoları video barındırma sitelerinden alınarak eklenmektedir. Telif hakkı size ait olan eserlerin linkleri ile beraber
+                <strong>matypower18000@gmail.com</strong> e-posta adresinden bizimle irtibat kurduğunuz takdirde ilgili eser 3 iş günü içerisinde sitemizden kaldırılacaktır.
+            </p>
+
+            <p>
+                <a href="#" style="color: #e5e5e5; text-decoration: none; margin: 0 10px; transition: color 0.2s ease;">Yabancı Diziler</a>
+                <a href="#" style="color: #e5e5e5; text-decoration: none; margin: 0 10px; transition: color 0.2s ease;">Yerli Diziler</a>
+                <a href="#" style="color: #e5e5e5; text-decoration: none; margin: 0 10px; transition: color 0.2s ease;">Asya Dizileri</a>
+                <a href="#" style="color: #e5e5e5; text-decoration: none; margin: 0 10px; transition: color 0.2s ease;">Animasyonlar</a>
+                <a href="#" style="color: #e5e5e5; text-decoration: none; margin: 0 10px; transition: color 0.2s ease;">Gizlilik Politikası</a>
+            </p>
+
+            <p style="margin-bottom: 0; color: #666;">© 2024 Dizicom. Tüm Hakları Saklıdır.</p>
+
+            <div class="social-links" style="margin-top: 20px;">
+                <a href="#" target="_blank" title="Facebook" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; margin: 0 5px; transition: all 0.2s ease;">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" target="_blank" title="Twitter" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; margin: 0 5px; transition: all 0.2s ease;">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" target="_blank" title="Instagram" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; margin: 0 5px; transition: all 0.2s ease;">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="mailto:matypower18000@gmail.com" title="E-posta" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; margin: 0 5px; transition: all 0.2s ease;">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/header.js"></script>
+    <script src="js/player.js"></script>
+</body>
+</html>

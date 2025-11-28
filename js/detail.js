@@ -329,156 +329,87 @@ function showEpisodesSection() {
     document.getElementById("episodesSection").scrollIntoView({ behavior: "smooth" })
 }
 
-// Play media
+// Play media - Navigate to player page
 function playMedia(mediaId, mediaType, season = null, episode = null) {
-    let searchQuery = ""
-    let playerTitle = ""
+    // Save watch history
+    saveWatchHistory(mediaId, mediaType, season, episode)
 
-    // Helper function to save watch history to localStorage
-    function saveWatchHistory(entry) {
-        try {
-            const WATCH_HISTORY_KEY = "watchHistory"
-            let history = JSON.parse(localStorage.getItem(WATCH_HISTORY_KEY)) || { movies: [], tvShows: [] }
+    // Navigate to player page
+    let url = `player.html?id=${mediaId}&type=${mediaType}`
+    if (season !== null && episode !== null) {
+        url += `&season=${season}&episode=${episode}`
+    }
 
-            if (entry.mediaType === "movie") {
-                // Check if movie already exists in history
-                const existingIndex = history.movies.findIndex(m => m.id === entry.id)
-                if (existingIndex !== -1) {
-                    // Update watchedAt if newer
-                    if (new Date(entry.watchedAt) > new Date(history.movies[existingIndex].watchedAt)) {
-                        history.movies[existingIndex] = entry
-                    }
-                } else {
-                    history.movies.push(entry)
+    window.location.href = url
+}
+
+// Helper function to save watch history to localStorage
+function saveWatchHistory(mediaId, mediaType, season = null, episode = null) {
+    try {
+        const WATCH_HISTORY_KEY = "watchHistory"
+        let history = JSON.parse(localStorage.getItem(WATCH_HISTORY_KEY)) || { movies: [], tvShows: [] }
+
+        if (mediaType === "movie") {
+            // Check if movie already exists in history
+            const existingIndex = history.movies.findIndex(m => m.id === mediaId)
+            if (existingIndex !== -1) {
+                // Update watchedAt if newer
+                if (new Date() > new Date(history.movies[existingIndex].watchedAt)) {
+                    history.movies[existingIndex].watchedAt = new Date().toISOString()
                 }
-            } else if (entry.mediaType === "tv") {
-                // TV shows stored as array of shows with seasons and episodes
-                const showIndex = history.tvShows.findIndex(s => s.id === entry.id)
-                if (showIndex === -1) {
-                    // New show entry
-                    history.tvShows.push({
-                        id: entry.id,
-                        title: entry.title,
-                        poster: entry.poster,
-                        seasons: {
-                            [entry.season]: {
-                                episode: entry.episode,
-                                episodeTitle: entry.episodeTitle,
-                                watchedAt: entry.watchedAt
-                            }
-                        }
-                    })
-                } else {
-                    // Existing show, update seasons
-                    const show = history.tvShows[showIndex]
-                    if (!show.seasons[entry.season]) {
-                        show.seasons[entry.season] = {
-                            episode: entry.episode,
-                            episodeTitle: entry.episodeTitle,
-                            watchedAt: entry.watchedAt
-                        }
-                    } else {
-                        // Update if this watchedAt is newer
-                        if (new Date(entry.watchedAt) > new Date(show.seasons[entry.season].watchedAt)) {
-                            show.seasons[entry.season] = {
-                                episode: entry.episode,
-                                episodeTitle: entry.episodeTitle,
-                                watchedAt: entry.watchedAt
-                            }
-                        }
-                    }
-                    history.tvShows[showIndex] = show
-                }
+            } else {
+                history.movies.push({
+                    id: mediaId,
+                    title: currentMedia.title || "",
+                    poster: currentMedia.poster_path ? `https://image.tmdb.org/t/p/w500${currentMedia.poster_path}` : "",
+                    mediaType: "movie",
+                    watchedAt: new Date().toISOString()
+                })
             }
-
-            localStorage.setItem(WATCH_HISTORY_KEY, JSON.stringify(history))
-        } catch (error) {
-            console.error("❌ Watch history save error:", error)
+        } else if (mediaType === "tv") {
+            // TV shows stored as array of shows with seasons and episodes
+            const showIndex = history.tvShows.findIndex(s => s.id === mediaId)
+            if (showIndex === -1) {
+                // New show entry
+                history.tvShows.push({
+                    id: mediaId,
+                    title: currentMedia.name || "",
+                    poster: currentMedia.poster_path ? `https://image.tmdb.org/t/p/w500${currentMedia.poster_path}` : "",
+                    seasons: {
+                        [season]: {
+                            episode: episode,
+                            episodeTitle: "",
+                            watchedAt: new Date().toISOString()
+                        }
+                    }
+                })
+            } else {
+                // Existing show, update seasons
+                const show = history.tvShows[showIndex]
+                if (!show.seasons[season]) {
+                    show.seasons[season] = {
+                        episode: episode,
+                        episodeTitle: "",
+                        watchedAt: new Date().toISOString()
+                    }
+                } else {
+                    // Update if this watchedAt is newer
+                    if (new Date() > new Date(show.seasons[season].watchedAt)) {
+                        show.seasons[season] = {
+                            episode: episode,
+                            episodeTitle: "",
+                            watchedAt: new Date().toISOString()
+                        }
+                    }
+                }
+                history.tvShows[showIndex] = show
+            }
         }
+
+        localStorage.setItem(WATCH_HISTORY_KEY, JSON.stringify(history))
+    } catch (error) {
+        console.error("❌ Watch history save error:", error)
     }
-
-    if (mediaType === "movie") {
-        const title = currentMedia.title || "Film"
-        searchQuery = `${title} izle full hd türkçe dublaj`
-        playerTitle = title
-        currentSeason = null
-        currentEpisode = null
-
-        // Save movie watch history
-        saveWatchHistory({
-            id: mediaId,
-            title: currentMedia.title || "",
-            poster: currentMedia.poster_path ? `https://image.tmdb.org/t/p/w500${currentMedia.poster_path}` : "",
-            mediaType: "movie",
-            watchedAt: new Date().toISOString()
-        })
-
-    } else if (mediaType === "tv" && season !== null && episode !== null) {
-        const title = currentMedia.name || "Dizi"
-        searchQuery = `${title} sezon ${season} bölüm ${episode} izle full hd türkçe dublaj`
-        playerTitle = `${title} - S${season}E${episode}`
-        currentSeason = season
-        currentEpisode = episode
-
-        // Save TV episode watch history
-        saveWatchHistory({
-            id: mediaId,
-            title: currentMedia.name || "",
-            poster: currentMedia.poster_path ? `https://image.tmdb.org/t/p/w500${currentMedia.poster_path}` : "",
-            season: season,
-            episode: episode,
-            episodeTitle: currentMedia.overview || "",
-            mediaType: "tv",
-            watchedAt: new Date().toISOString(),
-        })
-    }
-
-    // Show player section
-    document.getElementById("contentSections").style.display = "none"
-    document.getElementById("videoPlayerSection").style.display = "block"
-
-    // Set player title
-    document.getElementById("playerTitle").textContent = playerTitle
-
-    // Show/hide episode navigation
-    const prevBtn = document.getElementById("prevEpisodeBtn")
-    const nextBtn = document.getElementById("nextEpisodeBtn")
-
-    if (mediaType === "tv") {
-        prevBtn.style.display = "inline-block"
-        nextBtn.style.display = "inline-block"
-        prevBtn.onclick = () => previousEpisode()
-        nextBtn.onclick = () => nextEpisode()
-    } else {
-        prevBtn.style.display = "none"
-        nextBtn.style.display = "none"
-    }
-
-    // Create vidsrc embed URL using TMDB ID
-    let vidsrcUrl = ""
-    if (mediaType === "movie") {
-        vidsrcUrl = `https://vidsrc.cc/v2/embed/movie/${mediaId}`
-    } else if (mediaType === "tv" && season !== null && episode !== null) {
-        vidsrcUrl = `https://vidsrc.cc/v2/embed/tv/${mediaId}/${season}/${episode}`
-    }
-
-    // Load vidsrc embed with dizipal alternative option
-    const videoContent = document.getElementById("videoContent")
-    videoContent.innerHTML = `
-        <div style="width: 100%; height: 100%; position: relative;">
-            <iframe src="${vidsrcUrl}" style="width: 100%; height: 500px; border: none;" allowfullscreen></iframe>
-            <div style="position: absolute; top: 10px; right: 10px; z-index: 10;">
-                <button onclick="loadDizipalAlternative(${mediaId}, '${mediaType}', ${season || 'null'}, ${episode || 'null'}, '${playerTitle}')" style="background: rgba(229,9,20,0.9); color: #fff; border: none; padding: 8px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">
-                    <i class="fas fa-play-circle"></i> Dizipal
-                </button>
-            </div>
-        </div>
-    `
-
-    // Scroll to player
-    document.getElementById("videoPlayerSection").scrollIntoView({ behavior: "smooth" })
-
-    console.log("Showing streaming options for:", playerTitle)
 }
 
 // Fallback search interface function
@@ -810,12 +741,12 @@ function loadDizipalAlternative(mediaId, mediaType, season, episode, playerTitle
         return
     }
 
-    // Create dizipal.xyz embed URL
+    // Create dizipal1514.com embed URL
     let dizipalUrl = ""
     if (mediaType === "movie") {
-        dizipalUrl = `https://dizipal.xyz/embed/${imdbId}`
+        dizipalUrl = `https://dizipal1514.com/embed/${imdbId}`
     } else if (mediaType === "tv" && season !== null && episode !== null) {
-        dizipalUrl = `https://dizipal.xyz/embed/${imdbId}/${season}/${episode}`
+        dizipalUrl = `https://dizipal1514.com/embed/${imdbId}/${season}/${episode}`
     }
 
     // Load dizipal embed with back to vidsrc option
