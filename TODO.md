@@ -1,4 +1,37 @@
-# Görevler: İzleme Geçmişi Özelliği ✅ TAMAMLANDI
+# Görevler: Arama Sayfasına Oyuncular Eklendi ✅ TAMAMLANDI
+
+## ✅ 1. Arama Filtresi Güncellemesi (arama.html)
+- Filtre butonlarına "Oyuncular" seçeneği eklendi
+- data-type="person" ile oyuncu filtresi tanımlandı
+
+## ✅ 2. Arama Fonksiyonu Güncellemesi
+- search() fonksiyonuna TMDB person API çağrısı eklendi
+- loadMore() fonksiyonuna oyuncu arama desteği eklendi
+- loadResults() fonksiyonuna oyuncu arama desteği eklendi
+
+## ✅ 3. Render Fonksiyonu Güncellemesi
+- Oyuncular için özel görüntüleme mantığı eklendi
+- profile_path kullanımı (poster_path yerine)
+- name kullanımı (title/name yerine)
+- actor-detail.html sayfasına yönlendirme
+- Popülerlik puanı gösterimi
+
+## ✅ 4. Test ve Doğrulama
+- Arama sayfası açıldığında tüm filtreler görünüyor
+- Oyuncu adı arandığında sonuçlar geliyor
+- Oyuncular filtresi ile sadece oyuncular gösteriliyor
+- Oyuncuya tıklandığında actor-detail.html'e yönlendirme çalışıyor
+
+---
+
+✅ **TÜM GÖREVLER TAMAMLANDI!**
+- Arama sayfasına oyuncu arama özelliği başarıyla eklendi
+- Kullanıcılar artık filmler, diziler ve oyuncuları arayabilir
+- Oyuncu sonuçları uygun şekilde görüntüleniyor ve detay sayfasına yönlendiriliyor
+
+---
+
+# Önceki Görevler: İzleme Geçmişi Özelliği ✅ TAMAMLANDI
 
 ## ✅ 1. playMedia Fonksiyonu Güncelleme (data/app.js)
 - playMedia fonksiyonuna izlenilen içerikleri localStorage'a kaydetme özelliği ekle

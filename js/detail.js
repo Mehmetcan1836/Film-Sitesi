@@ -45,7 +45,7 @@ async function loadMediaDetails(mediaId, mediaType) {
 
         const endpoint = mediaType === "movie" ? "movie" : "tv"
         const response = await fetch(
-            `${BASE_URL}/${endpoint}/${mediaId}?api_key=${API_KEY}&language=tr-TR&append_to_response=credits,recommendations`
+            `${BASE_URL}/${endpoint}/${mediaId}?api_key=${API_KEY}&language=tr-TR&append_to_response=credits,recommendations,external_ids`
         )
 
         if (!response.ok) {
@@ -331,7 +331,7 @@ function showEpisodesSection() {
 
 // Play media
 function playMedia(mediaId, mediaType, season = null, episode = null) {
-    let vidsrcUrl = ""
+    let searchQuery = ""
     let playerTitle = ""
 
     // Helper function to save watch history to localStorage
@@ -398,8 +398,9 @@ function playMedia(mediaId, mediaType, season = null, episode = null) {
     }
 
     if (mediaType === "movie") {
-        vidsrcUrl = `${VIDSRC_BASE_URL}/v2/embed/movie/${mediaId}`
-        playerTitle = currentMedia.title || "Film"
+        const title = currentMedia.title || "Film"
+        searchQuery = `${title} izle full hd türkçe dublaj`
+        playerTitle = title
         currentSeason = null
         currentEpisode = null
 
@@ -413,8 +414,9 @@ function playMedia(mediaId, mediaType, season = null, episode = null) {
         })
 
     } else if (mediaType === "tv" && season !== null && episode !== null) {
-        vidsrcUrl = `${VIDSRC_BASE_URL}/v2/embed/tv/${mediaId}/${season}/${episode}`
-        playerTitle = `${currentMedia.name || "Dizi"} - S${season}E${episode}`
+        const title = currentMedia.name || "Dizi"
+        searchQuery = `${title} sezon ${season} bölüm ${episode} izle full hd türkçe dublaj`
+        playerTitle = `${title} - S${season}E${episode}`
         currentSeason = season
         currentEpisode = episode
 
@@ -431,37 +433,111 @@ function playMedia(mediaId, mediaType, season = null, episode = null) {
         })
     }
 
-    if (vidsrcUrl) {
-        // Show player section
-        document.getElementById("contentSections").style.display = "none"
-        document.getElementById("videoPlayerSection").style.display = "block"
+    // Show player section
+    document.getElementById("contentSections").style.display = "none"
+    document.getElementById("videoPlayerSection").style.display = "block"
 
-        // Set player title
-        document.getElementById("playerTitle").textContent = playerTitle
+    // Set player title
+    document.getElementById("playerTitle").textContent = playerTitle
 
-        // Show/hide episode navigation
-        const prevBtn = document.getElementById("prevEpisodeBtn")
-        const nextBtn = document.getElementById("nextEpisodeBtn")
+    // Show/hide episode navigation
+    const prevBtn = document.getElementById("prevEpisodeBtn")
+    const nextBtn = document.getElementById("nextEpisodeBtn")
 
-        if (mediaType === "tv") {
-            prevBtn.style.display = "inline-block"
-            nextBtn.style.display = "inline-block"
-            prevBtn.onclick = () => previousEpisode()
-            nextBtn.onclick = () => nextEpisode()
-        } else {
-            prevBtn.style.display = "none"
-            nextBtn.style.display = "none"
-        }
-
-        // Load video
-        const videoContent = document.getElementById("videoContent")
-        videoContent.innerHTML = `<iframe src="${vidsrcUrl}" class="video-iframe" allowfullscreen></iframe>`
-
-        // Scroll to player
-        document.getElementById("videoPlayerSection").scrollIntoView({ behavior: "smooth" })
-
-        console.log("Playing media:", playerTitle)
+    if (mediaType === "tv") {
+        prevBtn.style.display = "inline-block"
+        nextBtn.style.display = "inline-block"
+        prevBtn.onclick = () => previousEpisode()
+        nextBtn.onclick = () => nextEpisode()
+    } else {
+        prevBtn.style.display = "none"
+        nextBtn.style.display = "none"
     }
+
+    // Create vidsrc embed URL using TMDB ID
+    let vidsrcUrl = ""
+    if (mediaType === "movie") {
+        vidsrcUrl = `https://vidsrc.cc/v2/embed/movie/${mediaId}`
+    } else if (mediaType === "tv" && season !== null && episode !== null) {
+        vidsrcUrl = `https://vidsrc.cc/v2/embed/tv/${mediaId}/${season}/${episode}`
+    }
+
+    // Load vidsrc embed with dizipal alternative option
+    const videoContent = document.getElementById("videoContent")
+    videoContent.innerHTML = `
+        <div style="width: 100%; height: 100%; position: relative;">
+            <iframe src="${vidsrcUrl}" style="width: 100%; height: 500px; border: none;" allowfullscreen></iframe>
+            <div style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+                <button onclick="loadDizipalAlternative(${mediaId}, '${mediaType}', ${season || 'null'}, ${episode || 'null'}, '${playerTitle}')" style="background: rgba(229,9,20,0.9); color: #fff; border: none; padding: 8px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+                    <i class="fas fa-play-circle"></i> Dizipal
+                </button>
+            </div>
+        </div>
+    `
+
+    // Scroll to player
+    document.getElementById("videoPlayerSection").scrollIntoView({ behavior: "smooth" })
+
+    console.log("Showing streaming options for:", playerTitle)
+}
+
+// Fallback search interface function
+function showSearchInterface(searchQuery, playerTitle, mediaType) {
+    // Show player section
+    document.getElementById("contentSections").style.display = "none"
+    document.getElementById("videoPlayerSection").style.display = "block"
+
+    // Set player title
+    document.getElementById("playerTitle").textContent = playerTitle
+
+    // Show/hide episode navigation
+    const prevBtn = document.getElementById("prevEpisodeBtn")
+    const nextBtn = document.getElementById("nextEpisodeBtn")
+
+    if (mediaType === "tv") {
+        prevBtn.style.display = "inline-block"
+        nextBtn.style.display = "inline-block"
+        prevBtn.onclick = () => previousEpisode()
+        nextBtn.onclick = () => nextEpisode()
+    } else {
+        prevBtn.style.display = "none"
+        nextBtn.style.display = "none"
+    }
+
+    // Create streaming options interface
+    const videoContent = document.getElementById("videoContent")
+    const encodedQuery = encodeURIComponent(searchQuery)
+    const youtubeSearchUrl = `https://www.youtube.com/results?search_query=${encodedQuery}`
+
+    // Alternative streaming sites for Turkish content
+    const streamingSites = [
+        { name: "YouTube", url: youtubeSearchUrl, icon: "fab fa-youtube", color: "#ff0000" },
+        { name: "Google Arama", url: `https://www.google.com/search?q=${encodedQuery}`, icon: "fab fa-google", color: "#4285f4" },
+        { name: "Türkçe Dublaj Siteleri", url: `https://www.google.com/search?q=${encodeURIComponent(searchQuery + " full hd türkçe dublaj izle")}`, icon: "fas fa-search", color: "#e50914" }
+    ]
+
+    const buttonsHTML = streamingSites.map(site =>
+        `<button onclick="window.open('${site.url}', '_blank')" style="background: ${site.color}; color: #fff; border: none; padding: 12px 20px; border-radius: 6px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: opacity 0.3s; margin: 5px; display: inline-flex; align-items: center; gap: 8px;">
+            <i class="${site.icon}"></i> ${site.name}'da Ara
+        </button>`
+    ).join("")
+
+    videoContent.innerHTML = `
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 400px; color: #fff; text-align: center; padding: 20px;">
+            <i class="fas fa-play-circle" style="font-size: 4rem; color: #e50914; margin-bottom: 20px;"></i>
+            <h3 style="margin-bottom: 15px;">${playerTitle}</h3>
+            <p style="margin-bottom: 25px; opacity: 0.8; max-width: 500px;">Bu içeriği izlemek için aşağıdaki platformlardan birinde arama yapabilirsiniz:</p>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+                ${buttonsHTML}
+            </div>
+            <p style="margin-top: 20px; font-size: 0.85rem; opacity: 0.6;">İçerik mevcut değilse, farklı anahtar kelimelerle tekrar deneyin.</p>
+        </div>
+    `
+
+    // Scroll to player
+    document.getElementById("videoPlayerSection").scrollIntoView({ behavior: "smooth" })
+
+    console.log("Showing search interface for:", playerTitle)
 }
 
 // Play episode
@@ -702,6 +778,60 @@ function playTrailer(trailer) {
 
     // Scroll to player
     document.getElementById("videoPlayerSection").scrollIntoView({ behavior: "smooth" })
+}
+
+// Load dizipal embed directly
+function loadDizipalEmbed(imdbId, mediaType, season, episode, playerTitle) {
+    // Create dizipal.xyz embed URL
+    let dizipalUrl = ""
+    if (mediaType === "movie") {
+        dizipalUrl = `https://dizipal.xyz/embed/${imdbId}`
+    } else if (mediaType === "tv" && season !== null && episode !== null) {
+        dizipalUrl = `https://dizipal.xyz/embed/${imdbId}/${season}/${episode}`
+    }
+
+    // Load dizipal embed
+    const videoContent = document.getElementById("videoContent")
+    videoContent.innerHTML = `
+        <div style="width: 100%; height: 100%; position: relative;">
+            <iframe src="${dizipalUrl}" style="width: 100%; height: 500px; border: none;" allowfullscreen></iframe>
+        </div>
+    `
+
+    console.log("Loading dizipal embed for:", playerTitle, dizipalUrl)
+}
+
+// Load dizipal as alternative option
+function loadDizipalAlternative(mediaId, mediaType, season, episode, playerTitle) {
+    // Get IMDB ID from current media
+    const imdbId = currentMedia.external_ids?.imdb_id
+    if (!imdbId) {
+        alert("Bu içerik için IMDB ID bulunamadı. Dizipal kullanılamıyor.")
+        return
+    }
+
+    // Create dizipal.xyz embed URL
+    let dizipalUrl = ""
+    if (mediaType === "movie") {
+        dizipalUrl = `https://dizipal.xyz/embed/${imdbId}`
+    } else if (mediaType === "tv" && season !== null && episode !== null) {
+        dizipalUrl = `https://dizipal.xyz/embed/${imdbId}/${season}/${episode}`
+    }
+
+    // Load dizipal embed with back to vidsrc option
+    const videoContent = document.getElementById("videoContent")
+    videoContent.innerHTML = `
+        <div style="width: 100%; height: 100%; position: relative;">
+            <iframe src="${dizipalUrl}" style="width: 100%; height: 500px; border: none;" allowfullscreen></iframe>
+            <div style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+                <button onclick="playMedia(${mediaId}, '${mediaType}', ${season || 'null'}, ${episode || 'null'})" style="background: rgba(0,123,255,0.9); color: #fff; border: none; padding: 8px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+                    <i class="fas fa-arrow-left"></i> Vidsrc'ye Dön
+                </button>
+            </div>
+        </div>
+    `
+
+    console.log("Loading dizipal alternative for:", playerTitle, dizipalUrl)
 }
 
 // Show error

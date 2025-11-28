@@ -1297,10 +1297,10 @@ async function loadEpisodes(tvId, seasonNumber) {
   }
 }
 
-// Play Media using Vidsrc
-function playMedia(mediaId, mediaType, season = null, episode = null) {
-  let vidsrcUrl = ""
+// Play Media with direct YouTube support for Turkish content
+async function playMedia(mediaId, mediaType, season = null, episode = null) {
   let playerTitle = ""
+  let youtubeUrl = ""
 
   // Helper function to save watch history to localStorage
   function saveWatchHistory(entry) {
@@ -1365,8 +1365,36 @@ function playMedia(mediaId, mediaType, season = null, episode = null) {
     }
   }
 
+  // Function to get YouTube video URL
+  async function getYouTubeUrl(mediaId, mediaType, season = null, episode = null) {
+    try {
+      let searchQuery = ""
+
+      if (mediaType === "movie") {
+        // Fetch movie details to get title
+        const response = await fetch(`${BASE_URL}/movie/${mediaId}?api_key=${API_KEY}&language=tr-TR`)
+        const movie = await response.json()
+        searchQuery = `${movie.title} türkçe dublaj izle full hd`
+      } else if (mediaType === "tv") {
+        // Fetch TV show details
+        const response = await fetch(`${BASE_URL}/tv/${mediaId}?api_key=${API_KEY}&language=tr-TR`)
+        const show = await response.json()
+        searchQuery = `${show.name} ${season}. sezon ${episode}. bölüm türkçe dublaj izle full hd`
+      }
+
+      // Create YouTube search URL
+      const youtubeSearchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(searchQuery)}`
+      return youtubeSearchUrl
+    } catch (error) {
+      console.error("❌ Error getting YouTube URL:", error)
+      return `https://www.youtube.com/results?search_query=t%C3%BCrk%C3%A7e+dublaj+izle`
+    }
+  }
+
+  // Get YouTube URL first
+  youtubeUrl = await getYouTubeUrl(mediaId, mediaType, season, episode)
+
   if (mediaType === "movie") {
-    vidsrcUrl = `${VIDSRC_BASE_URL}/v2/embed/movie/${mediaId}`
     playerTitle = `Playing: ${currentMedia.title || "Movie"}`
     currentSeason = null
     currentEpisode = null
@@ -1381,7 +1409,6 @@ function playMedia(mediaId, mediaType, season = null, episode = null) {
     })
 
   } else if (mediaType === "tv" && season !== null && episode !== null) {
-    vidsrcUrl = `${VIDSRC_BASE_URL}/v2/embed/tv/${mediaId}/${season}/${episode}`
     playerTitle = `Playing: ${currentMedia.name || "TV Show"} - S${season}E${episode}`
     currentSeason = season
     currentEpisode = episode
@@ -1399,56 +1426,46 @@ function playMedia(mediaId, mediaType, season = null, episode = null) {
     })
   }
 
-  if (vidsrcUrl) {
-    const playerTitleElement = document.getElementById("playerTitle")
-    const playerContent = document.getElementById("playerContent")
-    const nextEpisodeBtn = document.getElementById("nextEpisodeBtn")
+  const playerTitleElement = document.getElementById("playerTitle")
+  const playerContent = document.getElementById("playerContent")
+  const nextEpisodeBtn = document.getElementById("nextEpisodeBtn")
 
-    // Show loading state
+  // Show YouTube search interface for Turkish content
+  if (youtubeUrl) {
+    // Show message in player with button to open YouTube
     if (playerContent) {
       playerContent.innerHTML = `
-        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; color: #fff; height: 100%;">
-          <div style="width: 50px; height: 50px; border: 4px solid #333; border-top: 4px solid #e50914; border-radius: 50%; animation: spin 1s linear infinite;"></div>
-          <span>Video yükleniyor...</span>
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; color: #fff; height: 100%; text-align: center; padding: 20px;">
+          <i class="fab fa-youtube fa-4x" style="color: #ff0000;"></i>
+          <h4>YouTube'da İzle</h4>
+          <p>Türkçe dublaj içeriği için YouTube'da arama yapmak için aşağıdaki butona tıklayın.</p>
+          <button onclick="window.open('${youtubeUrl}', '_blank')" class="btn btn-danger btn-lg">
+            <i class="fab fa-youtube me-2"></i>YouTube'da Aç
+          </button>
+          <p class="small text-muted">Yeni sekmede YouTube açılacak</p>
         </div>
       `
     }
-
-    // Create iframe dynamically
-    const playerIframe = document.createElement("iframe")
-    playerIframe.id = "playerIframe"
-    playerIframe.src = vidsrcUrl
-    playerIframe.style.width = "100%"
-    playerIframe.style.height = "100%"
-    playerIframe.style.border = "none"
-    playerIframe.allowFullscreen = true
-    playerIframe.allow = "autoplay; encrypted-media"
-
-    // Append iframe immediately without waiting for load
-    if (playerContent) {
-      playerContent.innerHTML = ""
-      playerContent.appendChild(playerIframe)
-    }
-
-    if (playerTitleElement) playerTitleElement.textContent = playerTitle
-
-    // Show/hide episode navigation buttons for TV shows
-    const previousEpisodeBtn = document.getElementById("previousEpisodeBtn")
-    if (nextEpisodeBtn) {
-      if (mediaType === "tv" && season !== null && episode !== null) {
-        nextEpisodeBtn.style.display = "inline-flex"
-        if (previousEpisodeBtn) previousEpisodeBtn.style.display = "inline-flex"
-      } else {
-        nextEpisodeBtn.style.display = "none"
-        if (previousEpisodeBtn) previousEpisodeBtn.style.display = "none"
-      }
-    }
-
-    mediaModal.hide()
-    playerModal.show()
-
-    console.log("▶️ Playing media:", playerTitle)
   }
+
+  if (playerTitleElement) playerTitleElement.textContent = playerTitle
+
+  // Show/hide episode navigation buttons for TV shows
+  const previousEpisodeBtn = document.getElementById("previousEpisodeBtn")
+  if (nextEpisodeBtn) {
+    if (mediaType === "tv" && season !== null && episode !== null) {
+      nextEpisodeBtn.style.display = "inline-flex"
+      if (previousEpisodeBtn) previousEpisodeBtn.style.display = "inline-flex"
+    } else {
+      nextEpisodeBtn.style.display = "none"
+      if (previousEpisodeBtn) previousEpisodeBtn.style.display = "none"
+    }
+  }
+
+  mediaModal.hide()
+  playerModal.show()
+
+  console.log("▶️ Playing media via YouTube:", playerTitle)
 }
 
 // Go back from player to media details
