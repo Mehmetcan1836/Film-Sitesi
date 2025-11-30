@@ -1,9 +1,18 @@
-# Redesign index.html based on yabancidizi.so
+# TODO: Turkish Film Category Implementation
 
-## Tasks
-- [x] Add hero section after header
-- [x] Reorganize main content sections to include more categories (Popüler Diziler, Yeni Eklenen Diziler, Popüler Filmler, etc.)
-- [x] Update inline styles to match yabancidizi.so's design
-- [x] Ensure existing modals and scripts remain functional
-- [x] Add JavaScript function to load "Yeni Eklenen Diziler" section
-- [x] Test the page locally
+## Current Status
+- [x] Plan approved by user
+- [ ] Update data/app.js with filtering logic and Turkish content functions
+- [ ] Add Turkish category sections to index.html
+- [ ] Add Turkish movies section to filmler.html
+- [ ] Add Turkish TV shows section to diziler.html
+- [ ] Test filtering logic
+- [ ] Test Turkish content display
+- [ ] Test video playback for Turkish content
+- [ ] Update navigation links if needed
+
+## Details
+- Filter Turkish content (origin_country.code === 'TR') from general sections
+- Create dedicated Turkish category with different video handling
+- Add production countries to API calls
+- Modify video playback for Turkish content (direct streaming instead of YouTube search)
