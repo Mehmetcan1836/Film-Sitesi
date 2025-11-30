@@ -67,6 +67,8 @@ const hasMorePages = {
 let currentSearchQuery = ""
 let currentGenreId = null
 let currentGenreName = ""
+let currentMovieCategory = null
+let currentTVCategory = null
 
 // Enhanced fetch function with timeout and retry logic
 async function fetchWithRetry(url, options = {}, retries = NETWORK_CONFIG.retryAttempts) {
@@ -251,14 +253,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Page detection based on current URL
   const currentPage = window.location.pathname
-  console.log("📄 Current page:", currentPage)
+  const urlParams = new URLSearchParams(window.location.search)
+  const category = urlParams.get('category')
+  console.log("📄 Current page:", currentPage, "Category:", category)
 
   if (currentPage.includes("filmler.html")) {
     console.log("📽️ Movies page detected - loading movies section")
-    loadMoviesSection()
+    loadMoviesSection(category)
   } else if (currentPage.includes("diziler.html")) {
     console.log("📺 TV shows page detected - loading TV section")
-    loadTVSection()
+    loadTVSection(category)
   } else {
     console.log("🏠 Home page detected - loading initial data")
     loadInitialData()
@@ -537,11 +541,32 @@ function setupInfiniteScroll() {
   })
 }
 
+// Load New TV Shows
+async function loadNewTVShows() {
+  const container = document.getElementById("newTVShows")
+  if (!container) return
+
+  try {
+    console.log("📺 Loading new TV shows...")
+
+    const response = await requestQueue.add(() =>
+      fetchWithRetry(`${BASE_URL}/tv/on_the_air?api_key=${API_KEY}&language=en-US&page=1`),
+    )
+
+    const data = await response.json()
+    displayMedia(data.results, container, "tv")
+    console.log("✅ New TV shows loaded")
+  } catch (error) {
+    console.error("❌ Error loading new TV shows:", error)
+    showErrorState(container, "Failed to load new TV shows.", "loadNewTVShows()")
+  }
+}
+
 // Load Initial Data
 async function loadInitialData() {
   try {
     console.log("📥 Loading initial data...")
-    await Promise.all([loadPopularMovies(), loadPopularTVShows(), loadTrendingMovies(), loadComedyMovies(), loadBengaliMovies()])
+    await Promise.all([loadPopularMovies(), loadPopularTVShows(), loadNewTVShows(), loadTrendingMovies(), loadComedyMovies(), loadBengaliMovies()])
     console.log("✅ Initial data loaded successfully")
   } catch (error) {
     console.error("❌ Error loading initial data:", error)
@@ -824,9 +849,11 @@ async function loadMorePopularTVShows() {
 }
 
 // Load Movies Section
-async function loadMoviesSection() {
+async function loadMoviesSection(category = null) {
   const container = document.getElementById("moviesGrid")
   if (!container) return
+
+  currentMovieCategory = category
 
   // Only show loading if it's the first load
   if (currentPages.moviesSection === 1) {
@@ -834,9 +861,14 @@ async function loadMoviesSection() {
   }
 
   try {
-    const response = await fetch(
-      `${BASE_URL}/movie/popular?api_key=${API_KEY}&language=en-US&page=${currentPages.moviesSection}`,
-    )
+    let url;
+    if (category === 'trending') {
+      url = `${BASE_URL}/trending/movie/week?api_key=${API_KEY}&language=en-US&page=${currentPages.moviesSection}`
+    } else {
+      url = `${BASE_URL}/movie/popular?api_key=${API_KEY}&language=en-US&page=${currentPages.moviesSection}`
+    }
+
+    const response = await fetch(url)
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
@@ -845,7 +877,7 @@ async function loadMoviesSection() {
     const data = await response.json()
     displayMedia(data.results, container, "movie")
     hasMorePages.moviesSection = currentPages.moviesSection < data.total_pages
-    console.log("✅ Movies section loaded")
+    console.log(`✅ Movies section loaded (${category || 'popular'})`)
     // Update load-more button visibility (if present)
     try { updateLoadMoreButtons() } catch (e) { /* ignore */ }
   } catch (error) {
@@ -886,9 +918,11 @@ async function loadMoreMoviesSection() {
 }
 
 // Load TV Section
-async function loadTVSection() {
+async function loadTVSection(category = null) {
   const container = document.getElementById("tvGrid")
   if (!container) return
+
+  currentTVCategory = category
 
   // Only show loading if it's the first load
   if (currentPages.tvSection === 1) {
@@ -896,9 +930,9 @@ async function loadTVSection() {
   }
 
   try {
-    const response = await fetch(
-      `${BASE_URL}/tv/popular?api_key=${API_KEY}&language=en-US&page=${currentPages.tvSection}`,
-    )
+    const url = `${BASE_URL}/tv/popular?api_key=${API_KEY}&language=en-US&page=${currentPages.tvSection}`
+
+    const response = await fetch(url)
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
@@ -907,7 +941,7 @@ async function loadTVSection() {
     const data = await response.json()
     displayMedia(data.results, container, "tv")
     hasMorePages.tvSection = currentPages.tvSection < data.total_pages
-    console.log("✅ TV section loaded")
+    console.log(`✅ TV section loaded (${category || 'popular'})`)
     try { updateLoadMoreButtons() } catch (e) { }
   } catch (error) {
     console.error("❌ Error loading TV section:", error)
@@ -925,9 +959,9 @@ async function loadMoreTVSection() {
 
   try {
     currentPages.tvSection++
-    const response = await fetch(
-      `${BASE_URL}/tv/popular?api_key=${API_KEY}&language=en-US&page=${currentPages.tvSection}`,
-    )
+    const url = `${BASE_URL}/tv/popular?api_key=${API_KEY}&language=en-US&page=${currentPages.tvSection}`
+
+    const response = await fetch(url)
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
