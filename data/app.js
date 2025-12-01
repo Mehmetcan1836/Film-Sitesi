@@ -3,7 +3,7 @@ const API_KEY = "999a2c8d29cd1833fa98446f909f19eb"
 const BASE_URL = "https://api.themoviedb.org/3"
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500"
 const BACKDROP_BASE_URL = "https://image.tmdb.org/t/p/w1280"
-const VIDSRC_BASE_URL = "https://vidsrc.cc"
+const VIDSRC_BASE_URL = "https://vidsrc.me"
 
 // Mobile detection and optimized settings
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
